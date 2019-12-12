@@ -14,6 +14,6 @@ An application of evolutionary computing to the classic Travelling Salesmen Prob
 
 **Research**
 
- - [LibGen](http://libgen.io)
+ - [LibGen](http://gen.lib.rus.ec)
  - [LIMO](http://limo.libis.be)
  - [Google Scholar](http://scholar.google.com)
