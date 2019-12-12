@@ -12,6 +12,8 @@ An application of evolutionary computing to the classic Travelling Salesmen Prob
 - [Successful Lecture Timetabling with Evolutionary Algorithms](/papers/ross.pdf).
 - [Using Genetic Algorithms For Supervised Concept Learning](/papers/spears.pdf).
 
+- [GA Toolbox Manual](/papers/manual.pdf).
+
 **Research**
 
  - [LibGen](http://gen.lib.rus.ec)
