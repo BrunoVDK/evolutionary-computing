@@ -55,7 +55,7 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
             
             visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
 
-            if (sObjV(stopN)-sObjV(1) <= 1e-15)
+            if (sObjV(stopN)-sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
                   break;
             end          
         	%assign fitness values to entire population
