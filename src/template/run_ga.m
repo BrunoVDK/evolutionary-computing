@@ -1,4 +1,4 @@
-function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3)
+function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -16,62 +16,78 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
 % CROSSOVER: the crossover operator
 % calculate distance matrix between each pair of cities
 % ah1, ah2, ah3: axes handles to visualise tsp
-{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP}
+{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP REPRESENTATION}
 
-
-        GGAP = 1 - ELITIST;
-        mean_fits=zeros(1,MAXGEN+1);
-        worst=zeros(1,MAXGEN+1);
-        Dist=zeros(NVAR,NVAR);
+        GGAP = 1 - ELITIST; % generation gap (see book, proportion of pop replaced)
+        
+        mean_fits = zeros(1,MAXGEN+1); % mean fitness
+        worst = zeros(1,MAXGEN+1); % worst fitness
+        Dist = zeros(NVAR,NVAR); % distances
         for i=1:size(x,1)
             for j=1:size(y,1)
-                Dist(i,j)=sqrt((x(i)-x(j))^2+(y(i)-y(j))^2);
+                Dist(i,j) = sqrt((x(i)-x(j))^2+(y(i)-y(j))^2);
             end
         end
-        % initialize population
-        Chrom=zeros(NIND,NVAR);
+        
+        % Initialize population
+        Chrom = zeros(NIND,NVAR);
         for row=1:NIND
-        	Chrom(row,:)=path2adj(randperm(NVAR));
+        	Chrom(row,:) = path2adj(randperm(NVAR)); %rand perm is what you think it is
             %Chrom(row,:)=randperm(NVAR);
         end
-        gen=0;
-        % number of individuals of equal fitness needed to stop
-        stopN=ceil(STOP_PERCENTAGE*NIND);
-        % evaluate initial population
+        gen = 0;
+        
+        % Number of individuals of equal fitness needed to stop (basic stop
+        % criterion)
+        stopN = ceil(STOP_PERCENTAGE*NIND);
+        
+        % Evaluate initial population (tspfun = calculates fitness based on
+        % representation)
         ObjV = tspfun(Chrom,Dist);
-        best=zeros(1,MAXGEN);
-        % generational loop
+        best = zeros(1,MAXGEN);
+        
+        % Generational loop
         while gen<MAXGEN
-            sObjV=sort(ObjV);
-          	best(gen+1)=min(ObjV);
-        	minimum=best(gen+1);
-            mean_fits(gen+1)=mean(ObjV);
-            worst(gen+1)=max(ObjV);
-            for t=1:size(ObjV,1)
-                if (ObjV(t)==minimum)
+
+            sObjV=sort(ObjV); % Sorted fitness values
+          	best(gen+1) = min(ObjV); % Highest fitness (smallest dist)
+        	minimum = best(gen+1); % Shorthand
+            mean_fits(gen+1) = mean(ObjV); % Mean fitness
+            worst(gen+1) = max(ObjV); % Worst fitness (maximum dist)
+            for t=1:size(ObjV,1) % Set t to the index of the minimum (could be done with min ...)
+                if (ObjV(t) == minimum)
                     break;
                 end
             end
             
+            % Visualise mean, best, ...
             visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
 
+            % Basic stop criterion
             if (sObjV(stopN)-sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
                   break;
-            end          
-        	%assign fitness values to entire population
-        	FitnV=ranking(ObjV);
-        	%select individuals for breeding
-        	SelCh=select('sus', Chrom, FitnV, GGAP);
-        	%recombine individuals (crossover)
-            SelCh = recombin(CROSSOVER,SelCh,PR_CROSS);
-            SelCh=mutateTSP('inversion',SelCh,PR_MUT);
-            %evaluate offspring, call objective function
-        	ObjVSel = tspfun(SelCh,Dist);
-            %reinsert offspring into population
-        	[Chrom ObjV]=reins(Chrom,SelCh,1,1,ObjV,ObjVSel);
+            end    
             
-            Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom,LOCALLOOP,Dist);
-        	%increment generation counter
-        	gen=gen+1;            
+        	% Assign fitness values to entire population
+        	FitnV = ranking(ObjV);
+            
+        	% Select individuals for breeding
+        	SelCh = select('sus', Chrom, FitnV, GGAP);
+            
+        	% Recombine individuals (crossover)
+            SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
+            SelCh = mutateTSP('inversion', SelCh, PR_MUT);
+            
+            % Evaluate offspring, call objective function
+        	ObjVSel = tspfun(SelCh, Dist);
+            
+            % Reinsert offspring into population
+        	[Chrom ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
+            Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist);
+        	
+            % Increment generation counter
+        	gen=gen+1; 
+            
         end
+        
 end
