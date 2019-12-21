@@ -8,10 +8,9 @@
 %
 
 function ObjVal = tspfun(Phen, Dist);
-	ObjVal=Dist(Phen(:,1),1);
-	for t=2:size(Phen,2)
-
-    	ObjVal=ObjVal+Dist(Phen(:,t),t);
+	ObjVal = Dist(Phen(:,1),1);
+	for t = 2:size(Phen,2)
+    	ObjVal = ObjVal + Dist(Phen(:,t),t);
 	end
 
 

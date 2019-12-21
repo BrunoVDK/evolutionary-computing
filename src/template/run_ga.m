@@ -1,4 +1,17 @@
-function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION)
+function run_ga(...
+    x, ...
+    y, ...
+    NIND, ...
+    MAXGEN, ...
+    NVAR, ...
+    ELITIST, ...
+    STOP_PERCENTAGE, ...
+    PR_CROSS, ...
+    PR_MUT, ...
+    CROSSOVER, ...
+    LOCALLOOP, ...
+    ah1, ah2, ah3, ...
+    REPRESENTATION)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -30,12 +43,17 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
         end
         
         % Initialize population
+        gen = 0; % First generation
         Chrom = zeros(NIND,NVAR);
         for row=1:NIND
-        	Chrom(row,:) = path2adj(randperm(NVAR)); %rand perm is what you think it is
-            %Chrom(row,:)=randperm(NVAR);
+            switch CROSSOVER
+                case 'adj'
+                    Chrom(row,:) = path2adj(randperm(NVAR)); %rand perm is what you think it is
+                case 'path'
+                    Chrom(row,:) = randperm(NVAR);
+                case 'ordinal'
+                    % TODO
         end
-        gen = 0;
         
         % Number of individuals of equal fitness needed to stop (basic stop
         % criterion)
@@ -49,7 +67,7 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
         % Generational loop
         while gen<MAXGEN
 
-            sObjV=sort(ObjV); % Sorted fitness values
+            sObjV = sort(ObjV); % Sorted fitness values
           	best(gen+1) = min(ObjV); % Highest fitness (smallest dist)
         	minimum = best(gen+1); % Shorthand
             mean_fits(gen+1) = mean(ObjV); % Mean fitness
@@ -69,24 +87,31 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
             end    
             
         	% Assign fitness values to entire population
+            % Linear ranking with selective pressure 2
         	FitnV = ranking(ObjV);
             
-        	% Select individuals for breeding
+        	% Select individuals for breeding (SUS)
+            % Chrom = chromosomes,
+            % FitnV = corresponding fitness values
+            % GGAP = rate of individuals being replaced, default 1.à
         	SelCh = select('sus', Chrom, FitnV, GGAP);
             
-        	% Recombine individuals (crossover)
+        	% Recombine individuals (crossover + mutation)
+            % PR_* denotes probability (of crossover or mutation)
             SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
             SelCh = mutateTSP('inversion', SelCh, PR_MUT);
             
             % Evaluate offspring, call objective function
         	ObjVSel = tspfun(SelCh, Dist);
             
-            % Reinsert offspring into population
-        	[Chrom ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
+            % Reinsert offspring into population, replacing parents
+        	[Chrom,ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
+            
+            % Removes local loops (local heuristic)
             Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist);
         	
             % Increment generation counter
-        	gen=gen+1; 
+        	gen = gen+1; 
             
         end
         

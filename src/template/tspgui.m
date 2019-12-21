@@ -101,12 +101,12 @@ elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position'
 representation = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges representation'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
 crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges crossover'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String',{'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
-heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'local heuristic off'}, 'Value',1,'Position',[10 20 160 20],'Callback',@crossover_Callback);
-
+heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'local heuristic off'}, 'Value',1,'Position',[10 20 130 20],'Callback',@crossover_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection', 'custom parent selection'}, 'Value',1,'Position',[170 80 160 20],'Callback',@crossover_Callback);
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'survivor off','survivor on'}, 'Value',1,'Position',[170 50 120 20],'Callback',@crossover_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','diversity on'}, 'Value',1,'Position',[290 50 120 20],'Callback',@crossover_Callback);
-adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[170 20 160 20],'Callback',@crossover_Callback);
+adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{'default mutation'}, 'Value',1,'Position',[290 20 130 20],'Callback',@crossover_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
