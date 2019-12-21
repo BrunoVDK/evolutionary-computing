@@ -13,7 +13,7 @@ PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'xalt_edges';  % default crossover operator
-REPRESENTATION = 'xalt_edges'; % default representation
+REPRESENTATION = 'adjacency'; % default representation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -98,7 +98,7 @@ elitslider = uicontrol(ph,'Style','slider','Max',100,'Min',0,'Value',round(ELITI
 elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position',[280 110 50 20]);
 
 % Popups at the bottom
-representation = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges representation'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
+representation = uicontrol(ph,'Style','popupmenu', 'String',{'adjacency', 'path', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
 crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges crossover'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String',{'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
 heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'local heuristic off'}, 'Value',1,'Position',[10 20 130 20],'Callback',@crossover_Callback);

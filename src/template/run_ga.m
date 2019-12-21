@@ -36,7 +36,7 @@ function run_ga(...
         mean_fits = zeros(1,MAXGEN+1); % mean fitness
         worst = zeros(1,MAXGEN+1); % worst fitness
         Dist = zeros(NVAR,NVAR); % distances
-        for i=1:size(x,1)
+        for i = 1:size(x,1)
             for j=1:size(y,1)
                 Dist(i,j) = sqrt((x(i)-x(j))^2+(y(i)-y(j))^2);
             end
@@ -45,14 +45,15 @@ function run_ga(...
         % Initialize population
         gen = 0; % First generation
         Chrom = zeros(NIND,NVAR);
-        for row=1:NIND
-            switch CROSSOVER
-                case 'adj'
+        for row = 1:NIND
+            switch REPRESENTATION
+                case 'adjacency'
                     Chrom(row,:) = path2adj(randperm(NVAR)); %rand perm is what you think it is
                 case 'path'
                     Chrom(row,:) = randperm(NVAR);
                 case 'ordinal'
                     % TODO
+            end
         end
         
         % Number of individuals of equal fitness needed to stop (basic stop
@@ -61,11 +62,18 @@ function run_ga(...
         
         % Evaluate initial population (tspfun = calculates fitness based on
         % representation)
-        ObjV = tspfun(Chrom,Dist);
+        switch REPRESENTATION
+            case 'adjacency'
+                ObjV = tspfun(Chrom, Dist);
+            case 'path'
+                % TODO
+            case 'ordinal'
+                % TODO
+        end
         best = zeros(1,MAXGEN);
         
         % Generational loop
-        while gen<MAXGEN
+        while gen < MAXGEN
 
             sObjV = sort(ObjV); % Sorted fitness values
           	best(gen+1) = min(ObjV); % Highest fitness (smallest dist)
@@ -79,7 +87,14 @@ function run_ga(...
             end
             
             % Visualise mean, best, ...
-            visualizeTSP(x,y,adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+            switch REPRESENTATION
+                case 'adjacency'
+                    visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+                case 'path'
+                    visualizeTSP(x, y, Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+                case 'ordinal'
+                    % TODO
+            end
 
             % Basic stop criterion
             if (sObjV(stopN)-sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
@@ -90,7 +105,7 @@ function run_ga(...
             % Linear ranking with selective pressure 2
         	FitnV = ranking(ObjV);
             
-        	% Select individuals for breeding (SUS)
+        	% Select individuals for breeding (Stochastic Universal Sampling)
             % Chrom = chromosomes,
             % FitnV = corresponding fitness values
             % GGAP = rate of individuals being replaced, default 1.à
@@ -98,17 +113,38 @@ function run_ga(...
             
         	% Recombine individuals (crossover + mutation)
             % PR_* denotes probability (of crossover or mutation)
-            SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
-            SelCh = mutateTSP('inversion', SelCh, PR_MUT);
+            switch REPRESENTATION
+                case 'adjacency'
+                    SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
+                    SelCh = mutateTSP('inversion', SelCh, PR_MUT);
+                case 'path'
+                    % TODO
+                case 'ordinal'
+                    % TODO
+            end
             
             % Evaluate offspring, call objective function
-        	ObjVSel = tspfun(SelCh, Dist);
+            switch REPRESENTATION
+                case 'adjacency'
+                    ObjVSel = tspfun(SelCh, Dist);
+                case 'path'
+                    % TODO
+                case 'ordinal'
+                    % TODO
+            end
             
             % Reinsert offspring into population, replacing parents
         	[Chrom,ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
             
             % Removes local loops (local heuristic)
-            Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist);
+            switch REPRESENTATION
+                case 'adjacency'
+                    Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist);
+                case 'path'
+                    % TODO
+                case 'ordinal'
+                    % TODO
+            end
         	
             % Increment generation counter
         	gen = gen+1; 
