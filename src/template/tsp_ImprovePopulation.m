@@ -17,16 +17,23 @@
 %   improvedPopulation  - the new population after loop removal (if improve
 %                          <> 0, else the unchanged population).
 
-function newpop = tsp_ImprovePopulation(popsize, ncities, pop, improve,dists)
-
-if (improve)
-   for i=1:popsize
-     
-     result = improve_path(ncities, adj2path(pop(i,:)),dists);
-  
-     pop(i,:) = path2adj(result);
-
-   end
+function newpop = tsp_ImprovePopulation(popsize, ncities, pop, improve, dists, REPRESENTATION)
+    switch REPRESENTATION
+        case 'adjacency'
+            if (improve)
+               for i = 1:popsize
+                 result = improve_path(ncities, adj2path(pop(i,:)),dists);
+                 pop(i,:) = path2adj(result);
+               end
+            end
+        case 'path'
+            if (improve)
+               for i = 1:popsize
+                 pop(i,:) = improve_path(ncities, pop(i,:),dists);
+               end
+            end
+        case 'ordinal'
+            % TODO
+    end
+    newpop = pop;
 end
-
-newpop = pop;

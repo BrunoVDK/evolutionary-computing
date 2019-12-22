@@ -11,7 +11,8 @@ function run_ga(...
     CROSSOVER, ...
     LOCALLOOP, ...
     ah1, ah2, ah3, ...
-    REPRESENTATION)
+    REPRESENTATION, ...
+    MUTATION)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -38,7 +39,7 @@ function run_ga(...
         Dist = zeros(NVAR,NVAR); % distances
         for i = 1:size(x,1)
             for j=1:size(y,1)
-                Dist(i,j) = sqrt((x(i)-x(j))^2+(y(i)-y(j))^2);
+                Dist(i,j) = sqrt((x(i)-x(j))^2+(y(i)-y(j))^2); % symmetrical ... (efficiency not important)
             end
         end
         
@@ -62,14 +63,7 @@ function run_ga(...
         
         % Evaluate initial population (tspfun = calculates fitness based on
         % representation)
-        switch REPRESENTATION
-            case 'adjacency'
-                ObjV = tspfun(Chrom, Dist);
-            case 'path'
-                % TODO
-            case 'ordinal'
-                % TODO
-        end
+        ObjV = tspfun(Chrom, Dist, REPRESENTATION);
         best = zeros(1,MAXGEN);
         
         % Generational loop
@@ -113,38 +107,17 @@ function run_ga(...
             
         	% Recombine individuals (crossover + mutation)
             % PR_* denotes probability (of crossover or mutation)
-            switch REPRESENTATION
-                case 'adjacency'
-                    SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
-                    SelCh = mutateTSP('inversion', SelCh, PR_MUT);
-                case 'path'
-                    % TODO
-                case 'ordinal'
-                    % TODO
-            end
+            SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
+            SelCh = mutateTSP(MUTATION, SelCh, PR_MUT);
             
             % Evaluate offspring, call objective function
-            switch REPRESENTATION
-                case 'adjacency'
-                    ObjVSel = tspfun(SelCh, Dist);
-                case 'path'
-                    % TODO
-                case 'ordinal'
-                    % TODO
-            end
+            ObjVSel = tspfun(SelCh, Dist, REPRESENTATION);
             
             % Reinsert offspring into population, replacing parents
         	[Chrom,ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
             
             % Removes local loops (local heuristic)
-            switch REPRESENTATION
-                case 'adjacency'
-                    Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist);
-                case 'path'
-                    % TODO
-                case 'ordinal'
-                    % TODO
-            end
+            Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist, REPRESENTATION);
         	
             % Increment generation counter
         	gen = gen+1; 

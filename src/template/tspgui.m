@@ -14,6 +14,7 @@ PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'xalt_edges';  % default crossover operator
 REPRESENTATION = 'adjacency'; % default representation
+MUTATION = 'inversion'; % default mutation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -106,7 +107,7 @@ parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection',
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'survivor off','survivor on'}, 'Value',1,'Position',[170 50 120 20],'Callback',@crossover_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','diversity on'}, 'Value',1,'Position',[290 50 120 20],'Callback',@crossover_Callback);
 adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
-mutation = uicontrol(ph,'Style','popupmenu', 'String',{'default mutation'}, 'Value',1,'Position',[290 20 130 20],'Callback',@crossover_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{MUTATION}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
@@ -190,7 +191,7 @@ set(fh,'Visible','on');
         set(mutslider,'Visible','off');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION);
+        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
@@ -215,7 +216,12 @@ set(fh,'Visible','on');
         REPRESENTATION = representations(representation_value);
         REPRESENTATION = REPRESENTATION{1};
     end
-
+    function mutation_Callback(hObject,eventdata)
+        mutation_value = get(hObject,'Value');
+        mutations = get(hObject,'String');
+        MUTATION = mutations(mutation_value);
+        MUTATION = MUTATION{1};
+    end
 
 
 end
