@@ -10,16 +10,6 @@ function NewChromosome = xpartially_mapped(OldChromosome, CrossoverRate)
             NewChromosome(row+1,:) = partial_map(OldChromosome(row+1,:), OldChromosome(row,:), left, right);
         end
     end
-   
-    % Calculate cut points (stochastic)
-    function [left,right] = cut_points(cols)
-        left = randi(cols); right = randi(cols-1);
-        if left <= right
-            right = right + 1; 
-        else
-            [left,right] = deal(right,left);
-        end
-    end
     
     % Breed
     function offspring = partial_map(first, second, left, right)
