@@ -1,6 +1,6 @@
 % tsp_ImprovePopulation.m
 % Author: Mike Matton
-% 
+%
 % This function improves a tsp population by removing local loops from
 % each individual.
 %
@@ -18,22 +18,19 @@
 %                          <> 0, else the unchanged population).
 
 function newpop = tsp_ImprovePopulation(popsize, ncities, pop, improve, dists, REPRESENTATION)
-    switch REPRESENTATION
-        case 'adjacency'
-            if (improve)
-               for i = 1:popsize
-                 result = improve_path(ncities, adj2path(pop(i,:)),dists);
-                 pop(i,:) = path2adj(result);
-               end
+    if (improve)
+        for i = 1:popsize
+            switch REPRESENTATION
+                case 'adjacency'
+                    result = improve_path(ncities, adj2path(pop(i,:)),dists);
+                    pop(i,:) = path2adj(result);
+                case 'path'
+                    pop(i,:) = improve_path(ncities, pop(i,:),dists);
+                case 'ordinal'
+                    result = improve_path(ncities, ord2path(pop(i,:)),dists);
+                    pop(i,:) = path2ord(result);
             end
-        case 'path'
-            if (improve)
-               for i = 1:popsize
-                 pop(i,:) = improve_path(ncities, pop(i,:),dists);
-               end
-            end
-        case 'ordinal'
-            % TODO
+        end
     end
     newpop = pop;
 end

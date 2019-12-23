@@ -1,7 +1,7 @@
 function tspgui()
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DEFAULT CONFIGURATION
 NIND=50;		% Number of individuals
 MAXGEN=100;		% Maximum no. of generations
 NVAR=26;		% No. of variables
@@ -15,6 +15,7 @@ LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'xalt_edges';  % default crossover operator
 REPRESENTATION = 'adjacency'; % default representation
 MUTATION = 'inversion'; % default mutation
+SCALING = false; % scale path yes or no
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -46,16 +47,17 @@ MUTATION = 'inversion'; % default mutation
 %    y=XY(:,2);
 %end
 
-% load the data sets
+% Load all the data sets
 datasetslist = dir('datasets/');
 datasets=cell( size(datasetslist,1)-2,1);
 for i=1:size(datasets,1);
     datasets{i} = datasetslist(i+2).name;
 end
 
-% start with first dataset
-data = load(['datasets/' datasets{size(datasets,1)}]);
-x=data(:,1)/max([data(:,1);data(:,2)]);y=data(:,2)/max([data(:,1);data(:,2)]);
+% Load a particular dataset
+data = load(['datasets/' datasets{size(datasets,1) - 1}]);
+x = data(:,1); y = data(:,2);
+load_set(data, SCALING);
 NVAR=size(data,1);
 
 datasets
@@ -70,13 +72,13 @@ xlabel('Generation');
 ylabel('Distance (Min. - Gem. - Max.)');
 ah3 = axes('Parent',fh,'Position',[.1 .1 .4 .4]);
 axes(ah3);
-title('Histogram');
+%title('Histogram');
 xlabel('Distance');
 ylabel('Number');
 
 ph = uipanel('Parent',fh,'Title','Settings','Position',[.55 .05 .45 .45]);
 datasetpopuptxt = uicontrol(ph,'Style','text','String','Dataset','Position',[0 290 80 20]);
-datasetpopup = uicontrol(ph,'Style','popupmenu','String',datasets,'Value',1,'Position',[60 292 130 20],'Callback',@datasetpopup_Callback);
+datasetpopup = uicontrol(ph,'Style','popupmenu','String',datasets,'Value',size(datasets,1)-1,'Position',[60 292 130 20],'Callback',@datasetpopup_Callback);
 llooppopuptxt = uicontrol(ph,'Style','text','String','Loop Detection','Position',[190 290 80 20]);
 llooppopup = uicontrol(ph,'Style','popupmenu','String',{'off','on'},'Value',1,'Position',[270 292 70 20],'Callback',@llooppopup_Callback); 
 ncitiesslidertxt = uicontrol(ph,'Style','text','String','# Cities','Position',[0 260 130 20]);
@@ -99,29 +101,36 @@ elitslider = uicontrol(ph,'Style','slider','Max',100,'Min',0,'Value',round(ELITI
 elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position',[280 110 50 20]);
 
 % Popups at the bottom
-representation = uicontrol(ph,'Style','popupmenu', 'String',{'adjacency', 'path', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges','xpartially_mapped'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+representation = uicontrol(ph,'Style','popupmenu', 'String',{REPRESENTATION, 'path', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{CROSSOVER, 'xpartially_mapped'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String',{'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
 heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'local heuristic off'}, 'Value',1,'Position',[10 20 130 20],'Callback',@crossover_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection', 'custom parent selection'}, 'Value',1,'Position',[170 80 160 20],'Callback',@crossover_Callback);
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'survivor off','survivor on'}, 'Value',1,'Position',[170 50 120 20],'Callback',@crossover_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','diversity on'}, 'Value',1,'Position',[290 50 120 20],'Callback',@crossover_Callback);
 adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
-mutation = uicontrol(ph,'Style','popupmenu', 'String',{MUTATION}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{MUTATION, 'reciprocal_exchange'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
 
 set(fh,'Visible','on');
 
+    function load_set(data, scale)
+        x = data(:,1);
+        y = data(:,2);
+        if scale
+            x = x / max([data(:,1);data(:,2)]);
+            y = y / max([data(:,1);data(:,2)]);
+        end
+    end
 
     function datasetpopup_Callback(hObject,eventdata)
         dataset_value = get(hObject,'Value');
         dataset = datasets{dataset_value};
         % load the dataset
         data = load(['datasets/' dataset]);
-        x=data(:,1)/max([data(:,1);data(:,2)]);y=data(:,2)/max([data(:,1);data(:,2)]);
-        %x=data(:,1);y=data(:,2);
+        load_set(data, SCALING)
         NVAR=size(data,1); 
         set(ncitiessliderv,'String',size(data,1));
         axes(ah1);
@@ -195,7 +204,7 @@ set(fh,'Visible','on');
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
-        [x y] = input_cities(NVAR);
+        [x,y] = input_cities(NVAR);
         axes(ah1);
         plot(x,y,'ko')
     end
@@ -222,6 +231,5 @@ set(fh,'Visible','on');
         MUTATION = mutations(mutation_value);
         MUTATION = MUTATION{1};
     end
-
 
 end

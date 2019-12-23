@@ -49,11 +49,11 @@ function run_ga(...
         for row = 1:NIND
             switch REPRESENTATION
                 case 'adjacency'
-                    Chrom(row,:) = path2adj(randperm(NVAR)); %rand perm is what you think it is
+                    Chrom(row,:) = path2adj(randperm(NVAR));
                 case 'path'
                     Chrom(row,:) = randperm(NVAR);
                 case 'ordinal'
-                    % TODO
+                    Chrom(row,:) = path2ord(randperm(NVAR));
             end
         end
         
@@ -87,7 +87,7 @@ function run_ga(...
                 case 'path'
                     visualizeTSP(x, y, Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
                 case 'ordinal'
-                    % TODO
+                    visualizeTSP(x, y, ord2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
             end
 
             % Basic stop criterion
