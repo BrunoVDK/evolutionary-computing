@@ -100,7 +100,7 @@ elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position'
 
 % Popups at the bottom
 representation = uicontrol(ph,'Style','popupmenu', 'String',{REPRESENTATION, 'path', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{CROSSOVER, 'xpartial_map', 'xcycle', 'xorder', 'xorder_based'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{CROSSOVER, 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String',{'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
 heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'local heuristic off'}, 'Value',1,'Position',[10 20 130 20],'Callback',@crossover_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection', 'custom parent selection'}, 'Value',1,'Position',[170 80 160 20],'Callback',@crossover_Callback);

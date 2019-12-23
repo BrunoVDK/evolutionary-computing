@@ -11,4 +11,6 @@ xorder_based([8:-1:1 ; [2 4 6 8 7 5 3 1]], 1)
 xposition_based([1:8 ; [2 4 6 8 7 5 3 1]], 1)
 %% Heuristic
 
-%%
+%% Single-Point (built-in)
+xovsp([1:8 ; [2 4 6 8 7 5 3 1]], 1)
+% good for ordinal representation

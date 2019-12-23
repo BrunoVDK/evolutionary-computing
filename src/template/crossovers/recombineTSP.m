@@ -28,7 +28,7 @@ function NewChrom = recombineTSP(CROSSOVER, Parents, CrossoverRate, NbSubPopulat
         elseif (CrossoverRate < 0 || CrossoverRate > 1), error('Crossover rate must be a scalar in [0, 1]'); 
         end
     end
-
+    
     NewChrom = zeros(size(Parents));
     for irun = 1:NbSubPopulations
         indices = (irun-1)*Nind+1:irun*Nind; % Indices for subpopulation
