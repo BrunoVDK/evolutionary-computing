@@ -5,30 +5,18 @@ function NewChromosome = xorder_based(OldChromosome, CrossoverRate)
     NewChromosome = OldChromosome; % Initialise new chromosome matrix
     for row = 1:2:(rows-rem(rows,2)) % Mate parents
         if rand < CrossoverRate % Recombine with a given probability
-            [left, right] = cut_points(cols);
-            NewChromosome(row,:) = order(OldChromosome(row,:), OldChromosome(row+1,:), left, right);
-            NewChromosome(row+1,:) = order(OldChromosome(row+1,:), OldChromosome(row,:), left, right);
+            positions = randperm(randi(cols));
+            NewChromosome(row,:) = order(OldChromosome(row,:), OldChromosome(row+1,:), positions);
+            NewChromosome(row+1,:) = order(OldChromosome(row+1,:), OldChromosome(row,:), positions);
         end
     end
     
     % Create offspring
-    function offspring = order(first, second, left, right)
+    function offspring = order(first, second, positions)
         offspring = first;
-        idx = right;
-        for i = right+1:cols
-            idx = idx + 1 - cols * (idx == cols);
-            while ismember(second(idx),first(left:right))
-                idx = idx + 1 - cols * (idx == cols);
-            end
-            offspring(i) = second(idx);
-        end
-        for i = 1:left-1
-            idx = idx + 1 - cols * (idx == cols);
-            while ismember(second(idx),first(left:right))
-                idx = idx + 1 - cols * (idx == cols);
-            end
-            offspring(i) = second(idx);
-        end
+        matches = second(positions);
+        mask = ismember(offspring,matches);
+        offspring(mask) = second(ismember(second,first(mask)));
     end
    
 end
