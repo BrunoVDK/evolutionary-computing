@@ -91,7 +91,7 @@ function run_ga(...
             end
 
             % Basic stop criterion
-            if (sObjV(stopN)-sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
+            if (sObjV(stopN) - sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
                   break;
             end    
             
@@ -106,7 +106,7 @@ function run_ga(...
         	SelCh = select('sus', Chrom, FitnV, GGAP);
             
         	% Recombine individuals (crossover + mutation)
-            % PR_* denotes probability (of crossover or mutation)
+            % PR_* denotes probability/rate (of crossover or mutation)
             SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
             SelCh = mutateTSP(MUTATION, SelCh, PR_MUT);
             

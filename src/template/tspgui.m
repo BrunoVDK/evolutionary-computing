@@ -47,14 +47,14 @@ MUTATION = 'inversion'; % default mutation
 %end
 
 % load the data sets
-datasetslist = dir('datasets/');datasetslist = dir('datasets/');
-datasets=cell( size(datasetslist,1)-2,1);datasets=cell( size(datasetslist,1)-2 ,1);
+datasetslist = dir('datasets/');
+datasets=cell( size(datasetslist,1)-2,1);
 for i=1:size(datasets,1);
     datasets{i} = datasetslist(i+2).name;
 end
 
 % start with first dataset
-data = load(['datasets/' datasets{1}]);
+data = load(['datasets/' datasets{size(datasets,1)}]);
 x=data(:,1)/max([data(:,1);data(:,2)]);y=data(:,2)/max([data(:,1);data(:,2)]);
 NVAR=size(data,1);
 
@@ -100,7 +100,7 @@ elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position'
 
 % Popups at the bottom
 representation = uicontrol(ph,'Style','popupmenu', 'String',{'adjacency', 'path', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges crossover'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xalt_edges'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String',{'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
 heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'local heuristic off'}, 'Value',1,'Position',[10 20 130 20],'Callback',@crossover_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection', 'custom parent selection'}, 'Value',1,'Position',[170 80 160 20],'Callback',@crossover_Callback);
