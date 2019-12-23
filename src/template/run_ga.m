@@ -108,7 +108,7 @@ function run_ga(...
         	% Recombine individuals (crossover + mutation)
             % PR_* denotes probability/rate (of crossover or mutation)
             SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
-            SelCh = mutateTSP(MUTATION, SelCh, PR_MUT);
+            SelCh = mutateTSP(MUTATION, SelCh, PR_MUT, REPRESENTATION);
             
             % Evaluate offspring, call objective function
             ObjVSel = tspfun(SelCh, Dist, REPRESENTATION);

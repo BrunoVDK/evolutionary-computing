@@ -14,14 +14,12 @@
 % Output parameter:
 %    NewChrom  - Matrix containing the chromosomes of the population
 %                after mutation in the same format as OldChrom.
-function NewChrom = mutateTSP(MUT_F, OldChrom, MutOpt)
-   % Check parameter consistency
+function NewChromosome = mutateTSP(MUTATION_FUNCTION, OldChromosome, MutationRate, REPRESENTATION)
    if nargin < 2,  error('Not enough input parameters'); end
-   [rows,~] = size(OldChrom);
-   NewChrom = OldChrom;
-   for r = 1:rows
-       if rand < MutOpt
-           NewChrom(r,:) = feval(MUT_F, OldChrom(r,:),1);
+   NewChromosome = OldChromosome;
+   for r = 1:size(OldChromosome,1)
+       if rand < MutationRate
+           NewChromosome(r,:) = feval(MUTATION_FUNCTION, OldChromosome(r,:), REPRESENTATION);
        end
    end
 end

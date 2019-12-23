@@ -6,12 +6,11 @@
 % Tim.Volodine@cs.kuleuven.ac.be
 % Tim.Pillards@cs.kuleuven.ac.be
 %
-
-function Offspring=cross_alternate_edges(Parents);
-	cols=size(Parents,2);
-	Offspring=zeros(1,cols);
-    [sx,InverseParents1]=sort(Parents(1,:));
-    [sx,InverseParents2]=sort(Parents(2,:));
+function Offspring = cross_alternate_edges(Parents)
+	cols = size(Parents,2);
+	Offspring = zeros(1,cols);
+    [sx,InverseParents1] = sort(Parents(1,:));
+    [sx,InverseParents2] = sort(Parents(2,:));
     InverseParents=[InverseParents1;InverseParents2];
     % InverseParents is the same tour but in reversed direction
     % to easily find both edges in a city
@@ -62,5 +61,5 @@ function Offspring=cross_alternate_edges(Parents);
 		visited_list(walking_index)=1;
 		parentNr=3-parentNr;  % switch the parents (1->2 or 2->1)
 	end
-	Offspring(walking_index)=start_index;
-% end function
+	Offspring(walking_index) = start_index;
+end
