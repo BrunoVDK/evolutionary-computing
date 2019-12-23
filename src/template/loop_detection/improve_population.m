@@ -17,7 +17,7 @@
 %   improvedPopulation  - the new population after loop removal (if improve
 %                          <> 0, else the unchanged population).
 
-function newpop = tsp_ImprovePopulation(popsize, ncities, pop, improve, dists, REPRESENTATION)
+function newpop = improve_population(popsize, ncities, pop, improve, dists, REPRESENTATION)
     if (improve)
         for i = 1:popsize
             switch REPRESENTATION

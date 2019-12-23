@@ -60,8 +60,6 @@ x = data(:,1); y = data(:,2);
 load_set(data, SCALING);
 NVAR=size(data,1);
 
-datasets
-
 % initialise the user interface
 fh = figure('Visible','off','Name','TSP Tool','Position',[0,0,1024,768]);
 ah1 = axes('Parent',fh,'Position',[.1 .55 .4 .4]);
@@ -200,7 +198,9 @@ set(fh,'Visible','on');
         set(mutslider,'Visible','off');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
+        tic;
         run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION);
+        fprintf("CPU time : %.2fs\n", toc);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
