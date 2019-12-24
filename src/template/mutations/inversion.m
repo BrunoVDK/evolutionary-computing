@@ -1,19 +1,17 @@
 function NewChrom = inversion(OldChrom, REPRESENTATION)
-    NewChrom = OldChrom;
     % Convert to path representation
     switch REPRESENTATION
         case 'adjacency'
-            NewChrom = adj2path(NewChrom);
+            OldChrom = adj2path(OldChrom);
         case 'ordinal'
-            NewChrom = ord2path(NewChrom);
+            OldChrom = ord2path(OldChrom);
     end
-    % Select two positions in the tour
-    rndi = zeros(1,2);
-    while rndi(1) == rndi(2)
-        rndi = rand_int(1,2,[1 size(NewChrom,2)]);
-    end
-    rndi = sort(rndi);
-    NewChrom(rndi(1):rndi(2)) = NewChrom(rndi(2):-1:rndi(1));
+    % Displace subtour
+    cols = size(OldChrom,2);
+    [left,right] = cut_points(cols);
+    rest = [OldChrom(1:left-1) OldChrom(right+1:end)];
+    insertion_point = randi(size(rest) + 1);
+    NewChrom = [rest(1:insertion_point-1) OldChrom(right:-1:left) rest(insertion_point:end)];
     % Convert back
     switch REPRESENTATION
         case 'adjacency'

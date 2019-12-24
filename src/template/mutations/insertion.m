@@ -17,8 +17,6 @@ function NewChrom = insertion(OldChrom, REPRESENTATION)
         NewChrom(insertion_point+1:city) = OldChrom(insertion_point:city-1);
     end
     NewChrom(insertion_point) = OldChrom(city);
-    un = unique(NewChrom);
-    size(un)
     % Convert back
     switch REPRESENTATION
         case 'adjacency'
