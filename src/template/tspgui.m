@@ -107,7 +107,7 @@ parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection',
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'survivor off','survivor on'}, 'Value',1,'Position',[170 50 120 20],'Callback',@crossover_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','diversity on'}, 'Value',1,'Position',[290 50 120 20],'Callback',@crossover_Callback);
 adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
-mutation = uicontrol(ph,'Style','popupmenu', 'String',{MUTATION, 'reciprocal_exchange'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{MUTATION, 'reciprocal_exchange', 'displacement'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
