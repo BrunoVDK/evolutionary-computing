@@ -1,7 +1,7 @@
 % A little word about this function...
 % It is pretty much identical to the one in the toolbox, but we did not want
 %   to alter the toolbox (or updating only the toolbox might break things).
-function NewChrom = recombineTSP(CROSSOVER, Parents, CrossoverRate, NbSubPopulations)
+function NewChrom = recombineTSP(CROSSOVER, Parents, CrossoverRate, NbSubPopulations, ctx)
 
     if nargin < 2, error('Not enough input parameter'); end
 
@@ -33,7 +33,7 @@ function NewChrom = recombineTSP(CROSSOVER, Parents, CrossoverRate, NbSubPopulat
     for irun = 1:NbSubPopulations
         indices = (irun-1)*Nind+1:irun*Nind; % Indices for subpopulation
         SubPopulation = Parents(indices,:); % Chromosomes for subpopulation
-        NewChrom(indices,:) = feval(CROSSOVER, SubPopulation, CrossoverRate);
+        NewChrom(indices,:) = feval(CROSSOVER, SubPopulation, CrossoverRate, ctx);
     end
     
 end

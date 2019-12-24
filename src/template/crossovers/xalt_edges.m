@@ -2,7 +2,7 @@
 %   Adaptation of Tim's code :
 %   KULeuven, december 2002
 %   email: Tim.Volodine@cs.kuleuven.ac.be
-function NewChromosome = xalt_edges(OldChromosome, CrossoverRate)
+function NewChromosome = xalt_edges(OldChromosome, CrossoverRate, ~)
 
     % Produce offspring
     if nargin < 2, CrossoverRate = NaN; end

@@ -1,4 +1,4 @@
-function NewChromosome = xpartially_mapped(OldChromosome, CrossoverRate)
+function NewChromosome = xpartial_map(OldChromosome, CrossoverRate, ~)
 
     if nargin < 2, CrossoverRate = NaN; end
     [rows,cols] = size(OldChromosome);

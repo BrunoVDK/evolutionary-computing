@@ -1,4 +1,4 @@
-function NewChromosome = xmax_preservative(OldChromosome, CrossoverRate)
+function NewChromosome = xmax_preservative(OldChromosome, CrossoverRate, ~)
 
     if nargin < 2, CrossoverRate = NaN; end
     [rows,cols] = size(OldChromosome);

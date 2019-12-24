@@ -1,4 +1,4 @@
-function NewChromosome = xcycle(OldChromosome, CrossoverRate)
+function NewChromosome = xcycle(OldChromosome, CrossoverRate, ~)
 
     if nargin < 2, CrossoverRate = NaN; end
     [rows,cols] = size(OldChromosome);

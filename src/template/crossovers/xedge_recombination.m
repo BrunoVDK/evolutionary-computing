@@ -1,4 +1,4 @@
-function NewChromosome = xedge_recombination(OldChromosome, CrossoverRate)
+function NewChromosome = xedge_recombination(OldChromosome, CrossoverRate, ~)
 
     if nargin < 2, CrossoverRate = NaN; end
     

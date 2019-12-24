@@ -58,6 +58,10 @@ function run_ga(...
                 Chrom(row,:) = path2ord(randperm(NVAR));
         end
     end
+    
+    % Create context
+    ctx = context;
+    ctx.dist = Dist;
 
     % Number of individuals of equal fitness needed to stop (basic stop
     % criterion)
@@ -109,7 +113,7 @@ function run_ga(...
 
         % Recombine individuals (crossover + mutation)
         % PR_* denotes probability/rate (of crossover or mutation)
-        SelCh = recombineTSP(CROSSOVER, SelCh, PR_CROSS, 1);
+        SelCh = recombineTSP(CROSSOVER, SelCh, PR_CROSS, 1, ctx);
         SelCh = mutateTSP(MUTATION, SelCh, PR_MUT, REPRESENTATION);
 
         % Evaluate offspring, call objective function

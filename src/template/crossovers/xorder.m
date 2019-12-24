@@ -1,4 +1,4 @@
-function NewChromosome = xorder(OldChromosome, CrossoverRate)
+function NewChromosome = xorder(OldChromosome, CrossoverRate, ~)
 
     if nargin < 2, CrossoverRate = NaN; end
     [rows,cols] = size(OldChromosome);

@@ -1,4 +1,4 @@
-function NewChromosome = xposition_based(OldChromosome, CrossoverRate)
+function NewChromosome = xposition_based(OldChromosome, CrossoverRate, ~)
 
     if nargin < 2, CrossoverRate = NaN; end
     [rows,cols] = size(OldChromosome);
