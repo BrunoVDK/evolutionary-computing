@@ -12,7 +12,8 @@ function run_ga(...
     LOCALLOOP, ...
     ah1, ah2, ah3, ...
     REPRESENTATION, ...
-    MUTATION)
+    MUTATION, ...
+    SEEDING)
 % usage: run_ga(x, y,
 %               NIND, MAXGEN, NVAR,
 %               ELITIST, STOP_PERCENTAGE,
@@ -48,14 +49,22 @@ function run_ga(...
     % Initialize population
     gen = 0; % First generation
     Chrom = zeros(NIND,NVAR);
+    if SEEDING
+        seed = nearest_neighbor(Dist);
+    end
     for row = 1:NIND
+        if row < floor(NIND/20) && SEEDING
+            individual = seed; % (local heuristic)
+        else
+            individual = randperm(NVAR);
+        end
         switch REPRESENTATION
             case 'adjacency'
-                Chrom(row,:) = path2adj(randperm(NVAR));
+                Chrom(row,:) = path2adj(individual);
             case 'path'
-                Chrom(row,:) = randperm(NVAR);
+                Chrom(row,:) = individual;
             case 'ordinal'
-                Chrom(row,:) = path2ord(randperm(NVAR));
+                Chrom(row,:) = path2ord(individual);
         end
     end
     
@@ -129,5 +138,7 @@ function run_ga(...
         gen = gen+1;
 
     end
+    
+    fprintf("Results : best = %.2f, avg = %.2f, worst = %.2f\n", best(gen), mean_fits(gen), worst(gen));
 
 end

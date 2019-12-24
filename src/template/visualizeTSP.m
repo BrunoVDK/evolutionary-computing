@@ -3,7 +3,7 @@ function visualizeTSP(X, Y, Path, TotalDist, figNr, gen, best, mean_fits, worst,
     plot(X(Path),Y(Path), 'ko-','MarkerFaceColor','Black');
     hold on;
     plot([X(Path(length(Path))) X(Path(1))],[Y(Path(length(Path))) Y(Path(1))], 'ko-','MarkerFaceColor','Black');
-    title(['Beste rondrit lengte: ' num2str(TotalDist)]);
+    title(['Best tour length : ' num2str(TotalDist)]);
     hold off;
     axes(figNr2);
     plot([0:gen],best(1:gen+1),'r-', [0:gen],mean_fits(1:gen+1),'b-', [0:gen],worst(1:gen+1),'g-');
