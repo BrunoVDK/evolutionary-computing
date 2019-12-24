@@ -29,7 +29,6 @@ function NewChromosome = xalt_edges(OldChromosome, CrossoverRate)
         AllParents=[Parents;InverseParents];
         % AllParents contains both directed edges for every city
         % the last two rows contain the inversed tours
-        
         start_index=rand_int(1,1,[1 cols]);
         %	start_index=1;
         walking_index=start_index; % select a random seed edge
@@ -43,13 +42,11 @@ function NewChromosome = xalt_edges(OldChromosome, CrossoverRate)
             new_city=AllParents(parentNr+2*direction,walking_index);
             % if direction=1, use inverse direction (rows 3 and 4), hence the
             % +2*direction
-            
             % if city already visited, try other direction
             if visited_list(new_city)==1
                 direction=1-direction; % switch direction: 0->1, 1->0
                 new_city=AllParents(parentNr+2*direction,walking_index);
             end
-            
             %if other direction also visited, visit a random city
             if visited_list(new_city)==1		% & cities<cols-1
                 % resolve the loop
@@ -66,7 +63,6 @@ function NewChromosome = xalt_edges(OldChromosome, CrossoverRate)
                 end
                 new_city=allowed_list(rand_int(1,1,[1 size(allowed_list,2)]));
             end
-            
             Offspring(walking_index)=new_city;
             walking_index=new_city;
             cities=cities+1;
