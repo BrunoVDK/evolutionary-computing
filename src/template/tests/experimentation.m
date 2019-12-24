@@ -28,3 +28,5 @@ displacement(1:10,'path')
 insertion([2 4 6 8 7 5 3 1],'path')
 %% Simple Inversion Mutator
 inversion([2 4 6 8 7 5 3 1],'path')
+%% Scramble Mutator
+scramble([2 4 6 8 7 5 3 1],'path')
