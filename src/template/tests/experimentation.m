@@ -18,3 +18,7 @@ xovsp([1:8 ; [2 4 6 8 7 5 3 1]], 1)
 xedge_recombination([[1 2 3 4 5 6] ; [2 4 3 1 5 6]], 1)
 %% Maximal Preservative (MPX)
 xmax_preservative([(1:8);[2 4 6 8 7 5 3 1]],1)
+%% Sequential Constructive (SCX)
+ctx = context;
+ctx.dist = ones(8);
+xseq_constructive([(1:8);[2 4 6 8 7 5 3 1]],1,ctx)

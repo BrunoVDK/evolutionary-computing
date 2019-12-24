@@ -5,21 +5,38 @@ function NewChromosome = xseq_constructive(OldChromosome, CrossoverRate, ctx)
     NewChromosome = OldChromosome; % Initialise new chromosome matrix
     for row = 1:2:(rows-rem(rows,2)) % Mate parents
         if rand < CrossoverRate % Recombine with a given probability
-            span = floor(cols/2);
-            left = randi(span+1);
-            right = left + randi([min(span-1,10),span-1]);
-            NewChromosome(row,:) = max_pres(OldChromosome(row,:), OldChromosome(row+1,:), left, right);
-            NewChromosome(row+1,:) = max_pres(OldChromosome(row+1,:), OldChromosome(row,:), left, right);
+            NewChromosome(row,:) = scx(OldChromosome(row,:), OldChromosome(row+1,:), ctx.dist);
+            NewChromosome(row+1,:) = scx(OldChromosome(row+1,:), OldChromosome(row,:), ctx.dist);
         end
     end
     
     % Breed
-    function offspring = max_pres(first, second, left, right)
+    function offspring = scx(first, second, dist)
         offspring = zeros(1,cols);
-        cut = right - left + 1;
-        subtour = first(left:right);
-        offspring(1:cut) = subtour;
-        offspring(cut+1:end) = second(~ismember(second,subtour));
+        idx1 = randi(cols);
+        node = first(idx1);
+        idx2 = find(second == node);
+        offspring(1) = node;
+        for i = 2:cols
+            while ismember(first(idx1), offspring(1:i))
+                idx1 = idx1 + 1 - cols * (idx1 == cols);
+            end
+            while ismember(second(idx2), offspring(1:i))
+                idx2 = idx2 + 1 - cols * (idx2 == cols);
+            end
+            nextnode1 = first(idx1);
+            nextnode2 = second(idx2);
+            dist1 = dist(node, nextnode1);
+            dist2 = dist(node, nextnode2);
+            if dist1 < dist2
+                node = nextnode1;
+                idx2 = find(second == node, 1);
+            else
+                node = nextnode2;
+                idx1 = find(first == node, 1);
+            end
+            offspring(i) = node;
+        end
     end
    
 end
