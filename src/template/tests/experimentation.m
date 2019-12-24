@@ -22,3 +22,7 @@ xmax_preservative([(1:8);[2 4 6 8 7 5 3 1]],1)
 ctx = context;
 ctx.dist = ones(8);
 xseq_constructive([(1:8);[2 4 6 8 7 5 3 1]],1,ctx)
+%% Displacement Mutator
+displacement(1:10,'path')
+%% Insertion Mutator
+insertion(1:131,'path')
