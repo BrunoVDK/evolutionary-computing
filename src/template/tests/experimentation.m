@@ -30,3 +30,11 @@ insertion([2 4 6 8 7 5 3 1],'path')
 inversion([2 4 6 8 7 5 3 1],'path')
 %% Scramble Mutator
 scramble([2 4 6 8 7 5 3 1],'path')
+%% Round Robin
+X = randi(10,10) %#ok
+Y = randi(10,5,10) %#ok
+[c,cost] = round_robin(X, Y, (1:10)', (15 + zeros(1,5))') %#ok
+%% µ + ¬ Selection
+X = randi(10,10) %#ok
+Y = randi(10,5,10) %#ok
+[c,cost] = mu_lambda(X, Y, (1:10)', (15 + zeros(1,5))') %#ok
