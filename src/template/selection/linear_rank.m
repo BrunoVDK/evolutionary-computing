@@ -1,7 +1,4 @@
-function [SelCh] = linear_rank(Chrom, ObjV, GGAP)
-    FitnV = ranking(ObjV);
-    % Chrom = chromosomes,
-    % FitnV = corresponding fitness values
-    % GGAP = rate of individuals being replaced, default 1.
-    SelCh = select('sus', Chrom, FitnV, GGAP);
+function [selected] = linear_rank(chromosomes, cost_values, generational_gap)
+    fitness_values = ranking(cost_values); % Linear ranking, selective pressure = 2
+    selected = select('sus', chromosomes, fitness_values, generational_gap);
 end
