@@ -1,4 +1,4 @@
-function NewChrom = simple_inversion(OldChrom, REPRESENTATION, ~)
+function NewChrom = unnamed(OldChrom, REPRESENTATION, ctx)
     NewChrom = OldChrom;
     % Convert to path representation
     switch REPRESENTATION
@@ -7,13 +7,12 @@ function NewChrom = simple_inversion(OldChrom, REPRESENTATION, ~)
         case 'ordinal'
             NewChrom = ord2path(NewChrom);
     end
-    % Select two positions in the tour
-    rndi = zeros(1,2);
-    while rndi(1) == rndi(2)
-        rndi = rand_int(1,2,[1 size(NewChrom,2)]);
-    end
-    rndi = sort(rndi);
-    NewChrom(rndi(1):rndi(2)) = NewChrom(rndi(2):-1:rndi(1));
+    city = randi(length(NewChrom));
+    ctx.dist(city,city) = realmax;
+    [~,closest_city] = min(ctx.dist(city,:));
+    left = min(city,closest_city);
+    right = max(city,closest_city);
+    NewChrom(left:right) = OldChrom(right:-1:left);
     % Convert back
     switch REPRESENTATION
         case 'adjacency'

@@ -1,4 +1,4 @@
-function NewChrom = scramble(OldChrom, REPRESENTATION)
+function NewChrom = scramble(OldChrom, REPRESENTATION, ~)
     NewChrom = OldChrom;
     % Convert to path representation
     switch REPRESENTATION

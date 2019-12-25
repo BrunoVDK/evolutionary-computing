@@ -1,4 +1,4 @@
-function NewChrom = inversion(OldChrom, REPRESENTATION)
+function NewChrom = inversion(OldChrom, REPRESENTATION, ~)
     % Convert to path representation
     switch REPRESENTATION
         case 'adjacency'

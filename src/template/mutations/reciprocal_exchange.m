@@ -1,4 +1,4 @@
-function NewChrom = reciprocal_exchange(OldChrom, REPRESENTATION)
+function NewChrom = reciprocal_exchange(OldChrom, REPRESENTATION, ~)
     NewChrom=OldChrom;
     % Convert to path representation
     switch REPRESENTATION

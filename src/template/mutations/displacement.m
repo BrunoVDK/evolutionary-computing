@@ -1,4 +1,4 @@
-function NewChrom = displacement(OldChrom, REPRESENTATION)
+function NewChrom = displacement(OldChrom, REPRESENTATION, ~)
     % Convert to path representation
     switch REPRESENTATION
         case 'adjacency'

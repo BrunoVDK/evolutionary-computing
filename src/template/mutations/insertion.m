@@ -1,4 +1,4 @@
-function NewChrom = insertion(OldChrom, REPRESENTATION)
+function NewChrom = insertion(OldChrom, REPRESENTATION, ~)
     % Convert to path representation
     switch REPRESENTATION
         case 'adjacency'

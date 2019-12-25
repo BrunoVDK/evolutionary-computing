@@ -103,14 +103,14 @@ elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position'
 
 % Popups at the bottom
 representation = uicontrol(ph,'Style','popupmenu', 'String',{'path', 'adjacency', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative', 'xunnamed'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String', {'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
-heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
+heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt', 'both'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'linear_rank', 'exponential_rank', 'nonlinear_rank', 'fitness_proportional', 'sigma_scaling', 'tournament'}, 'Value',1,'Position',[170 80 160 20],'Callback',@parent_Callback);
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'fitness_based', 'mu_lambda', 'round_robin', 'uniform'}, 'Value',1,'Position',[170 50 120 20],'Callback',@survivor_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','diversity on'}, 'Value',1,'Position',[290 50 120 20],'Callback',@crossover_Callback);
 adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
-mutation = uicontrol(ph,'Style','popupmenu', 'String',{'inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'simple_inversion', 'scramble'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{'inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'simple_inversion', 'scramble', 'unnamed'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
@@ -202,7 +202,7 @@ set(fh,'Visible','on');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
         tic;
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding", HEURISTIC == "2-opt", PARENT_SELECTION, SURVIVOR_SELECTION);
+        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION);
         fprintf("CPU time : %.2fs\n", toc);
         end_run();
     end

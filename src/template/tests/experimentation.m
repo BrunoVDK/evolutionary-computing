@@ -22,6 +22,10 @@ xmax_preservative([(1:8);[2 4 6 8 7 5 3 1]],1)
 ctx = context;
 ctx.dist = ones(8);
 xseq_constructive([(1:8);[2 4 6 8 7 5 3 1]],1,ctx)
+%% Unnamed Heuristic Crossover (UHX)
+ctx = context;
+ctx.dist = ones(8);
+xunnamed([[4 5 7 3 1 2 6 8] ; [3 1 7 5 6 4 2 8]],1,ctx)
 %% Displacement Mutator
 displacement(1:10,'path')
 %% Insertion Mutator
@@ -30,6 +34,10 @@ insertion([2 4 6 8 7 5 3 1],'path')
 inversion([2 4 6 8 7 5 3 1],'path')
 %% Scramble Mutator
 scramble([2 4 6 8 7 5 3 1],'path')
+%% Unnamed Mutator
+ctx = context;
+ctx.dist = ones(8);
+unnamed([4 5 7 3 1 2 6 8], path)
 %% Round Robin
 X = randi(10,10) %#ok
 Y = randi(10,5,10) %#ok
