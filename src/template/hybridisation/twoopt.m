@@ -15,12 +15,22 @@ function [newpopulation] = twoopt(population, popsize, ncities, dist, REPRESENTA
     newpopulation = population;
     
     function [result] = apply2opt(chromosome)
-        for i = 1:ncities-1
-            for j = i+1:ncities-1
-                if  (dist(chromosome(i),chromosome(j)) + dist(chromosome(i+1),chromosome(j+1)))...
-                    < (dist(chromosome(i),chromosome(i+1)) + dist(chromosome(j),chromosome(j+1)))
-                    temp = chromosome(i+1);
-                    chromosome(i+1) = chromosome(j);
+        for i = 1:ncities
+            if i == ncities
+                i2 = i;
+            else
+                i2 = i+1;
+            end
+            for j = i+1:ncities
+                if j == ncities
+                    j2 = j;
+                else
+                    j2 = j+1;
+                end
+                if  (dist(chromosome(i),chromosome(j)) + dist(chromosome(i2),chromosome(j2)))...
+                    < (dist(chromosome(i),chromosome(i2)) + dist(chromosome(j),chromosome(j2)))
+                    temp = chromosome(i2);
+                    chromosome(i2) = chromosome(j);
                     chromosome(j) = temp;
                 end
             end

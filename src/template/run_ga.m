@@ -34,6 +34,7 @@ function [best,worst,average] = run_ga(...
 % ah1, ah2, ah3: axes handles to visualise tsp
 % {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP REPRESENTATION}
 
+TWOOPT
     fprintf("Starting run with representation '%s', crossover '%s' and mutation '%s' (%i generations).\n", REPRESENTATION, CROSSOVER, MUTATION, MAXGEN);
 
     GGAP = 1 - ELITIST; % generation gap (see book, proportion of pop replaced)
