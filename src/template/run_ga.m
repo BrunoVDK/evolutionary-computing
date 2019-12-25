@@ -1,4 +1,4 @@
-function run_ga(...
+function [best,worst,average] = run_ga(...
     x, ...
     y, ...
     NIND, ...
@@ -13,7 +13,8 @@ function run_ga(...
     ah1, ah2, ah3, ...
     REPRESENTATION, ...
     MUTATION, ...
-    SEEDING)
+    SEEDING, ...
+    TWOOPT)
 % usage: run_ga(x, y,
 %               NIND, MAXGEN, NVAR,
 %               ELITIST, STOP_PERCENTAGE,
@@ -67,6 +68,9 @@ function run_ga(...
                 Chrom(row,:) = path2ord(individual);
         end
     end
+    if TWOOPT
+        Chrom = local2op(Chrom, size(Chrom,1), size(Dist,1), Dist, REPRESENTATION);
+    end
     
     % Create context
     ctx = context;
@@ -117,7 +121,7 @@ function run_ga(...
         % Select individuals for breeding (Stochastic Universal Sampling)
         % Chrom = chromosomes,
         % FitnV = corresponding fitness values
-        % GGAP = rate of individuals being replaced, default 1.à
+        % GGAP = rate of individuals being replaced, default 1.
         SelCh = select('sus', Chrom, FitnV, GGAP);
 
         % Recombine individuals (crossover + mutation)
@@ -128,6 +132,11 @@ function run_ga(...
         % Evaluate offspring, call objective function
         ObjVSel = tspfun(SelCh, Dist, REPRESENTATION);
 
+        % Apply 2-opt
+        if TWOOPT
+            SelCh = local2op(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
+        end
+        
         % Reinsert offspring into population, replacing parents
         [Chrom,ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
 
@@ -139,6 +148,9 @@ function run_ga(...
 
     end
     
-    fprintf("Results : best = %.2f, avg = %.2f, worst = %.2f\n", best(gen), mean_fits(gen), worst(gen));
-
+    best = best(gen);
+    worst = worst(gen);
+    average = mean_fits(gen);
+    fprintf("Results : best = %.2f, avg = %.2f, worst = %.2f\n", best, average, worst);
+    
 end

@@ -12,11 +12,11 @@ STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
-CROSSOVER = 'xalt_edges';  % default crossover operator
-REPRESENTATION = 'adjacency'; % default representation
-MUTATION = 'inversion'; % default mutation
+CROSSOVER = 'xseq_constructive';  % default crossover operator
+REPRESENTATION = 'path'; % default representation
+MUTATION = 'scramble'; % default mutation
 SCALING = false; % scale path yes or no
-HEURISTIC = 'local heuristic off'; % Local heuristic mode
+HEURISTIC = 'hybridisation off'; % Local heuristic mode
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -100,15 +100,15 @@ elitslider = uicontrol(ph,'Style','slider','Max',100,'Min',0,'Value',round(ELITI
 elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position',[280 110 50 20]);
 
 % Popups at the bottom
-representation = uicontrol(ph,'Style','popupmenu', 'String',{REPRESENTATION, 'path', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{CROSSOVER, 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xseq_constructive', 'xmax_preservative'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
-stop = uicontrol(ph,'Style','popupmenu', 'String',{'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
-heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'local heuristic off', 'seeding'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
+representation = uicontrol(ph,'Style','popupmenu', 'String',{'path', 'adjacency', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+stop = uicontrol(ph,'Style','popupmenu', 'String', {'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
+heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection', 'custom parent selection'}, 'Value',1,'Position',[170 80 160 20],'Callback',@crossover_Callback);
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'survivor off','survivor on'}, 'Value',1,'Position',[170 50 120 20],'Callback',@crossover_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','diversity on'}, 'Value',1,'Position',[290 50 120 20],'Callback',@crossover_Callback);
 adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
-mutation = uicontrol(ph,'Style','popupmenu', 'String',{MUTATION, 'reciprocal_exchange', 'displacement', 'insertion', 'simple_inversion', 'scramble'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{'inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'simple_inversion', 'scramble'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
@@ -200,7 +200,7 @@ set(fh,'Visible','on');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
         tic;
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding");
+        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding", HEURISTIC == "2-opt");
         fprintf("CPU time : %.2fs\n", toc);
         end_run();
     end

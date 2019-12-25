@@ -33,7 +33,11 @@ function NewChrom = recombineTSP(CROSSOVER, Parents, CrossoverRate, NbSubPopulat
     for irun = 1:NbSubPopulations
         indices = (irun-1)*Nind+1:irun*Nind; % Indices for subpopulation
         SubPopulation = Parents(indices,:); % Chromosomes for subpopulation
-        NewChrom(indices,:) = feval(CROSSOVER, SubPopulation, CrossoverRate, ctx);
+        if CROSSOVER == "xovsp"
+            NewChrom(indices,:) = feval(CROSSOVER, SubPopulation, CrossoverRate);
+        else
+            NewChrom(indices,:) = feval(CROSSOVER, SubPopulation, CrossoverRate, ctx);
+        end
     end
     
 end

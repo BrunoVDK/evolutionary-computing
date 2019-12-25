@@ -10,7 +10,7 @@ function NewChrom = displacement(OldChrom, REPRESENTATION)
     cols = size(OldChrom,2);
     [left,right] = cut_points(cols);
     rest = [OldChrom(1:left-1) OldChrom(right+1:end)];
-    insertion_point = randi(size(rest) + 1);
+    insertion_point = randi(length(rest) + 1);
     NewChrom = [rest(1:insertion_point-1) OldChrom(left:right) rest(insertion_point:end)];
     % Convert back
     switch REPRESENTATION

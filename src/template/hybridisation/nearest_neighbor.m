@@ -1,4 +1,4 @@
-function [path] = nearest_neighbors(distances)
+function [path] = nearest_neighbor(distances)
     nb_cities = size(distances,1);
     distances(1:1+nb_cities:end) = realmax;
     current = randi(nb_cities);
