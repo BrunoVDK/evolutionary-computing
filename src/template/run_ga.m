@@ -136,7 +136,7 @@ function [best,worst,average] = run_ga(...
         end
         
         % Reinsert offspring into population, replacing parents
-        [Chrom,ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
+        [Chrom,ObjV] = reinsTSP(SURVIVOR_SELECTION, Chrom, SelCh, ObjV, ObjVSel);
 
         % Removes local loops
         Chrom = improve_population(NIND, NVAR, Chrom, LOCALLOOP, Dist, REPRESENTATION);
