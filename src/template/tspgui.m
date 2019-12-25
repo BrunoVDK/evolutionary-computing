@@ -17,6 +17,8 @@ REPRESENTATION = 'path'; % default representation
 MUTATION = 'scramble'; % default mutation
 SCALING = false; % scale path yes or no
 HEURISTIC = 'hybridisation off'; % Local heuristic mode
+PARENT_SELECTION = 'linear_rank';
+SURVIVOR_SELECTION = 'linear_rank';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -87,7 +89,7 @@ nindslidertxt = uicontrol(ph,'Style','text','String','# Individuals','Position',
 nindslider = uicontrol(ph,'Style','slider','Max',1000,'Min',10,'Value',NIND,'Sliderstep',[0.001 0.05],'Position',[130 230 150 20],'Callback',@nindslider_Callback);
 nindsliderv = uicontrol(ph,'Style','text','String',NIND,'Position',[280 230 50 20]);
 genslidertxt = uicontrol(ph,'Style','text','String','# Generations','Position',[0 200 130 20]);
-genslider = uicontrol(ph,'Style','slider','Max',1000,'Min',10,'Value',MAXGEN,'Sliderstep',[0.001 0.05],'Position',[130 200 150 20],'Callback',@genslider_Callback);
+genslider = uicontrol(ph,'Style','slider','Max',3000,'Min',10,'Value',MAXGEN,'Sliderstep',[0.001 0.05],'Position',[130 200 150 20],'Callback',@genslider_Callback);
 gensliderv = uicontrol(ph,'Style','text','String',MAXGEN,'Position',[280 200 50 20]);
 mutslidertxt = uicontrol(ph,'Style','text','String','Pr. Mutation','Position',[0 170 130 20]);
 mutslider = uicontrol(ph,'Style','slider','Max',100,'Min',0,'Value',round(PR_MUT*100),'Sliderstep',[0.01 0.05],'Position',[130 170 150 20],'Callback',@mutslider_Callback);
@@ -104,8 +106,8 @@ representation = uicontrol(ph,'Style','popupmenu', 'String',{'path', 'adjacency'
 crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String', {'default stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@crossover_Callback);
 heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
-parent = uicontrol(ph,'Style','popupmenu', 'String',{'default parent selection', 'custom parent selection'}, 'Value',1,'Position',[170 80 160 20],'Callback',@crossover_Callback);
-survivor = uicontrol(ph,'Style','popupmenu', 'String',{'survivor off','survivor on'}, 'Value',1,'Position',[170 50 120 20],'Callback',@crossover_Callback);
+parent = uicontrol(ph,'Style','popupmenu', 'String',{'linear_rank', 'tournament'}, 'Value',1,'Position',[170 80 160 20],'Callback',@parent_Callback);
+survivor = uicontrol(ph,'Style','popupmenu', 'String',{'default'}, 'Value',1,'Position',[170 50 120 20],'Callback',@survivor_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','diversity on'}, 'Value',1,'Position',[290 50 120 20],'Callback',@crossover_Callback);
 adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
 mutation = uicontrol(ph,'Style','popupmenu', 'String',{'inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'simple_inversion', 'scramble'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
@@ -200,7 +202,7 @@ set(fh,'Visible','on');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
         tic;
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding", HEURISTIC == "2-opt");
+        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding", HEURISTIC == "2-opt", PARENT_SELECTION, SURVIVOR_SELECTION);
         fprintf("CPU time : %.2fs\n", toc);
         end_run();
     end
@@ -237,6 +239,18 @@ set(fh,'Visible','on');
         heuristics = get(hObject,'String');
         HEURISTIC = heuristics(heuristic_value);
         HEURISTIC = HEURISTIC{1};
+    end
+    function parent_Callback(hObject,eventdata)
+        parent_value = get(hObject,'Value');
+        parents = get(hObject,'String');
+        PARENT_SELECTION = parents(parent_value);
+        PARENT_SELECTION = PARENT_SELECTION{1};
+    end
+    function survivor_Callback(hObject,eventdata)
+        survivor_value = get(hObject,'Value');
+        survivors = get(hObject,'String');
+        SURVIVOR_SELECTION = survivors(survivor_value);
+        SURVIVOR_SELECTION = SURVIVOR_SELECTION{1};
     end
 
 end

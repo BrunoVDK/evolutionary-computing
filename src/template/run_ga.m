@@ -14,7 +14,9 @@ function [best,worst,average] = run_ga(...
     REPRESENTATION, ...
     MUTATION, ...
     SEEDING, ...
-    TWOOPT)
+    TWOOPT, ...
+    PARENT_SELECTION, ...
+    SURVIVOR_SELECTION)
 % usage: run_ga(x, y,
 %               NIND, MAXGEN, NVAR,
 %               ELITIST, STOP_PERCENTAGE,
@@ -34,7 +36,6 @@ function [best,worst,average] = run_ga(...
 % ah1, ah2, ah3: axes handles to visualise tsp
 % {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP REPRESENTATION}
 
-TWOOPT
     fprintf("Starting run with representation '%s', crossover '%s' and mutation '%s' (%i generations).\n", REPRESENTATION, CROSSOVER, MUTATION, MAXGEN);
 
     GGAP = 1 - ELITIST; % generation gap (see book, proportion of pop replaced)
@@ -115,15 +116,11 @@ TWOOPT
             break;
         end
 
-        % Assign fitness values to entire population
-        % Linear ranking with selective pressure 2
-        FitnV = ranking(ObjV);
-
-        % Select individuals for breeding (Stochastic Universal Sampling)
+        % Parent selection according to chosen method
         % Chrom = chromosomes,
         % FitnV = corresponding fitness values
         % GGAP = rate of individuals being replaced, default 1.
-        SelCh = select('sus', Chrom, FitnV, GGAP);
+        SelCh = selectTSP(PARENT_SELECTION, Chrom, ObjV, GGAP);
 
         % Recombine individuals (crossover + mutation)
         % PR_* denotes probability/rate (of crossover or mutation)
