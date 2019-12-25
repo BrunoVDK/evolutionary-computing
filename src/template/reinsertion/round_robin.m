@@ -1,6 +1,6 @@
 function [chromosomes,cost_values] = round_robin(chromosomes, selected, ...
     cost_values, selected_cost_values, q)
-    if nargin < 5; q = 10; end
+    if nargin < 5; q = 2; end
     merge = [chromosomes ; selected];
     merged_values = [cost_values ; selected_cost_values];
     n = size(merge, 1);
