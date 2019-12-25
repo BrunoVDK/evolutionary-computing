@@ -1,4 +1,4 @@
-function tspgui()
+function tspgui(run_it)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DEFAULT CONFIGURATION
@@ -49,6 +49,8 @@ SURVIVOR_SELECTION = 'fitness_based';
 %    x=XY(:,1);
 %    y=XY(:,2);
 %end
+
+if nargin < 1; run_it = 1; end
 
 % Load all the data sets
 datasetslist = dir('datasets/');
@@ -202,8 +204,16 @@ set(fh,'Visible','on');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
         tic;
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION);
-        fprintf("CPU time : %.2fs\n", toc);
+        ttime = 0; tavg = 0; tbest = 0; tworst = 0;
+        for i = 1:run_it
+            [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION);
+            time = toc;
+            fprintf("CPU time : %.2fs\n", time);
+            ttime = ttime + time; tavg = tavg + avg; tbest = tbest + best; tworst = tworst + worst;
+        end
+        fprintf("Total CPU time : %.2fs\n", ttime);
+        fprintf("Results averaged over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", tbest/run_it, tavg/run_it, tworst/run_it);
+        fprintf("Results totaled over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", tbest, tavg, tworst);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
