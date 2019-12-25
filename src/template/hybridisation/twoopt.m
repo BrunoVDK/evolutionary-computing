@@ -1,4 +1,4 @@
-function [newpopulation] = local2op(population, popsize, ncities, dist, REPRESENTATION)
+function [newpopulation] = twoopt(population, popsize, ncities, dist, REPRESENTATION)
 
     for t = 1:popsize
         switch REPRESENTATION

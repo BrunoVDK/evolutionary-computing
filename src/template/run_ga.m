@@ -69,7 +69,7 @@ function [best,worst,average] = run_ga(...
         end
     end
     if TWOOPT
-        Chrom = local2op(Chrom, size(Chrom,1), size(Dist,1), Dist, REPRESENTATION);
+        Chrom = twoopt(Chrom, size(Chrom,1), size(Dist,1), Dist, REPRESENTATION);
     end
     
     % Create context
@@ -134,7 +134,7 @@ function [best,worst,average] = run_ga(...
 
         % Apply 2-opt
         if TWOOPT
-            SelCh = local2op(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
+            SelCh = twoopt(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
         end
         
         % Reinsert offspring into population, replacing parents
