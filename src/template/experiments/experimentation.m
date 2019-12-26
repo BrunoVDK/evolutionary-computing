@@ -46,3 +46,10 @@ Y = randi(10,5,10) %#ok
 X = randi(10,10) %#ok
 Y = randi(10,5,10) %#ok
 [c,cost] = mu_lambda(X, Y, (1:10)', (15 + zeros(1,5))') %#ok
+%% T-test
+% https://nl.mathworks.com/matlabcentral/answers/159417-how-to-calculate-the-confidence-interval
+x = randi(50, 1, 1000000) - .5;             % Create Data
+SEM = std(x)/sqrt(length(x));               % Standard Error
+ts = tinv([0.025  0.975],length(x)-1);      % T-Score
+CI = mean(x) + ts*SEM                       %#ok Confidence Intervals
+confidence_intervals(x)
