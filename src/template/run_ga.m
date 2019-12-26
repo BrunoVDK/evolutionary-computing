@@ -16,7 +16,8 @@ function [best,average,worst] = run_ga(...
     SEEDING, ...
     TWOOPT, ...
     PARENT_SELECTION, ...
-    SURVIVOR_SELECTION)
+    SURVIVOR_SELECTION, ...
+    VISUAL)
 % usage: run_ga(x, y,
 %               NIND, MAXGEN, NVAR,
 %               ELITIST, STOP_PERCENTAGE,
@@ -102,13 +103,15 @@ function [best,average,worst] = run_ga(...
         end
 
         % Visualise mean, best, ...
-        switch REPRESENTATION
-            case 'adjacency'
-                visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
-            case 'path'
-                visualizeTSP(x, y, Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
-            case 'ordinal'
-                visualizeTSP(x, y, ord2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+        if VISUAL
+            switch REPRESENTATION
+                case 'adjacency'
+                    visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+                case 'path'
+                    visualizeTSP(x, y, Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+                case 'ordinal'
+                    visualizeTSP(x, y, ord2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+            end
         end
 
         % Basic stop criterion

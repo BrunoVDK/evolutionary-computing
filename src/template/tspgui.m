@@ -204,16 +204,41 @@ set(fh,'Visible','on');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
         tic;
-        ttime = 0; tavg = 0; tbest = 0; tworst = 0;
-        for i = 1:run_it
-            [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION);
+        avgs = zeros(1,run_it);
+        bests = zeros(1,run_it);
+        worsts = zeros(1,run_it);
+        if run_it > 1
+            x = repmat(x,1,run_it);
+            y = repmat(y,1,run_it);
+            NIND = NIND * ones(1,run_it);
+            MAXGEN = MAXGEN * ones(1,run_it);
+            NVAR = NVAR * ones(1,run_it);
+            ELITIST = ELITIST * ones(1,run_it);
+            STOP_PERCENTAGE = STOP_PERCENTAGE * ones(1,run_it);
+            PR_CROSS = PR_CROSS * ones(1,run_it);
+            PR_MUT = PR_MUT * ones(1,run_it);
+            CROSSOVER = repmat(convertCharsToStrings(CROSSOVER),1,run_it);
+            LOCALLOOP = repmat(convertCharsToStrings(LOCALLOOP),1,run_it);
+            REPRESENTATION = repmat(convertCharsToStrings(REPRESENTATION),1,run_it);
+            MUTATION = repmat(convertCharsToStrings(MUTATION),1,run_it);
+            HEURISTIC = repmat(convertCharsToStrings(HEURISTIC),1,run_it);
+            PARENT_SELECTION = repmat(convertCharsToStrings(PARENT_SELECTION),1,run_it);
+            SURVIVOR_SELECTION = repmat(convertCharsToStrings(SURVIVOR_SELECTION),1,run_it);
+            parfor pi = 1:run_it
+                [best,avg,worst] = run_ga(x(:,pi), y(:,pi), NIND(pi), MAXGEN(pi), NVAR(pi), ELITIST(pi), STOP_PERCENTAGE(pi), PR_CROSS(pi), PR_MUT(pi), CROSSOVER(pi), LOCALLOOP(pi), NaN, NaN, NaN, REPRESENTATION(pi), MUTATION(pi), HEURISTIC(pi) == "seeding" || HEURISTIC(pi) == "both", HEURISTIC(pi) == "2-opt" || HEURISTIC(pi) == "both", PARENT_SELECTION(pi), SURVIVOR_SELECTION(pi), false);
+                bests(pi) = best;
+                avgs(pi) = avg;
+                worsts(pi) = worst;
+            end
+            fprintf("Total CPU time : %.2fs\n", toc);
+            fprintf("Results averaged over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", sum(bests)/run_it, sum(avgs)/run_it, sum(worsts)/run_it);
+        else
+            [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION, true);
             time = toc;
             fprintf("CPU time : %.2fs\n", time);
-            ttime = ttime + time; tavg = tavg + avg; tbest = tbest + best; tworst = tworst + worst;
+            fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", best, avg, worst);
         end
-        fprintf("Total CPU time : %.2fs\n", ttime);
-        fprintf("Results averaged over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", tbest/run_it, tavg/run_it, tworst/run_it);
-        fprintf("Results totaled over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", tbest, tavg, tworst);
+        % fprintf("Results totaled over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", sum(bests), sum(avgs), sum(worsts));
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
