@@ -52,4 +52,22 @@ x = randi(50, 1, 1000000) - .5;             % Create Data
 SEM = std(x)/sqrt(length(x));               % Standard Error
 ts = tinv([0.025  0.975],length(x)-1);      % T-Score
 CI = mean(x) + ts*SEM                       %#ok Confidence Intervals
-confidence_intervals(x)
+t_test(x)
+%% Thompson-Savur Test
+% http://www.cis.uoguelph.ca/~wineberg/publications/ECStat2004.pdf
+mu = 625;
+n = 10000 ; x = exprnd(625, 1, n);
+% n = 50; x = 600 + randi(25, 1, n) - 10 * log(1:n);
+% n = 50; x = [ones(1,10) exp(1:.1:4)];
+b = binoinv(.05, n, .5);
+l = b / (n-1);
+u = 1 - l;
+CI = [prctile(x,l*100), prctile(x,u*100)] %#ok
+thompson_savur(x)
+figure;
+plot(x,exppdf(x,mu),'g-');
+histogram(x,n/5);
+xline(CI(1),'r--');
+xline(CI(2),'r--');
+xline(median(x));
+xline(mu * log(2),'b-');
