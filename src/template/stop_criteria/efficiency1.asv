@@ -1,7 +1,0 @@
-function [efficiency] = efficiency1(best_list, no_generations)
-%EFFICIENCY1 First efficiency function
-%   Based on first efficiency function o
-bests = best_list(1,1:no_generations);
-efficiency = max(bests(1));
-end
-

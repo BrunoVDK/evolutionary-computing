@@ -10,6 +10,7 @@ function [efficiency] = efficiency2(best_list, no_generations)
 %   OUTPUT
 %   efficiency = the average efficiency value of all the completed generations
 bests = best_list(1,1:no_generations);
-efficiency = mean(bests(1));
+efficiency = mean(bests(1,:));
+display(['Calculated efficiency ', num2str(efficiency)])
 end
 

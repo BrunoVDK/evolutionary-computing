@@ -11,6 +11,7 @@ function [efficiency] = efficiency3(best_list, no_generations)
 %   efficiency = the best efficiency value of all the completed generations
 %   divided by the number of completed generations
 bests = best_list(1,1:no_generations);
-efficiency = max(bests(1)) / no_generations;
+efficiency = min(bests(1,:)) / no_generations;
+display(['Calculated efficiency ', num2str(efficiency)])
 end
 

@@ -1,6 +1,6 @@
-function [stdev] = std_efficiency(best_list, no_generations, window_size, efficiency_function)
-%std_efficiency Get the standard deviation of the efficiency
-%   Get the std of the efficiencies in a defined time
+function [stdevfrac] = stdfrac_efficiency(best_list, no_generations, window_size, efficiency_function)
+%stdfrac_efficiency Get the standard deviation fraction (stdev/mean) of the efficiency
+%   Get the std fraction (stdev / mean) of the efficiencies in a defined time
 %   window in a list of best efficiencies of the generations. The window will
 %   always end with its last element being the last completed generation and
 %   the other elements being the precedent generations.
@@ -15,17 +15,17 @@ function [stdev] = std_efficiency(best_list, no_generations, window_size, effici
 %   window_size = the size of the time window to be used
 %   efficiency_function = number of the efficiency function
 %   OUTPUT
-%   std = the standard deviation of the efficiencies in the time window in
+%   stdevfrac = the standard deviation fraction (stdev / mean) of the efficiencies in the time window in
 %   the best list
 efficiency_array = map_fitness_to_efficiency(best_list, no_generations, efficiency_function);
 if no_generations == 0
     result = 0;
 elseif no_generations < window_size
-    result = std(efficiency_array(1:no_generations));
+    result = std(efficiency_array(1:no_generations))/mean(efficiency_array(1:no_generations));
 else
-    result = std(efficiency_array((no_generations - window_size + 1) : no_generations));
+    result = std(efficiency_array((no_generations - window_size + 1) : no_generations))/mean(efficiency_array((no_generations - window_size + 1) : no_generations));
 end
-stdev = result;
+stdevfrac = result;
 end
 
 function [efficiency_array] = map_fitness_to_efficiency(best_list, no_generations, efficiency_function)
@@ -52,8 +52,8 @@ while i <= no_generations
         result(i) = efficiency2(best_list, i);
     else 
         result(i) = efficiency3(best_list, i);
-    i = i + 1;
     end
+    i = i + 1;
 end
 efficiency_array = result;
 end
