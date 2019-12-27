@@ -17,7 +17,8 @@ function [best,average,worst] = run_ga(...
     TWOOPT, ...
     PARENT_SELECTION, ...
     SURVIVOR_SELECTION, ...
-    VISUAL)
+    VISUAL, ...
+    DIVERSIFICATION)
 % usage: run_ga(x, y,
 %               NIND, MAXGEN, NVAR,
 %               ELITIST, STOP_PERCENTAGE,
@@ -49,6 +50,14 @@ function [best,average,worst] = run_ga(...
             Dist(i,j) = sqrt((x(i)-x(j))^2+(y(i)-y(j))^2); % symmetrical ... (efficiency not important)
         end
     end
+    
+    % Island model
+    subpopulations = 1;
+    spsize = NIND;
+    if DIVERSIFICATION == 2 && NIND > 39
+        subpopulations = floor(NIND / 20);
+        spsize = floor(NIND / subpopulations);
+    end
 
     % Initialize population
     gen = 0; % First generation
@@ -57,7 +66,7 @@ function [best,average,worst] = run_ga(...
         seed = nearest_neighbor(Dist);
     end
     for row = 1:NIND
-        if row < floor(NIND/20) && SEEDING
+        if row < floor(NIND/30) && SEEDING
             individual = seed; % (local heuristic)
         else
             individual = randperm(NVAR);
@@ -119,31 +128,58 @@ function [best,average,worst] = run_ga(...
             break;
         end
 
-        % Parent selection according to chosen method
-        % Chrom = chromosomes,
-        % FitnV = corresponding fitness values
-        % GGAP = rate of individuals being replaced, default 1.
-        SelCh = selectTSP(PARENT_SELECTION, Chrom, ObjV, GGAP);
+        % Process each island (for some methods in the toolbox this is a parameter,
+        %   but it is easier to implement it this way)
+        for i = 1:subpopulations
+            
+            left = (i-1) * spsize + 1;
+            right = min(size(Chrom,1), i * spsize);
+            
+            % Parent selection according to chosen method
+            % Chrom = chromosomes,
+            % FitnV = corresponding fitness values
+            % GGAP = rate of individuals being replaced, default 1.
+            SelCh = selectTSP(PARENT_SELECTION, Chrom(left:right,:), ObjV(left:right,:), GGAP);
 
-        % Recombine individuals (crossover + mutation)
-        % PR_* denotes probability/rate (of crossover or mutation)
-        SelCh = recombineTSP(CROSSOVER, SelCh, PR_CROSS, 1, ctx);
-        SelCh = mutateTSP(MUTATION, SelCh, PR_MUT, REPRESENTATION, ctx);
+            % Recombine individuals (crossover + mutation)
+            % PR_* denotes probability/rate (of crossover or mutation)
+            SelCh = recombineTSP(CROSSOVER, SelCh, PR_CROSS, 1, ctx);
+            SelCh = mutateTSP(MUTATION, SelCh, PR_MUT, REPRESENTATION, ctx);
 
-        % Evaluate offspring, call objective function
-        ObjVSel = tspfun(SelCh, Dist, REPRESENTATION);
+            % Evaluate offspring, call objective function
+            ObjVSel = tspfun(SelCh, Dist, REPRESENTATION);
 
-        % Apply 2-opt
-        if TWOOPT && (NVAR < 350 || rem(gen,20) == 0) 
-            SelCh = twoopt(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
+            % Apply 2-opt
+            if TWOOPT && (NVAR < 350 || rem(gen,20) == 0) 
+                SelCh = twoopt(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
+            end
+
+            % Reinsert offspring into population, replacing parents
+            [Chrom(left:right,:),ObjV(left:right,:)] = reinsTSP(SURVIVOR_SELECTION, Chrom(left:right,:), SelCh, ObjV(left:right,:), ObjVSel);            
+            
+            % Island population exchange
+            %   (rate of exchange can be changed adaptively)
+            if rem(gen,10) == 0 && DIVERSIFICATION
+                [~,sorted] = sort(ObjV(left:right,:));
+                if i > 1
+                    maxidx = sorted(end-3:end);
+                    Chrom(maxidx,:) = minchrom;
+                    ObjV(maxidx,:) = minval;
+                end
+                minval = ObjV(left + sorted(1:4) - 1,:);
+                minchrom = Chrom(left + sorted(1:4) - 1,:);
+                if i == subpopulations
+                    [~,maxidx] = maxk(ObjV(1:spsize,:),4);
+                    Chrom(maxidx,:) = minchrom; 
+                    ObjV(maxidx,:) = minval;
+                end
+            end
+            
         end
         
-        % Reinsert offspring into population, replacing parents
-        [Chrom,ObjV] = reinsTSP(SURVIVOR_SELECTION, Chrom, SelCh, ObjV, ObjVSel);
-
         % Removes local loops
         Chrom = improve_population(NIND, NVAR, Chrom, LOCALLOOP, Dist, REPRESENTATION);
-
+        
         % Increment generation counter
         gen = gen+1;
 
