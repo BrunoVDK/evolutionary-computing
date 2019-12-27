@@ -14,7 +14,7 @@ PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'xseq_constructive';  % default crossover operator
 REPRESENTATION = 'path'; % default representation
-MUTATION = 'scramble'; % default mutation
+MUTATION = 'inversion'; % default mutation
 SCALING = false; % scale path yes or no
 HEURISTIC = 'hybridisation off'; % Local heuristic mode
 PARENT_SELECTION = 'linear_rank';
@@ -50,7 +50,8 @@ SURVIVOR_SELECTION = 'fitness_based';
 %    y=XY(:,2);
 %end
 
-if nargin < 1; run_it = 1; end
+visual = false;
+if nargin < 1; run_it = 1; visual = true; end
 if nargin < 2; PARALLEL = false; end
 
 % Load all the data sets
@@ -67,7 +68,7 @@ load_set(data, SCALING);
 NVAR=size(data,1);
 
 % initialise the user interface
-if run_it == 1
+if nargin < 1
     fh = figure('Visible','off','Name','TSP Tool','Position',[0,0,1024,768],'Resize','off');
     ah1 = axes('Parent',fh,'Position',[.1 .55 .4 .4]);
     plot(x,y,'ko')
@@ -97,7 +98,7 @@ nindslidertxt = uicontrol(ph,'Style','text','String','# Individuals','Position',
 nindslider = uicontrol(ph,'Style','slider','Max',1000,'Min',10,'Value',NIND,'Sliderstep',[0.001 0.05],'Position',[130 230 150 20],'Callback',@nindslider_Callback);
 nindsliderv = uicontrol(ph,'Style','text','String',NIND,'Position',[280 230 50 20]);
 genslidertxt = uicontrol(ph,'Style','text','String','# Generations','Position',[0 200 130 20]);
-genslider = uicontrol(ph,'Style','slider','Max',3000,'Min',10,'Value',MAXGEN,'Sliderstep',[0.001 0.05],'Position',[130 200 150 20],'Callback',@genslider_Callback);
+genslider = uicontrol(ph,'Style','slider','Max',1500,'Min',10,'Value',MAXGEN,'Sliderstep',[0.001 0.05],'Position',[130 200 150 20],'Callback',@genslider_Callback);
 gensliderv = uicontrol(ph,'Style','text','String',MAXGEN,'Position',[280 200 50 20]);
 mutslidertxt = uicontrol(ph,'Style','text','String','Pr. Mutation','Position',[0 170 130 20]);
 mutslider = uicontrol(ph,'Style','slider','Max',100,'Min',0,'Value',round(PR_MUT*100),'Sliderstep',[0.01 0.05],'Position',[130 170 150 20],'Callback',@mutslider_Callback);
@@ -142,8 +143,10 @@ set(fh,'Visible','on');
         load_set(data, SCALING)
         NVAR=size(data,1); 
         set(ncitiessliderv,'String',size(data,1));
-        axes(ah1);
-        plot(x,y,'ko') 
+        if visual
+            axes(ah1);
+            plot(x,y,'ko') 
+        end
     end
     function llooppopup_Callback(hObject,eventdata)
         lloop_value = get(hObject,'Value');
@@ -213,7 +216,7 @@ set(fh,'Visible','on');
         avgs = zeros(1,run_it);
         bests = zeros(1,run_it);
         worsts = zeros(1,run_it);
-        if run_it > 1
+        if ~visual
             if PARALLEL
                 distcomp.feature('LocalUseMpiexec', false)
 %                 x = repmat(x,1,run_it);
@@ -249,6 +252,7 @@ set(fh,'Visible','on');
             fprintf("Total CPU time : %.2fs\n", toc);
             fprintf("Results averaged over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", mean(bests), mean(avgs), mean(worsts));
             fprintf("Stds of results over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", std(bests), std(avgs), std(worsts));
+            fprintf("Overall best: %.2f\n", min(bests));
         else
             [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION, true);
             time = toc;

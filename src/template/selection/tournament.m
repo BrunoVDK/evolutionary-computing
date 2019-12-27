@@ -6,7 +6,6 @@ function [selected] = tournament(chromosomes, cost_values, generational_gap, k, 
 
     % Precalculated probabilities
     %   I used min before, but it lead to fast convergence
-    %   Set p smaller to reduce selective pressure
     probs = [cumsum((p*(1-p) .^ ((1:k-1)-1)) / (1 - (1-p)^k)) 1.0];
 
     % Init
