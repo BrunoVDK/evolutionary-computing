@@ -160,19 +160,21 @@ function [best,average,worst] = run_ga(...
             % Island population exchange
             %   (rate of exchange can be changed adaptively)
             if rem(gen,10) == 0 && DIVERSIFICATION
-                [~,sorted] = sort(ObjV(left:right,:));
+                min(ObjV)
+                [~,sortidx] = sort(ObjV(left:right,:));
                 if i > 1
-                    maxidx = sorted(end-3:end);
+                    maxidx = left + sortidx(end-3:end) - 1;
                     Chrom(maxidx,:) = minchrom;
                     ObjV(maxidx,:) = minval;
                 end
-                minval = ObjV(left + sorted(1:4) - 1,:);
-                minchrom = Chrom(left + sorted(1:4) - 1,:);
+                minval = ObjV(left + sortidx(1:4) - 1,:);
+                minchrom = Chrom(left + sortidx(1:4) - 1,:);
                 if i == subpopulations
                     [~,maxidx] = maxk(ObjV(1:spsize,:),4);
                     Chrom(maxidx,:) = minchrom; 
                     ObjV(maxidx,:) = minval;
                 end
+                min(ObjV)
             end
             
         end
