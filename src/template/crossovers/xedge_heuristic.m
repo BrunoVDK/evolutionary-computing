@@ -1,4 +1,4 @@
-function NewChromosome = xedge_recombination(OldChromosome, CrossoverRate, ~)
+function NewChromosome = xedge_heuristic(OldChromosome, CrossoverRate, ctx)
 
     if nargin < 2, CrossoverRate = NaN; end
     
@@ -57,7 +57,7 @@ function NewChromosome = xedge_recombination(OldChromosome, CrossoverRate, ~)
                         edge_map(e, 1+idx) = edge_map(e, 1+l);
                         edge_map(e,1) = l - 1;
                     end
-                    if edge_map(e,1) < edge_map(next_city,1)
+                    if ctx.dist(e,el) < ctx.dist(next_city,el)
                         next_city = e;
                     end
                 end

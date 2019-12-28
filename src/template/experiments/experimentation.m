@@ -16,6 +16,10 @@ xovsp([1:8 ; [2 4 6 8 7 5 3 1]], 1)
 % good for ordinal representation
 %% Edge Recombination (ERX)
 xedge_recombination([[1 2 3 4 5 6] ; [2 4 3 1 5 6]], 1)
+% Bug test
+%v1 = [13 12 2 14 6 4 3 8 7 9 5 15 11 16 1 10];
+%v2 = [2 6 12 10 15 8 16 13 7 11 9 5 4 3 1 14];
+%xedge_recombination([v2;v1],1);
 %% Maximal Preservative (MPX)
 xmax_preservative([(1:8);[2 4 6 8 7 5 3 1]],1)
 %% Sequential Constructive (SCX)
@@ -56,10 +60,10 @@ t_test(x)
 %% Thompson-Savur Test
 % http://www.cis.uoguelph.ca/~wineberg/publications/ECStat2004.pdf
 mu = 625;
-n = 10000 ; x = exprnd(625, 1, n);
+n = 60 ; x = exprnd(625, 1, n);
 % n = 50; x = 600 + randi(25, 1, n) - 10 * log(1:n);
 % n = 50; x = [ones(1,10) exp(1:.1:4)];
-b = binoinv(.05, n, .5);
+b = binoinv(.01, n, .5);
 l = b / (n-1);
 u = 1 - l;
 CI = [prctile(x,l*100), prctile(x,u*100)] %#ok

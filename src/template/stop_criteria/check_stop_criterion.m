@@ -12,7 +12,7 @@ function [stop] = check_stop_criterion(delta, best_list, no_generations, window_
 %   OUTPUT
 %   stop = boolean indicating of the threshold to stop was met
 result = stdfrac_efficiency(best_list, no_generations, window_size, efficiency_function);
-display(['Generation ', num2str(no_generations), ' stdev ', num2str(result)])
+%display(['Generation ', num2str(no_generations), ' stdev ', num2str(result)])
 %if ((no_generations > 1) || (no_generations == size(best_list, 2))) && (result <= epsilon)
 if (no_generations > window_size) && (result <= delta)
     stop = true;

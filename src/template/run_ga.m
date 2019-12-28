@@ -39,7 +39,7 @@ function [best,average,worst] = run_ga(...
 % ah1, ah2, ah3: axes handles to visualise tsp
 % {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP REPRESENTATION}
 
-    fprintf("Starting run with representation '%s', crossover '%s' and mutation '%s' (%i generations).\n", REPRESENTATION, CROSSOVER, MUTATION, MAXGEN);
+    % fprintf("Starting run with representation '%s', crossover '%s' and mutation '%s' (%i generations).\n", REPRESENTATION, CROSSOVER, MUTATION, MAXGEN);
 
     GGAP = 1 - ELITIST; % generation gap (see book, proportion of pop replaced)
 
@@ -102,11 +102,11 @@ function [best,average,worst] = run_ga(...
     while gen < MAXGEN
 
         sObjV = sort(ObjV); % Sorted fitness values
-        best(gen+1) = min(ObjV); % Highest fitness (smallest dist)
+        best(gen+1) = sObjV(1); % Highest fitness (smallest dist)
         minimum = best(gen+1); % Shorthand
         mean_fits(gen+1) = mean(ObjV); % Mean fitness
         worst(gen+1) = max(ObjV); % Worst fitness (maximum dist)
-        for t=1:size(ObjV,1) % Set t to the index of the minimum (could be done with min ...)
+        for t = 1:size(ObjV,1) % Set t to the index of the minimum (could be done with min ...)
             if (ObjV(t) == minimum)
                 break;
             end
@@ -165,7 +165,6 @@ function [best,average,worst] = run_ga(...
             % Island population exchange
             %   (rate of exchange can be changed adaptively)
             if rem(gen,10) == 0 && DIVERSIFICATION
-                min(ObjV)
                 [~,sortidx] = sort(ObjV(left:right,:));
                 if i > 1
                     maxidx = left + sortidx(end-3:end) - 1;
@@ -179,7 +178,6 @@ function [best,average,worst] = run_ga(...
                     Chrom(maxidx,:) = minchrom; 
                     ObjV(maxidx,:) = minval;
                 end
-                min(ObjV)
             end
             
         end
@@ -195,6 +193,6 @@ function [best,average,worst] = run_ga(...
     best = best(gen);
     worst = worst(gen);
     average = mean_fits(gen);
-    fprintf("Results : best = %.2f, avg = %.2f, worst = %.2f\n", best, average, worst);
+    % fprintf("Results : best = %.2f, avg = %.2f, worst = %.2f\n", best, average, worst);
     
 end

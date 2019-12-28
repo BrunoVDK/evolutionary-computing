@@ -11,6 +11,6 @@ function [efficiency] = efficiency1(best_list, no_generations)
 %   efficiency = the best efficiency value of all the completed generations
 bests = best_list(1,1:no_generations);
 efficiency = min(bests(1,:));
-display(['Calculated efficiency ', num2str(efficiency)])
+%display(['Calculated efficiency ', num2str(efficiency)])
 end
 

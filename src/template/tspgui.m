@@ -114,7 +114,7 @@ elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position'
 
 % Popups at the bottom
 representation = uicontrol(ph,'Style','popupmenu', 'String',{'path', 'adjacency', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative', 'xunnamed'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative', 'xunnamed', 'xedge_heuristic'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String', {'default stopping criterion', 'custom stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@stopping_Callback);
 heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt', 'both'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'linear_rank', 'exponential_rank', 'nonlinear_rank', 'fitness_proportional', 'sigma_scaling', 'tournament'}, 'Value',1,'Position',[170 80 160 20],'Callback',@parent_Callback);
