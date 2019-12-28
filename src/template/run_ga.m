@@ -18,7 +18,8 @@ function [best,average,worst] = run_ga(...
     PARENT_SELECTION, ...
     SURVIVOR_SELECTION, ...
     VISUAL, ...
-    DIVERSIFICATION)
+    DIVERSIFICATION, ...
+    STOP_CRITERION)
 % usage: run_ga(x, y,
 %               NIND, MAXGEN, NVAR,
 %               ELITIST, STOP_PERCENTAGE,
@@ -125,9 +126,9 @@ function [best,average,worst] = run_ga(...
 
         % Basic stop criterion
         %if (sObjV(stopN) - sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
-         %   break;
+        %   break;
         %end
-        if (check_stop_criterion(0.05, best, gen, 10, 3))
+        if check_stop_criterion(0.05, best, gen, 10, 3) && STOP_CRITERION > 1
             disp('Stop criterion met')
             break;
         end
