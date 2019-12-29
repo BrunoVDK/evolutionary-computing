@@ -2,23 +2,24 @@ function [best,worst,average,times] = tuning(print)
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % DEFAULT CONFIGURATION
-    NIND=50;		% Number of individuals
-    MAXGEN=100;		% Maximum no. of generations
+    NIND=200;		% Number of individuals
+    MAXGEN=300;		% Maximum no. of generations
     ELITIST=0.05;    % percentage of the elite population
     STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-    PR_CROSS=.95;     % probability of crossover
-    PR_MUT=.05;       % probability of mutation
+    PR_CROSS=.70;     % probability of crossover
+    PR_MUT=.55;       % probability of mutation
     LOCALLOOP=0;      % local loop removal
     CROSSOVER = 'xunnamed';  % default crossover operator
     REPRESENTATION = 'path'; % default representation
     MUTATION = 'inversion'; % default mutation
     SCALING = false; % scale path yes or no
-    HEURISTIC = "hybridisation off"; % Local heuristic mode
-    PARENT_SELECTION = 'linear_rank';
+    HEURISTIC = "both"; % Local heuristic mode
+    PARENT_SELECTION = 'tournament';
     SURVIVOR_SELECTION = 'fitness_based';
-    DIVERSIFICATION = 1;
-    STOP_CRITERION = 1;
-    REPETITIONS = 5;
+    DIVERSIFICATION = 1; % set to two for island model
+    STOP_CRITERION = 1; % set to two for our own stop criterion
+    REPETITIONS = 10;
+    ADAPTIVE = 1; % 2 to set it on
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if nargin < 1
@@ -35,15 +36,17 @@ function [best,worst,average,times] = tuning(print)
             "datasets/rondrit067.tsp",...
             "datasets/rondrit070.tsp",...
             "datasets/rondrit100.tsp",...
-            "datasets/rondrit127.tsp"];
+            "datasets/rondrit127.tsp",...
+            "datasets/belgiumtour.tsp",...
+            "datasets/xqf131.tsp"];
 
-    sample = datasets(1:5);
+    sample = datasets(4:6);
     best = zeros(REPETITIONS,length(sample));
     worst = zeros(REPETITIONS,length(sample));
     average = zeros(REPETITIONS,length(sample));
     times = zeros(1,length(sample));
         
-    for i = 1:length(sample)
+    for i = length(sample):length(sample)
         
         dataset = sample(i);
         data = load(dataset);
@@ -70,13 +73,15 @@ function [best,worst,average,times] = tuning(print)
                 NaN, ...
                 REPRESENTATION, ...
                 MUTATION, ...
-                HEURISTIC == "seeding" || HEURISTIC == "both", ...
-                HEURISTIC == "2-opt" || HEURISTIC == "both", ...
+                false, ... % no hybridisation
+                false, ... % no hybridisation
+                false, ... % no hybridisation
                 PARENT_SELECTION, ...
                 SURVIVOR_SELECTION, ...
                 false, ...
                 DIVERSIFICATION, ...
-                STOP_CRITERION);
+                STOP_CRITERION, ...
+                ADAPTIVE);
             if print
                 fprintf("CPU time : %.2fs\n", time);
                 fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", bs, avg, wst);

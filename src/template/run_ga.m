@@ -15,11 +15,13 @@ function [best,average,worst] = run_ga(...
     MUTATION, ...
     SEEDING, ...
     TWOOPT, ...
+    OROPT, ...
     PARENT_SELECTION, ...
     SURVIVOR_SELECTION, ...
     VISUAL, ...
     DIVERSIFICATION, ...
-    STOP_CRITERION)
+    STOP_CRITERION, ...
+    ADAPTIVE)
 % usage: run_ga(x, y,
 %               NIND, MAXGEN, NVAR,
 %               ELITIST, STOP_PERCENTAGE,
@@ -67,7 +69,7 @@ function [best,average,worst] = run_ga(...
         seed = nearest_neighbor(Dist);
     end
     for row = 1:NIND
-        if row < floor(NIND/30) && SEEDING
+        if row < max(2,floor(NIND/50)) && SEEDING
             individual = seed; % (local heuristic)
         else
             individual = randperm(NVAR);
@@ -149,14 +151,23 @@ function [best,average,worst] = run_ga(...
             % Recombine individuals (crossover + mutation)
             % PR_* denotes probability/rate (of crossover or mutation)
             SelCh = recombineTSP(CROSSOVER, SelCh, PR_CROSS, 1, ctx);
-            SelCh = mutateTSP(MUTATION, SelCh, PR_MUT, REPRESENTATION, ctx);
+            if ADAPTIVE > 1 && gen > 0.5 * MAXGEN
+                SelCh = mutateTSP(MUTATION, SelCh, gen/MAXGEN, REPRESENTATION, ctx);
+            else
+                SelCh = mutateTSP(MUTATION, SelCh, PR_MUT, REPRESENTATION, ctx);
+            end
 
             % Evaluate offspring, call objective function
             ObjVSel = tspfun(SelCh, Dist, REPRESENTATION);
 
             % Apply 2-opt
-            if TWOOPT && (NVAR < 350 || rem(gen,20) == 0) 
-                SelCh = twoopt(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
+            if ((ADAPTIVE < 2 && (NVAR < 350 || rem(gen,20) == 0)) || (ADAPTIVE > 1 && rem(gen, max(1,floor(gen/10))) == 0))
+                if TWOOPT
+                    SelCh = twoopt(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
+                end
+                if OROPT
+                    SelCh = oropt(SelCh, size(SelCh,1), size(Dist,1), Dist, REPRESENTATION);
+                end
             end
 
             % Reinsert offspring into population, replacing parents

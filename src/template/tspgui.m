@@ -9,18 +9,19 @@ PRECI=1;		% Precision of variables
 ELITIST=0.05;    % percentage of the elite population
 GGAP=1-ELITIST;		% Generation gap
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-PR_CROSS=.95;     % probability of crossover
-PR_MUT=.05;       % probability of mutation
+PR_CROSS=.70;     % probability of crossover
+PR_MUT=.25;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
-CROSSOVER = 'xseq_constructive';  % default crossover operator
+CROSSOVER = 'xunnamed';  % default crossover operator
 REPRESENTATION = 'path'; % default representation
-MUTATION = 'inversion'; % default mutation
+MUTATION = 'simple_inversion'; % default mutation
 SCALING = false; % scale path yes or no
 HEURISTIC = 'hybridisation off'; % Local heuristic mode
-PARENT_SELECTION = 'linear_rank';
+PARENT_SELECTION = 'tournament';
 SURVIVOR_SELECTION = 'fitness_based';
 DIVERSIFICATION = 1;
 STOP_CRITERION = 1;
+ADAPTIVE = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population
@@ -114,14 +115,14 @@ elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position'
 
 % Popups at the bottom
 representation = uicontrol(ph,'Style','popupmenu', 'String',{'path', 'adjacency', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative', 'xunnamed', 'xedge_heuristic'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xunnamed', 'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative', 'xedge_heuristic'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String', {'default stopping criterion', 'custom stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@stopping_Callback);
-heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt', 'both'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
-parent = uicontrol(ph,'Style','popupmenu', 'String',{'linear_rank', 'exponential_rank', 'nonlinear_rank', 'fitness_proportional', 'sigma_scaling', 'tournament'}, 'Value',1,'Position',[170 80 160 20],'Callback',@parent_Callback);
+heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt', 'both', 'or-opt', 'all'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
+parent = uicontrol(ph,'Style','popupmenu', 'String',{'tournament', 'linear_rank', 'exponential_rank', 'nonlinear_rank', 'fitness_proportional', 'sigma_scaling'}, 'Value',1,'Position',[170 80 160 20],'Callback',@parent_Callback);
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'fitness_based', 'mu_lambda', 'round_robin', 'uniform'}, 'Value',1,'Position',[170 50 120 20],'Callback',@survivor_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','island model'}, 'Value',1,'Position',[290 50 120 20],'Callback',@diversity_Callback);
-adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@crossover_Callback);
-mutation = uicontrol(ph,'Style','popupmenu', 'String',{'inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'simple_inversion', 'scramble', 'unnamed'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
+adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@adaptive_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{'simple_inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'scramble', 'unnamed'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
@@ -218,6 +219,9 @@ set(fh,'Visible','on');
         avgs = zeros(1,run_it);
         bests = zeros(1,run_it);
         worsts = zeros(1,run_it);
+        SEEDING = HEURISTIC == "seeding" || HEURISTIC == "both" || HEURISTIC == "all";
+        TWOOPT = HEURISTIC == "2-opt" || HEURISTIC == "both" || HEURISTIC == "all";
+        OROPT = HEURISTIC == "or-opt" || HEURISTIC == "all";
         if ~visual
             if PARALLEL
                 distcomp.feature('LocalUseMpiexec', false)
@@ -238,14 +242,14 @@ set(fh,'Visible','on');
 %                 PARENT_SELECTION = repmat(convertCharsToStrings(PARENT_SELECTION),1,run_it);
 %                 SURVIVOR_SELECTION = repmat(convertCharsToStrings(SURVIVOR_SELECTION),1,run_it);
                 parfor pi = 1:run_it
-                    [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION);
+                    [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
                     bests(pi) = best;
                     avgs(pi) = avg;
                     worsts(pi) = worst;
                 end
             else
                 for pi = 1:run_it
-                    [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION);
+                    [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
                     bests(pi) = best;
                     avgs(pi) = avg;
                     worsts(pi) = worst;
@@ -256,7 +260,7 @@ set(fh,'Visible','on');
             fprintf("Stds of results over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", std(bests), std(avgs), std(worsts));
             fprintf("Overall best: %.2f\n", min(bests));
         else
-            [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, HEURISTIC == "seeding" || HEURISTIC == "both", HEURISTIC == "2-opt" || HEURISTIC == "both", PARENT_SELECTION, SURVIVOR_SELECTION, true, DIVERSIFICATION, STOP_CRITERION);
+            [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, true, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
             time = toc;
             fprintf("CPU time : %.2fs\n", time);
             fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", best, avg, worst);
@@ -315,6 +319,9 @@ set(fh,'Visible','on');
     end
     function stopping_Callback(hObject,eventdata)
         STOP_CRITERION = get(hObject,'Value');
+    end
+    function adaptive_Callback(hObject,eventdata)
+        ADAPTIVE = get(hObject,'Value');
     end
 
 end
