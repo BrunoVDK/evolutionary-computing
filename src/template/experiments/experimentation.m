@@ -10,7 +10,9 @@ xorder_based([[8 7 6 5 4 3 2 1] ; [2 4 6 8 7 5 3 1]], 1)
 %% Position
 xposition_based([1:8 ; [2 4 6 8 7 5 3 1]], 1)
 %% Heuristic
-
+ctx = context;
+ctx.dist = rand(8);
+xheuristic([8 1:7 ; [2 4 1 6 3 8 5 7]], 1, ctx)
 %% Single-Point (built-in)
 xovsp([1:8 ; [2 4 6 8 7 5 3 1]], 1)
 % good for ordinal representation

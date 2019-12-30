@@ -101,7 +101,7 @@ nindslidertxt = uicontrol(ph,'Style','text','String','# Individuals','Position',
 nindslider = uicontrol(ph,'Style','slider','Max',1000,'Min',10,'Value',NIND,'Sliderstep',[0.001 0.05],'Position',[130 230 150 20],'Callback',@nindslider_Callback);
 nindsliderv = uicontrol(ph,'Style','text','String',NIND,'Position',[280 230 50 20]);
 genslidertxt = uicontrol(ph,'Style','text','String','# Generations','Position',[0 200 130 20]);
-genslider = uicontrol(ph,'Style','slider','Max',1500,'Min',10,'Value',MAXGEN,'Sliderstep',[0.001 0.05],'Position',[130 200 150 20],'Callback',@genslider_Callback);
+genslider = uicontrol(ph,'Style','slider','Max',30000,'Min',10,'Value',MAXGEN,'Sliderstep',[0.001 0.05],'Position',[130 200 150 20],'Callback',@genslider_Callback);
 gensliderv = uicontrol(ph,'Style','text','String',MAXGEN,'Position',[280 200 50 20]);
 mutslidertxt = uicontrol(ph,'Style','text','String','Pr. Mutation','Position',[0 170 130 20]);
 mutslider = uicontrol(ph,'Style','slider','Max',100,'Min',0,'Value',round(PR_MUT*100),'Sliderstep',[0.01 0.05],'Position',[130 170 150 20],'Callback',@mutslider_Callback);
@@ -115,14 +115,14 @@ elitsliderv = uicontrol(ph,'Style','text','String',round(ELITIST*100),'Position'
 
 % Popups at the bottom
 representation = uicontrol(ph,'Style','popupmenu', 'String',{'path', 'adjacency', 'ordinal'}, 'Value',1,'Position',[180 262 180 20],'Callback',@representation_Callback);
-crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xunnamed', 'xseq_constructive', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative', 'xedge_heuristic'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
+crossover = uicontrol(ph,'Style','popupmenu', 'String',{'xunnamed', 'xseq_constructive', 'xheuristic', 'xalt_edges', 'xpartial_map', 'xcycle', 'xorder', 'xorder_based', 'xposition_based', 'xovsp', 'xedge_recombination', 'xmax_preservative', 'xedge_heuristic'}, 'Value',1,'Position',[10 80 160 20],'Callback',@crossover_Callback);
 stop = uicontrol(ph,'Style','popupmenu', 'String', {'default stopping criterion', 'custom stopping criterion'}, 'Value',1,'Position',[10 50 160 20],'Callback',@stopping_Callback);
 heuristic = uicontrol(ph,'Style','popupmenu', 'String',{'hybridisation off', 'seeding', '2-opt', 'both', 'or-opt', 'all'}, 'Value',1,'Position',[10 20 130 20],'Callback',@heuristic_Callback);
 parent = uicontrol(ph,'Style','popupmenu', 'String',{'tournament', 'linear_rank', 'exponential_rank', 'nonlinear_rank', 'fitness_proportional', 'sigma_scaling'}, 'Value',1,'Position',[170 80 160 20],'Callback',@parent_Callback);
 survivor = uicontrol(ph,'Style','popupmenu', 'String',{'fitness_based', 'mu_lambda', 'round_robin', 'uniform'}, 'Value',1,'Position',[170 50 120 20],'Callback',@survivor_Callback);
 diversity = uicontrol(ph,'Style','popupmenu', 'String',{'diversity off','island model'}, 'Value',1,'Position',[290 50 120 20],'Callback',@diversity_Callback);
 adaptive = uicontrol(ph,'Style','popupmenu', 'String',{'adaptive parameter off', 'adaptive parameter on'}, 'Value',1,'Position',[140 20 150 20],'Callback',@adaptive_Callback);
-mutation = uicontrol(ph,'Style','popupmenu', 'String',{'simple_inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'scramble', 'unnamed'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
+mutation = uicontrol(ph,'Style','popupmenu', 'String',{'simple_inversion', 'inversion', 'reciprocal_exchange', 'displacement', 'insertion', 'scramble', 'unnamed'}, 'Value',1,'Position',[290 20 130 20],'Callback',@mutation_Callback);
 
 %inputbutton = uicontrol(ph,'Style','pushbutton','String','Input','Position',[55 10 70 30],'Callback',@inputbutton_Callback);
 runbutton = uicontrol(ph,'Style','pushbutton','String','START','Position',[340 292 50 20],'Callback',@runbutton_Callback);
