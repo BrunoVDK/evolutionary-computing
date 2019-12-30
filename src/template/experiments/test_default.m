@@ -1,4 +1,4 @@
-function [best,worst,average,times] = tuning(print)
+function [best,worst,average,times] = test_default(print)
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % DEFAULT CONFIGURATION

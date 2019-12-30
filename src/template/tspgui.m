@@ -242,14 +242,14 @@ set(fh,'Visible','on');
 %                 PARENT_SELECTION = repmat(convertCharsToStrings(PARENT_SELECTION),1,run_it);
 %                 SURVIVOR_SELECTION = repmat(convertCharsToStrings(SURVIVOR_SELECTION),1,run_it);
                 parfor pi = 1:run_it
-                    [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
+                    [best,avg,worst,gen] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
                     bests(pi) = best;
                     avgs(pi) = avg;
                     worsts(pi) = worst;
                 end
             else
                 for pi = 1:run_it
-                    [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
+                    [best,avg,worst,gen] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, NaN, NaN, NaN, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, false, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
                     bests(pi) = best;
                     avgs(pi) = avg;
                     worsts(pi) = worst;
@@ -260,7 +260,7 @@ set(fh,'Visible','on');
             fprintf("Stds of results over all runs : best = %.2f, avg = %.2f, worst = %.2f\n", std(bests), std(avgs), std(worsts));
             fprintf("Overall best: %.2f\n", min(bests));
         else
-            [best,avg,worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, true, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
+            [best,avg,worst,gen] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3, REPRESENTATION, MUTATION, SEEDING, TWOOPT, OROPT, PARENT_SELECTION, SURVIVOR_SELECTION, true, DIVERSIFICATION, STOP_CRITERION, ADAPTIVE);
             time = toc;
             fprintf("CPU time : %.2fs\n", time);
             fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", best, avg, worst);
