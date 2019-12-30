@@ -22,15 +22,15 @@ function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, PR_CROSS, P
     ADAPTIVE = 1; % 2 to set it on
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    if STOP_CRITERION > 2
-        disp('Convergence speed test');
-    else
-        disp('Fitness test');
-    end
+    %if STOP_CRITERION > 2
+     %   disp('Convergence speed test');
+    %else
+     %   disp('Fitness test');
+    %end
     
-    display('NIND ' + num2str(NIND) + ' MAXGEN ' + num2str(MAXGEN) + ' PR_CROSS ' + PR_CROSS ...
-        + ' PR_MUT ' + PR_MUT + ' REPETITIONS ' + REPETITIONS + ' STOP_CRITERION ' ...
-        + STOP_CRITERION);
+    %display('NIND ' + num2str(NIND) + ' MAXGEN ' + num2str(MAXGEN) + ' PR_CROSS ' + PR_CROSS ...
+     %   + ' PR_MUT ' + PR_MUT + ' REPETITIONS ' + REPETITIONS + ' STOP_CRITERION ' ...
+      %  + STOP_CRITERION);
         
 
     if nargin < 1
@@ -48,7 +48,6 @@ function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, PR_CROSS, P
     generations = zeros(REPETITIONS,length(sample));
     times = zeros(1,length(sample));
         
-    disp('Starting default test');
     
     for i = 1:length(sample) 
         
@@ -86,10 +85,10 @@ function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, PR_CROSS, P
                 DIVERSIFICATION, ...
                 STOP_CRITERION, ...
                 ADAPTIVE);
-            if print
-                fprintf("CPU time : %.2fs\n", time);
-                fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", bs, avg, wst);
-            end
+            %if print
+             %   fprintf("CPU time : %.2fs\n", time);
+              %  fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", bs, avg, wst);
+            %end
             totaltime = totaltime + time;
             best(r,i) = bs;
             worst(r,i) = wst;
@@ -97,9 +96,9 @@ function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, PR_CROSS, P
             generations(r,i) = gen;
         end
         if STOP_CRITERION < 3 % test on fitness
-            display('Route: ' +  dataset + '\t avg best: ' + num2str(mean(best(:,i))) + '\t stdev best: ' + num2str(std(best(:,i))));
+            fprintf('Route:\t ' +  dataset + '\t avg best:\t' + num2str(mean(best(:,i))) + '\t stdev best:\t' + num2str(std(best(:,i))) + '\n');
         else % test on convergence speed
-            display('Route: ' +  dataset + '\t avg gen: ' + num2str(mean(gen(:,i))) + '\t stdev gen: ' + num2str(std(gen(:,i))));
+            fprintf('Route:\t ' +  dataset + '\t avg gen:\t' + num2str(mean(gen(:,i))) + '\t stdev gen:\t ' + num2str(std(gen(:,i))) + '\n');
         end
         times(i) = totaltime;
     end
