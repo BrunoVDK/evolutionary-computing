@@ -1,53 +1,56 @@
-function [best,worst,average,times] = test_default(print)
+function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, PR_CROSS, PR_MUT, REPETITIONS, STOP_CRITERION)
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % DEFAULT CONFIGURATION
-    NIND=200;		% Number of individuals
-    MAXGEN=300;		% Maximum no. of generations
+    %NIND=50;		% Number of individuals
+    %MAXGEN=100;		% Maximum no. of generations
     ELITIST=0.05;    % percentage of the elite population
     STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
-    PR_CROSS=.70;     % probability of crossover
-    PR_MUT=.55;       % probability of mutation
+    %PR_CROSS=.70;     % probability of crossover
+    %PR_MUT=.20;       % probability of mutation
     LOCALLOOP=0;      % local loop removal
-    CROSSOVER = 'xunnamed';  % default crossover operator
-    REPRESENTATION = 'path'; % default representation
-    MUTATION = 'inversion'; % default mutation
+    CROSSOVER = 'xalt_edges';  % default crossover operator
+    REPRESENTATION = 'adjacency'; % default representation
+    MUTATION = 'simple_inversion'; % default mutation
     SCALING = false; % scale path yes or no
-    HEURISTIC = "both"; % Local heuristic mode
-    PARENT_SELECTION = 'tournament';
+    HEURISTIC = "hybridisation_off"; % Local heuristic mode
+    PARENT_SELECTION = 'linear_rank';
     SURVIVOR_SELECTION = 'fitness_based';
     DIVERSIFICATION = 1; % set to two for island model
-    STOP_CRITERION = 1; % set to two for our own stop criterion
-    REPETITIONS = 10;
+    %STOP_CRITERION = 1; % set to two for our own stop criterion
+    %REPETITIONS = 20;
     ADAPTIVE = 1; % 2 to set it on
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    if STOP_CRITERION > 2
+        disp('Convergence speed test');
+    else
+        disp('Fitness test');
+    end
+    
+    display('NIND ' + num2str(NIND) + ' MAXGEN ' + num2str(MAXGEN) + ' PR_CROSS ' + PR_CROSS ...
+        + ' PR_MUT ' + PR_MUT + ' REPETITIONS ' + REPETITIONS + ' STOP_CRITERION ' ...
+        + STOP_CRITERION);
+        
 
     if nargin < 1
         print = false;
     end
     
-    datasets = ["datasets/rondrit016.tsp",...
-            "datasets/rondrit018.tsp",...
-            "datasets/rondrit023.tsp",...
-            "datasets/rondrit025.tsp",...
-            "datasets/rondrit048.tsp",...
-            "datasets/rondrit050.tsp",...
-            "datasets/rondrit051.tsp",...
-            "datasets/rondrit067.tsp",...
-            "datasets/rondrit070.tsp",...
-            "datasets/rondrit100.tsp",...
+    datasets = ["datasets/rondrit051.tsp",...
             "datasets/rondrit127.tsp",...
-            "datasets/belgiumtour.tsp",...
-            "datasets/xqf131.tsp"];
+            "datasets/bcl380.tsp"];
 
-    sample = datasets(4:6);
+    sample = datasets(:);
     best = zeros(REPETITIONS,length(sample));
     worst = zeros(REPETITIONS,length(sample));
     average = zeros(REPETITIONS,length(sample));
     generations = zeros(REPETITIONS,length(sample));
     times = zeros(1,length(sample));
         
-    for i = length(sample):length(sample)
+    disp('Starting default test');
+    
+    for i = 1:length(sample) 
         
         dataset = sample(i);
         data = load(dataset);
@@ -93,12 +96,18 @@ function [best,worst,average,times] = test_default(print)
             average(r,i) = avg;
             generations(r,i) = gen;
         end
+        if STOP_CRITERION < 3 % test on fitness
+            display('Route: ' +  dataset + '\t avg best: ' + num2str(mean(best(:,i))) + '\t stdev best: ' + num2str(std(best(:,i))));
+        else % test on convergence speed
+            display('Route: ' +  dataset + '\t avg gen: ' + num2str(mean(gen(:,i))) + '\t stdev gen: ' + num2str(std(gen(:,i))));
+        end
         times(i) = totaltime;
     end
     
     best = mean(best);
     worst = mean(worst);
     average = mean(average);
+    gen = mean(generations);
     times = times / REPETITIONS;
     
     function load_set(data, scale)
