@@ -18,26 +18,17 @@ To get an initial feel for what may or may not be worth it, 225 configurations (
 \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} \\\hline 
 [150,300,1000] & [5,25,50,75,95] & [5,25,50,75,95] & [1,5,10]
 \end{tabular}
-\caption{Parameter ranges for the initial experiments. Each configuration was run 10 times on 5 different datasets (with 25, 41, 70 and 127 cities). No stopping criterion was applied, and each run lasted 250 generations.}
+\caption{Parameter ranges for the initial experiments. Each configuration was run 10 times on 4 different datasets (with 25, 41, 70 and 127 cities). These datasets were chosen since they appeared representative enough. No stopping criterion was applied, and each run lasted 250 generations. }
 \label{tab:par1}
 \end{table}
 
-\noindent After selecting 4 datasets (with an increasing amount of cities) each of the resulting algorithms were ran 10 times. The resulting (best, average and worst) tour lengths and runtimes were averaged. The best tour found by each was also recorded, since the very point of the traveling salesman problem is to find the smallest possible tour. Diversity of solutions is only of indirect benefit as it increases the probability of reaching a global optimum.\\
+\noindent After selecting 4 datasets (with an increasing amount of cities) each of the resulting algorithms were ran 10 times. The resulting (best, average and worst) tour lengths and runtimes were averaged. The best tour found by each was also recorded, since the very point of the traveling salesman problem is to find the smallest possible tour. Diversity of solutions is only of indirect benefit as it increases the probability of reaching a global optimum. Just one of these metrics is visualised in tables \ref{tab:res1} to \ref{tab:res3}.\\
 
-\par\noindent Two observations could be made ; larger population sizes improve results and lead to longer runtimes, and setting the rate of elitism too low is contra-productive. The first is not surprising since a larger population may increase diversity and the probability of finding a better local (or even global) minimum. At its worst it introduces redundancy and needlessly increases runtime. As for the second conclusion, retaining a reasonable proportion of the best individuals looks like a safe bet. Higher levels of elitism proved to be fruitless. While better individuals may appear attractive to the greedy, some of them represent local optima that may safely be disregarded. Though they may prove useful if the crossover operator can make full use of the information they carry. The default (alternating edge) crossover is not particularly fit for this purpose.\\
+\par\noindent Aside from the obvious conclusion that the first benchmark is a tad too easy to resolve, two observations could be made ; larger population sizes improve results and lead to longer runtimes, and setting the rate of elitism too low is contra-productive. The first is not surprising since a larger population may increase diversity and the probability of finding a better local (or even global) minimum. At its worst it introduces redundancy and needlessly increases runtime. As for the second conclusion, retaining a reasonable proportion of the best individuals looks like a safe bet. Higher levels of elitism proved to be fruitless. While better individuals may appear attractive to the greedy, some of them probably represent second-hand solutions (those that haven't been mutated to one of the better individuals yet, or better individuals that have been unsuccessfully mutated) that may safely be disregarded.\\
 
-\par\noindent It can be noted that just 10 runs and 250 generations is hardly enough (from a statistical point of view). Only soft conclusions were drawn and limited computing power and time was available. Subsequent experiments were run 30 times per configuration. Additionally, while the number of values that were tried per parameter isn't very high, testing out more values would make for a combinatorial explosion. So only a small part of the utility landscape was explored.\\
+\par\noindent One more surprising result is that higher mutation - and crossover rates appeared to worsen results. Since this might be related to slower rates of convergence or the efficacy of the crossover (alternating edges in this case), only rates of 5\% and 95\% were abandoned in subsequent experiments.\\
 
-\par\noindent Perform \emph{a limited set} of experiments by varying the parameters of the existing genetic algorithm (population size, probabilities, \ldots) and evaluate the performance (quality of the solutions).
-\begin{enumerate}
-
-\item Data set(s) used  \& explain why you selected these data set(s)
-\item Parameters considered and intervals/values
-\item  Performance criteria used
-\item Test results 
-\item Discussion of test results
-
-\end{enumerate}
+\par\noindent It can be noted that just 10 runs and 250 generations is hardly enough (from a statistical point of view). However, only soft conclusions were drawn and limited computing power and time was available. Subsequent experiments were run 30 times per configuration. Additionally, while the number of values that were tried per parameter isn't very high, testing out more values would make for a combinatorial explosion. So only a small part of the utility landscape was explored.
 
 \fakesection{Stopping Criterion}
 Implement a stopping criterion that avoids that rather useless iterations (generations) are computed.
