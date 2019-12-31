@@ -39,7 +39,7 @@ function [results] = tuning(print)
     idx = 1;
     results = {}; % one result per configuration
             
-    for NIND = [150]
+    for NIND = [300]
         for PR_MUT = [10, 25, 50, 75, 95] / 100
             for PR_CROSS = [5, 25, 50, 75, 95] / 100
                 for ELITIST = [1, 5, 10] / 100
