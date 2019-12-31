@@ -26,7 +26,6 @@
 \newboolean{anonymize}
 \DeclareOption{peerreview}{\setboolean{anonymize}{true}}
 \PassOptionsToClass{10pt,a4paper}{article}
-\PassOptionsToPackage{dutch}{babel}
 \PassOptionsToPackage{utf8}{inputenc}
 \PassOptionsToPackage{T1}{fontenc}
 \PassOptionsToPackage{a4paper}{geometry}

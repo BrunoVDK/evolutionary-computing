@@ -1,16 +1,11 @@
 
 \begin{center}
-\textit{A toolbox for solving the traveling salesman problem (TSP) was provided. Some parameter tuning with the default operators, selection methods, ... was performed. New tour representation were implemented with accompanying operators. Local heuristics, other selection methods, the island model, adaptive parameter tuning and a seeding technique were experimented with. The results are outlined below. Footnotes can be disregarded ; they provide the name of relevant source code files (all written in \texttt{MATLAB}).}\\
-\textit{
-Please use this template to structure your report to facilitate the reading and evaluation.\\
-Do not repeat information from the textbook (e.g.\ if you use a crossover operator described in the book: don't copy the explanation or algorithm, but refer to the relevant page).
-The report should be $\approx$ 10 pages long; if useful you can add extra details in appendices (not included in the $\approx$ 10 pages).
-}
+\textit{A toolbox for solving the traveling salesman problem (TSP) was provided. Some parameter tuning with the default operators, selection methods, ... was performed. New tour representations and accompanying operators were implemented. Local heuristics, other selection methods, the island model, adaptive parameter tuning and a seeding technique were experimented with. The results are outlined below. Footnotes can be disregarded ; they provide the name of relevant source code files (all written in \texttt{MATLAB}).}
 \end{center}
 
 \fakesection{Existing Genetic Algorithm}
 
-To get an initial feel for what may or may not be worth it, 225 configurations (table \ref{tab:par1}) were experimented with for a total of 13,500 runs. This made it possible to draw some initial conclusions and perform some increasingly targeted experiments afterwards. All of the experiments outlined throughout this report were automated, with occasional use of parallelism (using \texttt{MATLAB}'s parallel computing toolbox).
+To get an initial feel for what may or may not be worth it, 225 configurations (table \ref{tab:par1}) were experimented with for a total of 13,500 runs\footnote{\texttt{/experiments/*.m}}. This made it possible to draw some initial conclusions and perform some increasingly targeted experiments afterwards. All of the experiments outlined throughout this report were automated, with occasional use of parallelism (using \texttt{MATLAB}'s parallel computing toolbox).
 
 \begin{table}[h]
 \centering
@@ -72,7 +67,7 @@ Implement and use another representation and appropriate crossover and mutation 
 
 \fakesection{Local Optimisation}
 
-Aside from the loop detection that was already part of the toolbox, two of the more simple heuristics were applied on some of the benchmarks. \textit{Two-opt} and \textit{Or-opt} in particular. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they're simple to implement and provide good results. The time complexity of improving a tour with those is $\mathcal{O}(N^2)$. The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. While a bit preliminary, we tested out one of the better crossovers in combination with these heuristics on \texttt{XQF131}. A near-optimal tour was found with just one erroneous sequence in the bottom left corner.\\
+In addition to the loop detection heuristic which was already part of the toolbox, two of the more simple heuristics were applied on some of the benchmarks. \textit{Two-opt} and \textit{Or-opt} in particular. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they're simple to implement and provide good results. The time complexity of improving a tour with those is $\mathcal{O}(N^2)$. The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. Though a bit preliminary, we tested out one of the better crossovers in combination with these heuristics on \texttt{XQF131}. A near-optimal tour was found with just one erroneous sequence in the bottom left corner.\\
 
 Test to which extent a local optimisation heuristic can improve the result.
 \begin{enumerate}
