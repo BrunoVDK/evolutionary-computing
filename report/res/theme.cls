@@ -48,6 +48,7 @@
 \RequirePackage{xparse}
 \RequirePackage{expl3}
 \RequirePackage{enumitem}
+\usepackage{titlesec}
 \RequirePackage{minitoc}
 %\IfFileExists{fontawesome.sty}{%
 %    \RequirePackage{fontawesome}
@@ -66,17 +67,24 @@
 \RequirePackage{lcg}
 \pagenumbering{arabic}
 
-\newcommand{\fakesection}[1]{
-	\section*{#1}
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Large}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large}
+  {\thesection}{1em}{}
+
+\newcommand{\fakesection}[2]{
+	\section*{#1#2}
 	\par\refstepcounter{section}
 	\addcontentsline{toc}{section}{#1}
 }
-\newcommand{\fakesubsection}[1]{
-	\subsection*{#1}
+\newcommand{\fakesubsection}[2]{
+	\subsection*{#1#2}
 	\par\refstepcounter{subsection}
-	\addcontentsline{toc}{subsection}{\protect\numberline{\thesubsection}#1}
+	\addcontentsline{toc}{subsection}{#1}
 }
-
 
 \newtoks\authors
 \newtoks\academicyear

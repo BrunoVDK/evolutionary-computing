@@ -1,11 +1,11 @@
 
 \begin{center}
-\textit{A toolbox for solving the traveling salesman problem (TSP) was provided. Some parameter tuning with the default operators, selection methods, ... was performed. New tour representations and accompanying operators were implemented. Local heuristics, other selection methods, the island model, adaptive parameter tuning and a seeding technique were experimented with. The results are outlined below. Footnotes can be disregarded ; they provide the name of relevant source code files (all written in \texttt{MATLAB}).}
+\textit{A toolbox for solving the traveling salesman problem (TSP) was provided. Some parameter tuning with the default operators, selection methods, ... was performed. New tour representations and accompanying operators were implemented. Local heuristics, other selection methods, the island model, adaptive parameter tuning and a seeding technique were experimented with. The results are outlined below.Pointers to relevant source code files are provided next to section headings (all code is written in \texttt{MATLAB}).}
 \end{center}
 
-\fakesection{Existing Genetic Algorithm}
+\fakesection{Existing Genetic Algorithm}{\hfill\small\texttt{/experiments/*.m}}
 
-To get an initial feel for what may or may not be worth it, 225 configurations (table \ref{tab:par1}) were experimented with for a total of 13,500 runs\footnote{\texttt{/experiments/*.m}}. This made it possible to draw some initial conclusions and perform some increasingly targeted experiments afterwards. All of the experiments outlined throughout this report were automated, with occasional use of parallelism (using \texttt{MATLAB}'s parallel computing toolbox).
+To get an initial feel for what may or may not be worth it, 375 configurations (table \ref{tab:par1}) were experimented with for a total of 15,000 runs. This made it possible to draw some initial conclusions and perform some increasingly targeted experiments afterwards. All of the experiments outlined throughout this report were automated, with occasional use of parallelism (using \texttt{MATLAB}'s parallel computing toolbox).
 
 \begin{table}[h]
 \centering
@@ -13,19 +13,21 @@ To get an initial feel for what may or may not be worth it, 225 configurations (
 \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} \\\hline 
 [150,300,1000] & [5,25,50,75,95] & [5,25,50,75,95] & [1,5,10]
 \end{tabular}
-\caption{Parameter ranges for the initial experiments. Each configuration was run 10 times on 4 different datasets (with 25, 41, 70 and 127 cities). These datasets were chosen since they appeared representative enough. No stopping criterion was applied, and each run lasted 250 generations. }
+\caption{Parameter ranges for the initial experiments. Each configuration was run 10 times on 4 different datasets (with 25, 41, 70 and 127 cities). No stopping criterion was applied, and each run lasted 250 generations. For all configurations with population size set to 150 we also performed runs with 500 generations and higher rates of elitism. Results are visualised in tables \ref{tab:res1} to \ref{tab:res5}.}
 \label{tab:par1}
 \end{table}
 
-\noindent After selecting 4 datasets (with an increasing amount of cities) each of the resulting algorithms were ran 10 times. The resulting (best, average and worst) tour lengths and runtimes were averaged. The best tour found by each was also recorded, since the very point of the traveling salesman problem is to find the smallest possible tour. Diversity of solutions is only of indirect benefit as it increases the probability of reaching a global optimum. Just one of these metrics is visualised in tables \ref{tab:res1} to \ref{tab:res3}.\\
+\noindent After selecting 4 datasets (with an increasing amount of cities) each of the resulting algorithms were ran 10 times. The resulting (best, average and worst) tour lengths and runtimes were recorded and averaged. The best tour found by each was also recorded, since the very point of the traveling salesman problem is to find the smallest possible tour. Diversity of solutions is only of indirect benefit as it increases the probability of reaching a global optimum. The minimum tour length found. by every configuration is visualised in tables \ref{tab:res1} to \ref{tab:res5}. It is calibrated against the minimum and maximum found by any of the 375 configurations (darker cells in the table indicate better solutions).\\
 
-\par\noindent Aside from the obvious conclusion that the first benchmark is a tad too easy to resolve, two observations could be made ; larger population sizes improve results and lead to longer runtimes, and setting the rate of elitism too low is contra-productive. The first is not surprising since a larger population may increase diversity and the probability of finding a better local (or even global) minimum. At its worst it introduces redundancy and needlessly increases runtime. As for the second conclusion, retaining a reasonable proportion of the best individuals looks like a safe bet. Higher levels of elitism proved to be fruitless. While better individuals may appear attractive to the greedy, some of them probably represent second-hand solutions (those that haven't been mutated to one of the better individuals yet, or better individuals that have been unsuccessfully mutated) that may safely be disregarded.\\
+\par\noindent Aside from the obvious conclusion that the first benchmark is a tad too easy to resolve, two observations could be made ; larger population sizes improve results and lead to longer runtimes, and setting the rate of elitism too low is contra-productive. The first is not surprising since a larger population may increase diversity and the probability of finding a better local (or even global) minimum. At its worst it introduces redundancy and needlessly increases runtime. As for the second conclusion, retaining a reasonable proportion of the best individuals looks like a safe bet. Higher levels of elitism (> 10\%) proved to be somewhat less fruitful. While better individuals may appear attractive to the greedy, some of them probably represent second-hand solutions (those that haven't been mutated to one of the better individuals yet, or better individuals that have been unsuccessfully mutated) that may safely be disregarded.\\
+
+\par\noindent The effect of population size was suspected to be due - at least partially - to increased speed of convergence. This was tested by running all configurations with population size of 150 for a larger number of generations which confirmed the suspicion (table \ref{tab:res4}). Therefor, future experiments use a reasonably large population size (300), fair rate of elitism (5-10\%) and an appropriate stopping criterion (or the number of generations is set reasonably high).\\
 
 \par\noindent One more surprising result is that higher mutation - and crossover rates appeared to worsen results. Since this might be related to slower rates of convergence or the efficacy of the crossover (alternating edges in this case), only rates of 5\% and 95\% were abandoned in subsequent experiments.\\
 
-\par\noindent It can be noted that just 10 runs and 250 generations is hardly enough (from a statistical point of view). However, only soft conclusions were drawn and limited computing power and time was available. Subsequent experiments were run 30 times per configuration. Additionally, while the number of values that were tried per parameter isn't very high, testing out more values would make for a combinatorial explosion. So only a small part of the utility landscape was explored.
+\par\noindent It can be noted that just 10 runs and 250 generations is hardly enough (from a statistical point of view). However, only soft conclusions were drawn and limited computing power and time was available. Subsequent experiments were run 30 times per configuration and may apply a stopping criterion such as to avoid prematurely stopping a run. Additionally, while the number of values that were tried per parameter isn't very high, testing out more values would make for a combinatorial explosion. So only a small part of the utility landscape was explored.
 
-\fakesection{Stopping Criterion}
+\fakesection{Stopping Criterion}{\hfill\small\texttt{/stop\_criteria/*.m}}
 Implement a stopping criterion that avoids that rather useless iterations (generations) are computed.
 \begin{enumerate}
 \item	 Stopping criterion \& explain why you selected this criterion
@@ -34,24 +36,27 @@ Implement a stopping criterion that avoids that rather useless iterations (gener
 
 \end{enumerate}
 
-\fakesection{Other Representation and Appropriate Operators}
+\fakesection{Other Representation and Appropriate Operators}{\hfill\small\texttt{/crossovers/*.m}, \texttt{/mutations/*.m}}
 
-Aside from the adjacency representation, (at least) four alternative representations are available. Two of those are binary which were avoided due to previous experiences in constraint programming where the use of binary representation for problems with integer domains is discouraged. They are the binary and matrix representations. The other two alternatives were both implemented. The ordinal representation because it allows for the use of the \textit{`classic'} single-point crossover. The path representation because it is probably the most \textit{`natural'} representation. For the latter a few crossover operators were implemented (inspired by \cite{larraaga} \& \cite{imskhan}). Some of these were mentioned either in Eiben's book or in the course notes ; the \textit{heuristic} - , \textit{partially matched} -, \textit{order} -, \textit{cycle} -, \textit{edge recombination} - and \textit{sequential constructive} crossovers in particular. The others are : 
+Aside from the adjacency representation, (at least) four alternative representations are available. Two of those are binary which were avoided due to previous experiences in constraint programming where the use of binary representations for problems with integer domains is discouraged. They are the binary and matrix representations. The other two alternatives were both implemented. The ordinal representation because it allows for the use of the \textit{`classic'} single-point crossover. The path representation because it is probably the most \textit{`natural'} representation. For the latter a few crossover operators were implemented (inspired by \cite{larraaga} \& \cite{imskhan}). Some of these were mentioned either in Eiben's book or in the course notes ; the \textit{heuristic} - , \textit{partially matched} -, \textit{order} -, \textit{cycle} -, \textit{edge recombination} - and \textit{sequential constructive} crossovers in particular. The others are : 
 \begin{itemize}
-\item[-] \textit{Heuristic Edge Recombination (HERX)} : 
-\item[-] \textit{Max Preservative (MPX)} : 
-\item[-] \textit{Order Based (OX2)} : 
-\item[-] \textit{Position Based (POS)} : 
-\item[-] \textit{Unnamed Heuristic (UHX)} : 
+\item[-] \textit{Heuristic Edge Recombination (HERX)} : equivalent to the edge recombination crossover, but with some hybridisation in that the shortest edge is picked from the edge list of the current city, rather than the edge corresponding to the city with the shortest edge list.
+\item[-] \textit{Max Preservative (MPX)} : similar to the partially matched crossover. A subtour of the first parent is selected and remaining cities are \textit{appended} to this sequence in the order that they appear in the other parent. The subtour's length needs to be within a specified interval.
+\item[-] \textit{Order Based (OX2)} : a few random cities are selected in a parent. These cities are removed from the other parent and replaced by the same cities, at the same locations, but in the order that they appear in the first parent.
+\item[-] \textit{Position Based (POS)} : this one also selects a few random cities and imposes their positions as well, such that the offspring is the same as the first parent with respect to the cities that were selected, after which the remaining cities are added to it in the order that they appear in the other parent.
+\item[-] \textit{Unnamed Heuristic (UHX)} : a city is selected randomly. Four edges from this city are compared, the smallest is picked (if there are edges of equal length, one is picked at random). The city at the other side of this edge becomes the current city and the whole routine is repeated until all cities have been added to the offspring.
 \end{itemize}
 The following mutation operators were implemented :
 \begin{itemize}
-\item[-] \textit{Displacement} : 
-\item[-] \textit{Inversion} : the `simple' inversion was already implemented, this one generalises it by ???.
-\item[-] \textit{Scramble} : 
-\item[-] \textit{Unnamed} : accompanying the \textit{UHX} crossover, this one's an example of hybridisation
+\item[-] \textit{Insertion} : a city is selected, removed and inserted at some other (random) point in the tour.
+\item[-] \textit{Displacement} : a subtour is selected, removed and inserted at some other point in the tour.
+\item[-] \textit{Inversion} : the `simple' inversion was already implemented. It involves picking out two cities and inverting the subtour between them (which is what 2-opt does). Inversion adds to this by subsequently placing it somewhere else (like the displacement operator does).
+\item[-] \textit{Scramble} : selects a random subtour and shuffles the cities around.
+\item[-] \textit{Unnamed} : a hybridised operator, just like its accompanying crossover. A random city is selected and the subtour from this city to the one closest to it is reversed.
 \end{itemize}
-As nothing was known about these operators aside from some experimental results on other benchmarks, they were all experimented with manually (in the GUI which was extended for this purpose). The more interesting ones were selected for further experimentation. From the 225 configurations that were trialed before, 20 were selected and each of the possible operators were tested in conjunction with those parameter values.\\
+These operators were selected such that a general idea could be formed about them. It wasn't entirely clear what to expect aside from what was reported in a fairly limited amount of studies which used other benchmarks. After some manual experiments (within the GUI that was extended for this purpose) the more interesting operators were selected for further experimentation. From the 225 configurations that were trialed before, 9 were selected and each of the possible operators were tested in conjunction with those parameter values.\\
+
+\par\noindent As for the runtimes ; the edge recombination crossovers (both the classical and heuristic one) involve construction of an edge map which makes them the slowest in our list. The others are all about as fast, with the classical operator (used in the ordinal representation), \texttt{SCX}, \texttt{HERX} or \texttt{UHX} converging more rapidly. The last three are hybridised which makes this unsurprising. Tables \ref{tab} visualise results with a variety of the crossovers.\\
 
 Implement and use another representation and appropriate crossover and mutation operators. Perform some parameter tuning to identify proper combinations of the parameters. 
 \begin{enumerate}
@@ -65,9 +70,11 @@ Implement and use another representation and appropriate crossover and mutation 
 
 \end{enumerate}
 
-\fakesection{Local Optimisation}
+\fakesection{Local Optimisation}{\hfill\small\texttt{/hybridisation/twoopt.m}, \texttt{/hybridisation/oropt.m}}
 
 In addition to the loop detection heuristic which was already part of the toolbox, two of the more simple heuristics were applied on some of the benchmarks. \textit{Two-opt} and \textit{Or-opt} in particular. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they're simple to implement and provide good results. The time complexity of improving a tour with those is $\mathcal{O}(N^2)$. The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. Though a bit preliminary, we tested out one of the better crossovers in combination with these heuristics on \texttt{XQF131}. A near-optimal tour was found with just one erroneous sequence in the bottom left corner.\\
+
+\par\noindent \textit{Or-opt} is a restricted version of \textit{3-opt} in which subtours of length 1, 2 or 3 are displaced. If the resulting tour is shorter it is picked for further processing. While \textit{2-opt} makes the simple inversion mutation redundant, \textit{Or-opt} obviously overlaps with some mutation operators as well.\\
 
 Test to which extent a local optimisation heuristic can improve the result.
 \begin{enumerate}
@@ -77,7 +84,11 @@ Test to which extent a local optimisation heuristic can improve the result.
 
 \end{enumerate}
 
-\fakesection{Benchmark Problems}
+\fakesection{Benchmark Problems}{}
+
+Tests on benchmarks were run without any local heuristic (results where they \textit{are} activated are visualised at the end of this report). The results are displayed in table \ref{tab:bench} and speak for themselves.\\
+
+\par\noindent We returned to our the default algorithm provided in the toolbox for comparison. \\
 
 Test the performance of your algorithm using \emph{some} benchmark problems (available on Toledo) and critically evaluate the achieved performance.\\
 {\small
@@ -91,27 +102,27 @@ Keep in mind that for a large number of cities the search space is extremely lar
 
 \end{enumerate}
 
-\fakesection{Other Tasks}
+\fakesection{Other Tasks}{}
 
-\fakesubsection{Parent Selection}
+\fakesubsection{Parent Selection}{\hfill\small\texttt{/selection/*.m}}
 
-aaa
+The most interesting parent selection strategy that was implemented is probably tournament selection. Its parameter $k$ denotes the number of participants in each tournament and allows one to control selective pressure. Diversity was clearly increased by this operator and results were superior. In contrast the other strategies - fitness proportionate selection with or without $\sigma$ scaling, exponential ranking and built-in non-linear ranking - did not see similar improvements.
 
-\fakesubsection{Survivor Selection}
+\fakesubsection{Survivor Selection}{\hfill\small\texttt{/reinsertion/*.m}}
 
-aaa
+Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable but definitely not particularly useful. Any of the parent selection methods can be used for survivor selection.
 
-\fakesubsection{Diversity Preservation}
+\fakesubsection{Diversity Preservation}{}
 
-aaa
+An island model was implemented where the population is divided into islands if it is large enough. Every island hosts at least 25 individuals and the best ones are transferred from one to the other every so often (leading to periodic drops in average and worst fitness values throughout the generations). It obviously helped with diversity but not in the way tournament selection does ; if there was premature convergence in some algorithm, the island model tends to the population in islands with most islands experiencing some degree of premature convergence. The degree of convergence tends to drop a bit as individuals are transferred from one island to an other.
 
-\fakesubsection{Adaptive Parameter Tuning}
+\fakesubsection{Adaptive Parameter Tuning}{}
 
-aaa
+It would seem that, as several good solutions have been found after quite a few generations, increased frequency of mutation and reduced frequency of local optimisation (if hybridisation is activated) would prove useful by allowing for a more liberal exploration of the search space. Therefor, an adaptive parameter strategy was implemented which does just that. Instead of seeing interesting new solutions emerge, divergence occurred.
 
-\fakesubsection{Further Hybridisation}
+\fakesubsection{Further Hybridisation}{\hfill\small\texttt{/hybridisation/nearest\_neighbor.m}}
 
-aaa\\
+Seeding is a frequently used technique to give a head start. There's many possible approximate solutions for the TSP that can be used for this purpose. One of them is a nearest neighbour solution where a random city is picked and a tour is formed by repeatedly selecting the city nearest to the current one until all of them have been selected. This works well until at the end the remaining edges have to be added, often at high cost. It provides a decent initial solution which is retained through elitism and may provide inspiration for subsequent tours (or lead the algorithm towards a local optimum). While this initial tour generally is within 15\% of the optimal one for all given benchmarks, the genetic algorithm tends to cause further improvements until (in a typical run) the resulting tour is within about 6\% of the optimum. A nice illustration of the value of hybridisation. \\
 
 You should select \emph{at least one} task from the list below:
 {\small

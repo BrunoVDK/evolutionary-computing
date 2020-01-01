@@ -17,7 +17,7 @@ function [results] = tuning(print)
     SURVIVOR_SELECTION = 'fitness_based';
     DIVERSIFICATION = 1; % set to two for island model
     STOP_CRITERION = 1; % set to two for our own stop criterion
-    REPETITIONS = 10;
+    REPETITIONS = 5;
     ADAPTIVE = 1; % 2 to set it on
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -42,7 +42,7 @@ function [results] = tuning(print)
     for NIND = [300]
         for PR_MUT = [10, 25, 50, 75, 95] / 100
             for PR_CROSS = [5, 25, 50, 75, 95] / 100
-                for ELITIST = [1, 5, 10] / 100
+                for ELITIST = [10, 20, 40] / 100
                     
                     for i = 1:length(sample)
 
