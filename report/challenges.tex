@@ -69,7 +69,7 @@ These operators were selected such that a general idea could be formed about the
 \label{tab:par2}
 \end{table}
 
-\par\noindent After selection of the 4 more promising crossovers they were tested in combination with all of the 6 remaining mutation operators (all but the simple inversion). Only a single configuration was tested for each (table \ref{tab:par3}), 20 runs per operator combination. The results are visualised in figures \ref{tab:resmut}. To some extent an assumption is made that the performance of mutation operators can be gauged separately from the crossover operator in the sense that it wasn't tested if the other 9 crossover operators perform better than others when combined with a particular mutation operator. Again, given the multitude of possible combinations some simplification is in order. Ideally a meta-algorithm would be used to automate the parameter tuning.
+\par\noindent After selection of the 4 more promising crossovers they were tested in combination with all of the 6 remaining mutation operators (all but the simple inversion). Only a few configurations were tested for each (table \ref{tab:par3}), 20 runs per operator combination. The results are visualised in figures \ref{tab:resmut}. To some extent an assumption is made that the performance of mutation operators can be gauged separately from the crossover operator in the sense that it wasn't tested if the other 9 crossover operators perform better than others when combined with a particular mutation operator. Again, given the multitude of possible combinations some simplification is in order. Ideally a meta-algorithm would be used to automate the parameter tuning.
 
 \begin{table}[h]
 \centering
@@ -78,7 +78,7 @@ These operators were selected such that a general idea could be formed about the
 [300] & [50] & [50] & [5] & [1000]
 \end{tabular}
 \caption{Parameter ranges for the experiments on mutation operators. Each configuration was run 10 times on 4 different datasets (with 70, 100, 127 and 131 cities). A stopping criterion was used to avoid useless iterations ; the algorithm stops if the best individual hasn't improved much in the past 100 generations. Results are visualised in figure \ref{tab:resmut}.}
-\label{tab:par2}
+\label{tab:par3}
 \end{table}
 
 \fakesection{Local Optimisation}{\hfill\small\texttt{/hybridisation/twoopt.m}, \texttt{/hybridisation/oropt.m}}
