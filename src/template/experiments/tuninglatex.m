@@ -1,9 +1,9 @@
-function [results] = tuning(print)
+function [results] = tuninglatex(print)
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % DEFAULT CONFIGURATION
     NIND=100;		% Number of individuals
-    MAXGEN=250;		% Maximum no. of generations
+    MAXGEN=1000;		% Maximum no. of generations
     ELITIST=0.05;    % percentage of the elite population
     STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
     PR_CROSS=.95;     % probability of crossover
@@ -25,91 +25,103 @@ function [results] = tuning(print)
         print = false;
     end
     
-    datasets = ["datasets/rondrit025.tsp",...
-            "datasets/rondrit070.tsp",...
+    datasets = ["datasets/rondrit070.tsp",...
+            "datasets/rondrit100.tsp",...
             "datasets/rondrit127.tsp",...
-            "datasets/belgiumtour.tsp"];
+            "datasets/xqf131.tsp"];
 
     sample = datasets;
-    best = zeros(REPETITIONS,length(sample));
-    worst = zeros(REPETITIONS,length(sample));
-    average = zeros(REPETITIONS,length(sample));
-    times = zeros(1,length(sample));
     
-    idx = 1;
-    results = {}; % one result per configuration
-            
-    for NIND = [300]
-        for PR_MUT = [10, 25, 50, 75, 95] / 100
-            for PR_CROSS = [5, 25, 50, 75, 95] / 100
-                for ELITIST = [10, 20, 40] / 100
-                    
-                    for i = 1:length(sample)
+    
+    for c = ["xedge_recombination"]
+        
+        best = zeros(REPETITIONS,length(sample));
+        worst = zeros(REPETITIONS,length(sample));
+        average = zeros(REPETITIONS,length(sample));
+        times = zeros(1,length(sample));
 
-                        dataset = sample(i);
-                        data = load(dataset);
-                        x = data(:,1); y = data(:,2);
-                        load_set(data, SCALING);
-                        NVAR=size(data,1);
+        idx = 1;
+        results = {}; % one result per configuration
+        
+        for NIND = [300]
+            for PR_MUT = [25, 50, 70] / 100
+                for PR_CROSS = [20, 50, 70] / 100
+                    for ELITIST = [5] / 100
 
-                        totaltime = 0;
-                        for r = 1:REPETITIONS
-                            tic;
-                            [bs,avg,wst] = run_ga(x, ...
-                                y, ...
-                                NIND, ...
-                                MAXGEN, ...
-                                NVAR, ...
-                                ELITIST, ...
-                                STOP_PERCENTAGE, ...
-                                PR_CROSS, ...
-                                PR_MUT, ...
-                                CROSSOVER, ...
-                                LOCALLOOP, ...
-                                NaN, ...
-                                NaN, ...
-                                NaN, ...
-                                REPRESENTATION, ...
-                                MUTATION, ...
-                                false, ... % no hybridisation
-                                false, ... % no hybridisation
-                                false, ... % no hybridisation
-                                PARENT_SELECTION, ...
-                                SURVIVOR_SELECTION, ...
-                                false, ...
-                                DIVERSIFICATION, ...
-                                STOP_CRITERION, ...
-                                ADAPTIVE);
-                            time = toc;
-%                             if print
-%                                 fprintf("CPU time : %.2fs\n", time);
-%                                 fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", bs, avg, wst);
-%                             end
-                            totaltime = totaltime + time;
-                            best(r,i) = bs;
-                            worst(r,i) = wst;
-                            average(r,i) = avg;
+                        for i = 1:length(sample)
+
+                            dataset = sample(i);
+                            data = load(dataset);
+                            x = data(:,1); y = data(:,2);
+                            load_set(data, SCALING);
+                            NVAR=size(data,1);
+                            
+                            if c == "xovsp"
+                                REPRESENTATION = 'ordinal';
+                            else
+                                REPRESENTATION = 'path';
+                            end
+
+                            totaltime = 0;
+                            for r = 1:REPETITIONS
+                                tic;
+                                [bs,avg,wst] = run_ga(x, ...
+                                    y, ...
+                                    NIND, ...
+                                    MAXGEN, ...
+                                    NVAR, ...
+                                    ELITIST, ...
+                                    STOP_PERCENTAGE, ...
+                                    PR_CROSS, ...
+                                    PR_MUT, ...
+                                    c, ... % crossover
+                                    LOCALLOOP, ...
+                                    NaN, ...
+                                    NaN, ...
+                                    NaN, ...
+                                    REPRESENTATION, ...
+                                    MUTATION, ...
+                                    false, ... % no hybridisation
+                                    false, ... % no hybridisation
+                                    false, ... % no hybridisation
+                                    PARENT_SELECTION, ...
+                                    SURVIVOR_SELECTION, ...
+                                    false, ...
+                                    DIVERSIFICATION, ...
+                                    STOP_CRITERION, ...
+                                    ADAPTIVE);
+                                time = toc;
+    %                             if print
+    %                                 fprintf("CPU time : %.2fs\n", time);
+    %                                 fprintf("Results for single run : best = %.2f, avg = %.2f, worst = %.2f\n", bs, avg, wst);
+    %                             end
+                                totaltime = totaltime + time;
+                                best(r,i) = bs;
+                                worst(r,i) = wst;
+                                average(r,i) = avg;
+                            end
+                            times(i) = totaltime;
                         end
-                        times(i) = totaltime;
-                    end
 
-%                     best = mean(best);
-%                     worst = mean(worst);
-%                     average = mean(average);
-                    times = times / REPETITIONS;
-                    
-                    results{idx} = {best, worst, average, times} %#ok
-                    idx = idx + 1;
-                    
-                    if print
-                        fprintf("Configuration %i %.2f %.2f %.2f\n", NIND, PR_CROSS, PR_MUT, ELITIST);
-                        min(best)
-                        fprintf("-----\n");
+    %                     best = mean(best);
+    %                     worst = mean(worst);
+    %                     average = mean(average);
+                        times = times / REPETITIONS;
+
+                        results{idx} = {best, worst, average, times} %#ok
+                        idx = idx + 1;
+
+                        if print
+                            fprintf("Configuration %i %.2f %.2f %.2f\n", NIND, PR_CROSS, PR_MUT, ELITIST);
+                            min(best)
+                            fprintf("-----\n");
+                        end
+
                     end
-                    
                 end
             end
         end
+        save('results/crossover/' + c + '.mat', 'results');
     end
         
     function load_set(data, scale)

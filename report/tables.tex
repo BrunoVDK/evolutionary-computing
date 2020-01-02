@@ -1,11 +1,11 @@
-\newgeometry{top=7mm, bottom=7mm}
+%\newgeometry{top=7mm, bottom=7mm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagenumbering{gobble}
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \footnotesize
 {\renewcommand{\arraystretch}{1}}
@@ -87,7 +87,7 @@
 95 & 95 & 5 & \cellcolor{gray!19}42.92 & \cellcolor{gray!1}1731.17 & \cellcolor{gray!1}390.41 & \cellcolor{gray!1}1120.34 & 21.23\\
 95 & 95 & 10 & \cellcolor{gray!38}41.07 & \cellcolor{gray!1}1649.37 & \cellcolor{gray!1}362.66 & \cellcolor{gray!1}1025.49 & 19.49
 \end{tabular}
-\caption{Investigation of the effect of population size. Results of 75 configurations (population size of 150). The grayscale values of the cells are calibrated against the minimum and maximum for all tests (from table \ref{tab:res1} to \ref{tab:res5}). Darker cells represent better solutions. No stopping criterion was used, maximum number of generations was set to 250. Each configuration was run 10 times.}
+\caption{Results of 75 configurations (population size of 150). The grayscale values of the cells are calibrated against the minimum and maximum for all tests (from table \ref{tab:res1} to \ref{tab:res5}). Darker cells represent better solutions. No stopping criterion was used, maximum number of generations was set to 250. Each configuration was run 10 times.}
 \label{tab:res1}
 \end{table}
 
@@ -95,11 +95,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newgeometry{top=7mm, bottom=7mm}
-
 \pagenumbering{gobble}
-\begin{table}[h]
+\begin{table}[H]
 \centering
+
 \footnotesize
 {\renewcommand{\arraystretch}{1}}
 \begin{tabular}{ccc|c|c|c|c|c}
@@ -180,7 +179,7 @@
 95 & 95 & 5 & \cellcolor{gray!34}41.43 & \cellcolor{gray!1}1692.14 & \cellcolor{gray!1}373.30 & \cellcolor{gray!1}1030.19 & 48.13\\
 95 & 95 & 10 & \cellcolor{gray!37}41.12 & \cellcolor{gray!1}1575.49 & \cellcolor{gray!1}360.56 & \cellcolor{gray!1}985.45 & 44.60
 \end{tabular}
-\caption{Investigation of the effect of population size. Results of 75 configurations (population size of 300). The grayscale values of the cells are calibrated against the minimum and maximum for all tests (from table \ref{tab:res1} to \ref{tab:res5}). Darker cells represent better solutions. No stopping criterion was used, maximum number of generations was set to 250. Each configuration was run 10 times.}
+\caption{Results of 75 configurations (population size of 300). The grayscale values of the cells are calibrated against the minimum and maximum for all tests (from table \ref{tab:res1} to \ref{tab:res5}). Darker cells represent better solutions. No stopping criterion was used, maximum number of generations was set to 250. Each configuration was run 10 times.}
 \label{tab:res2}
 \end{table}
 
@@ -189,8 +188,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagenumbering{gobble}
-\begin{table}[h]
+\begin{table}[H]
 \centering
+
 \footnotesize
 {\renewcommand{\arraystretch}{1}}
 \begin{tabular}{ccc|c|c|c|c|c}
@@ -271,7 +271,7 @@
 95 & 95 & 5 & \cellcolor{gray!26}42.18 & \cellcolor{gray!1}1698.60 & \cellcolor{gray!1}368.14 & \cellcolor{gray!1}1091.35 & 83.09\\
 95 & 95 & 10 & \cellcolor{gray!33}41.59 & \cellcolor{gray!1}1560.07 & \cellcolor{gray!1}368.22 & \cellcolor{gray!1}982.94 & 79.12
 \end{tabular}
-\caption{Investigation of the effect of population size. Results of 75 configurations (population size of 600). The grayscale values of the cells are calibrated against the minimum and maximum for all tests (from table \ref{tab:res1} to \ref{tab:res5}). Darker cells represent better solutions. No stopping criterion was used, maximum number of generations was set to 250. Each configuration was run 10 times.}
+\caption{Results of 75 configurations (population size of 600). The grayscale values of the cells are calibrated against the minimum and maximum for all tests (from table \ref{tab:res1} to \ref{tab:res5}). Darker cells represent better solutions. No stopping criterion was used, maximum number of generations was set to 250. Each configuration was run 10 times.}
 \label{tab:res3}
 \end{table}
 
@@ -280,8 +280,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagenumbering{gobble}
-\begin{table}[h]
+\begin{table}[H]
 \centering
+
 \footnotesize
 {\renewcommand{\arraystretch}{1}}
 \begin{tabular}{ccc|c|c|c|c|c}
@@ -371,8 +372,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagenumbering{gobble}
-\begin{table}[h]
+\begin{table}[H]
 \centering
+
 \footnotesize
 {\renewcommand{\arraystretch}{1}}
 \begin{tabular}{ccc|c|c|c|c|c}
@@ -457,4 +459,135 @@
 \label{tab:res5}
 \end{table}
 
-\restoregeometry
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{gobble}
+\begin{table}[H]
+\centering
+\footnotesize
+{\renewcommand{\arraystretch}{1}}
+\begin{tabular}{ccc|c|c|c|c|c}
+\textit{Crossover Rate} & \textit{Mutation Rate} & \textit{Elitism} & \texttt{rondrit025} & \texttt{rondrit070} & \texttt{rondrit0127} & \texttt{belgiumtour} & \textit{Total Time (s)} \\\hline
+\end{tabular}
+\caption{Bar charts visualising results of a variety of crossovers, for selection of better crossovers under the naive assumption that mutation - and crossover operators don't interact.}
+\label{tab:res5}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{gobble}
+\begin{figure}
+	\centering
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Alternating Edges Crossover (adjacency representation)}
+		\label{fig:z}
+    	\end{subfigure}\\
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Maximal Preservative Crossover}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Position Based Crossover}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Order Crossover}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Order Based Crossover}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Edge Recombination Crossover}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Single-Point Crossover (ordinal representation)}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Heuristic Crossover}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Cycle Crossover}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Partial Mapping Crossover}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Sequential Constructive Crossover}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Heuristic Edge Recombination Crossover}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\includegraphics[width=0.1\textwidth]{res/cover.png}
+		\caption{Unnamed Crossover}
+		\label{fig:z}
+    	\end{subfigure}
+	\caption{Shortest tour found by each crossover operator (tour of 70 cities). Maximum of 1000 generations and basic stopping criterion.}
+	\label{fig:rescross}
+\end{figure}
+
+%\restoregeometry

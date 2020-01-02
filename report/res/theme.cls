@@ -21,7 +21,7 @@
 %% 2005/12/01 or later.
 %% 
 \NeedsTeXFormat{LaTeX2e}[2013/03/31]
-\ProvidesClass{misc/theme}[]
+\ProvidesClass{res/theme}[]
 \RequirePackage{ifthen}
 \newboolean{anonymize}
 \DeclareOption{peerreview}{\setboolean{anonymize}{true}}
@@ -43,6 +43,7 @@
 \RequirePackage{inputenc}
 \RequirePackage{fontenc}
 \RequirePackage{graphicx}
+\RequirePackage{subcaption}
 \RequirePackage{geometry}
 \RequirePackage{todonotes}
 \RequirePackage{xparse}

@@ -130,10 +130,7 @@ function [best,average,worst,generations] = run_ga(...
         %if (sObjV(stopN) - sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
         %   break;
         %end
-        if check_stop_criterion(0.05, best, gen, 10, 3) && STOP_CRITERION == 2
-            disp('Stop criterion met')
-            break;
-        elseif STOP_CRITERION > 2 && best <= STOP_CRITERION % stop when fitness reached
+        if gen > 100 && best(gen+1) == best(gen-100)
             disp('Stop criterion met')
             break;
         end
