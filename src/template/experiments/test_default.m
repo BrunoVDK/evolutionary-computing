@@ -1,10 +1,10 @@
-function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, PR_CROSS, PR_MUT, REPETITIONS, STOP_CRITERION)
+function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, ELITIST, PR_CROSS, PR_MUT, REPETITIONS, STOP_CRITERION)
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % DEFAULT CONFIGURATION
     %NIND=50;		% Number of individuals
     %MAXGEN=100;		% Maximum no. of generations
-    ELITIST=0.05;    % percentage of the elite population
+    %ELITIST=0.05;    % percentage of the elite population
     STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
     %PR_CROSS=.70;     % probability of crossover
     %PR_MUT=.20;       % probability of mutation
@@ -59,7 +59,7 @@ function [best,worst,average,times,gen] = test_default(NIND, MAXGEN, PR_CROSS, P
 
         totaltime = 0;
         for r = 1:REPETITIONS
-            time = toc;
+            time = tic;
             [bs,avg,wst,gen] = run_ga(x, ...
                 y, ...
                 NIND, ...

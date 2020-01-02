@@ -1,0 +1,157 @@
+>> test_default_script
+$$$$$$$$$$$$$$$$$$$$$$$$$$$ Starting test for task 2 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Default parameters are as follows: \n
+NIND: 50, MAXGEN: 100, ELITIST: 0.050000 PR_CROSS: 0.700000, PR_MUT: 0.200000, STOP_CRITERION: 1 
+Every search will be repeated 20 times 
+
+$$$$$ Test 1: changing NIND $$$$$
+	 NIND = 25
+Route:	 datasets/rondrit051.tsp	 avg best:	923.5364	 stdev best:	43.8668
+Route:	 datasets/rondrit127.tsp	 avg best:	444.2018	 stdev best:	12.2663
+Route:	 datasets/bcl380.tsp	 avg best:	20347.7815	 stdev best:	317.1225
+	 NIND = 50
+Route:	 datasets/rondrit051.tsp	 avg best:	872.9258	 stdev best:	43.1282
+Route:	 datasets/rondrit127.tsp	 avg best:	431.1559	 stdev best:	14.5033
+Route:	 datasets/bcl380.tsp	 avg best:	19987.6898	 stdev best:	266.2336
+	 NIND = 75
+Route:	 datasets/rondrit051.tsp	 avg best:	813.6261	 stdev best:	48.8094
+Route:	 datasets/rondrit127.tsp	 avg best:	418.9058	 stdev best:	10.7962
+Route:	 datasets/bcl380.tsp	 avg best:	19589.7445	 stdev best:	356.7322
+	 NIND = 100
+Route:	 datasets/rondrit051.tsp	 avg best:	822.0669	 stdev best:	38.9013
+Route:	 datasets/rondrit127.tsp	 avg best:	413.4325	 stdev best:	11.6438
+Route:	 datasets/bcl380.tsp	 avg best:	19573.6855	 stdev best:	326.599
+	 NIND = 125
+Route:	 datasets/rondrit051.tsp	 avg best:	811.3607	 stdev best:	38.5921
+Route:	 datasets/rondrit127.tsp	 avg best:	405.4761	 stdev best:	13.4875
+Route:	 datasets/bcl380.tsp	 avg best:	19472.5369	 stdev best:	356.3044
+	 NIND = 150
+Route:	 datasets/rondrit051.tsp	 avg best:	800.6829	 stdev best:	33.708
+Route:	 datasets/rondrit127.tsp	 avg best:	407.6901	 stdev best:	10.0198
+Route:	 datasets/bcl380.tsp	 avg best:	19394.1905	 stdev best:	294.5753
+
+$$$$$ Test 2: changing PR_CROSS $$$$$
+	 PR_CROSS = 0.100000
+Route:	 datasets/rondrit051.tsp	 avg best:	800.6985	 stdev best:	34.2926
+Route:	 datasets/rondrit127.tsp	 avg best:	414.4849	 stdev best:	9.7856
+Route:	 datasets/bcl380.tsp	 avg best:	20094.9442	 stdev best:	341.3396
+	 PR_CROSS = 0.200000
+Route:	 datasets/rondrit051.tsp	 avg best:	775.8832	 stdev best:	26.2765
+Route:	 datasets/rondrit127.tsp	 avg best:	404.5839	 stdev best:	13.7864
+Route:	 datasets/bcl380.tsp	 avg best:	19461.6311	 stdev best:	278.6098
+	 PR_CROSS = 0.300000
+Route:	 datasets/rondrit051.tsp	 avg best:	759.9557	 stdev best:	35.1702
+Route:	 datasets/rondrit127.tsp	 avg best:	405.6414	 stdev best:	11.4794
+Route:	 datasets/bcl380.tsp	 avg best:	19244.1605	 stdev best:	312.7311
+	 PR_CROSS = 0.400000
+Route:	 datasets/rondrit051.tsp	 avg best:	761.5179	 stdev best:	41.0378
+Route:	 datasets/rondrit127.tsp	 avg best:	399.9687	 stdev best:	9.0621
+Route:	 datasets/bcl380.tsp	 avg best:	19239.6792	 stdev best:	233.1845
+	 PR_CROSS = 0.500000
+Route:	 datasets/rondrit051.tsp	 avg best:	787.8726	 stdev best:	33.9487
+Route:	 datasets/rondrit127.tsp	 avg best:	407.0899	 stdev best:	13.3288
+Route:	 datasets/bcl380.tsp	 avg best:	19229.3579	 stdev best:	268.9512
+	 PR_CROSS = 0.600000
+Route:	 datasets/rondrit051.tsp	 avg best:	819.7219	 stdev best:	39.8532
+Route:	 datasets/rondrit127.tsp	 avg best:	417.619	 stdev best:	9.3233
+Route:	 datasets/bcl380.tsp	 avg best:	19564.9124	 stdev best:	374.0573
+	 PR_CROSS = 0.700000
+Route:	 datasets/rondrit051.tsp	 avg best:	880.2241	 stdev best:	56.0312
+Route:	 datasets/rondrit127.tsp	 avg best:	427.5818	 stdev best:	15.5818
+Route:	 datasets/bcl380.tsp	 avg best:	20160.5922	 stdev best:	398.3333
+	 PR_CROSS = 0.800000
+Route:	 datasets/rondrit051.tsp	 avg best:	939.171	 stdev best:	37.5513
+Route:	 datasets/rondrit127.tsp	 avg best:	446.0898	 stdev best:	11.1885
+Route:	 datasets/bcl380.tsp	 avg best:	20851.5702	 stdev best:	268.9667
+	 PR_CROSS = 0.900000
+Route:	 datasets/rondrit051.tsp	 avg best:	1015.4065	 stdev best:	36.3669
+Route:	 datasets/rondrit127.tsp	 avg best:	472.9614	 stdev best:	11.832
+Route:	 datasets/bcl380.tsp	 avg best:	21241.7743	 stdev best:	190.1213
+	 PR_CROSS = 1.000000
+Route:	 datasets/rondrit051.tsp	 avg best:	1059.8394	 stdev best:	44.9897
+Route:	 datasets/rondrit127.tsp	 avg best:	483.7241	 stdev best:	8.9508
+Route:	 datasets/bcl380.tsp	 avg best:	21639.923	 stdev best:	254.7102
+
+$$$$$ Test 3: changing MUT $$$$$
+	 PR_MUT = 0.050000
+Route:	 datasets/rondrit051.tsp	 avg best:	862.9142	 stdev best:	42.1311
+Route:	 datasets/rondrit127.tsp	 avg best:	427.351	 stdev best:	8.0145
+Route:	 datasets/bcl380.tsp	 avg best:	19955.4541	 stdev best:	316.0923
+	 PR_MUT = 0.100000
+Route:	 datasets/rondrit051.tsp	 avg best:	863.0266	 stdev best:	45.0657
+Route:	 datasets/rondrit127.tsp	 avg best:	430.563	 stdev best:	7.5593
+Route:	 datasets/bcl380.tsp	 avg best:	20133.854	 stdev best:	422.6245
+	 PR_MUT = 0.200000
+Route:	 datasets/rondrit051.tsp	 avg best:	855.8386	 stdev best:	37.8496
+Route:	 datasets/rondrit127.tsp	 avg best:	433.6094	 stdev best:	10.6558
+Route:	 datasets/bcl380.tsp	 avg best:	20025.1344	 stdev best:	295.3566
+	 PR_MUT = 0.350000
+Route:	 datasets/rondrit051.tsp	 avg best:	864.3281	 stdev best:	44.1488
+Route:	 datasets/rondrit127.tsp	 avg best:	429.432	 stdev best:	11.1042
+Route:	 datasets/bcl380.tsp	 avg best:	20034.3179	 stdev best:	250.6517
+	 PR_MUT = 0.500000
+Route:	 datasets/rondrit051.tsp	 avg best:	867.1041	 stdev best:	38.3859
+Route:	 datasets/rondrit127.tsp	 avg best:	430.7128	 stdev best:	14.8833
+Route:	 datasets/bcl380.tsp	 avg best:	20083.636	 stdev best:	349.5591
+	 PR_MUT = 0.600000
+Route:	 datasets/rondrit051.tsp	 avg best:	864.4384	 stdev best:	46.7162
+Route:	 datasets/rondrit127.tsp	 avg best:	426.539	 stdev best:	10.3598
+Route:	 datasets/bcl380.tsp	 avg best:	19891.8275	 stdev best:	380.6193
+	 PR_MUT = 0.700000
+Route:	 datasets/rondrit051.tsp	 avg best:	872.9121	 stdev best:	37.234
+Route:	 datasets/rondrit127.tsp	 avg best:	428.6125	 stdev best:	9.9465
+Route:	 datasets/bcl380.tsp	 avg best:	20027.6301	 stdev best:	322.8261
+	 PR_MUT = 0.800000
+Route:	 datasets/rondrit051.tsp	 avg best:	880.0377	 stdev best:	41.1442
+Route:	 datasets/rondrit127.tsp	 avg best:	426.5412	 stdev best:	11.5263
+Route:	 datasets/bcl380.tsp	 avg best:	20124.6885	 stdev best:	222.6988
+	 PR_MUT = 0.900000
+Route:	 datasets/rondrit051.tsp	 avg best:	851.7689	 stdev best:	41.7596
+Route:	 datasets/rondrit127.tsp	 avg best:	429.9542	 stdev best:	12.3356
+Route:	 datasets/bcl380.tsp	 avg best:	20090.9183	 stdev best:	294.5791
+	 PR_MUT = 1.000000
+Route:	 datasets/rondrit051.tsp	 avg best:	860.1012	 stdev best:	36.0466
+Route:	 datasets/rondrit127.tsp	 avg best:	427.6505	 stdev best:	12.1932
+Route:	 datasets/bcl380.tsp	 avg best:	20048.984	 stdev best:	359.2396
+
+$$$$$ Test 4: changing ELITISM $$$$$
+	 ELITIST = 0.050000
+Route:	 datasets/rondrit051.tsp	 avg best:	877.4763	 stdev best:	39.7395
+Route:	 datasets/rondrit127.tsp	 avg best:	429.3348	 stdev best:	11.576
+Route:	 datasets/bcl380.tsp	 avg best:	20044.9691	 stdev best:	274.3468
+	 ELITIST = 0.100000
+Route:	 datasets/rondrit051.tsp	 avg best:	785.9594	 stdev best:	41.693
+Route:	 datasets/rondrit127.tsp	 avg best:	406.2557	 stdev best:	9.6136
+Route:	 datasets/bcl380.tsp	 avg best:	19263.1271	 stdev best:	273.825
+	 ELITIST = 0.200000
+Route:	 datasets/rondrit051.tsp	 avg best:	772.7588	 stdev best:	49.9053
+Route:	 datasets/rondrit127.tsp	 avg best:	398.7892	 stdev best:	8.9348
+Route:	 datasets/bcl380.tsp	 avg best:	19197.1581	 stdev best:	332.3677
+	 ELITIST = 0.350000
+Route:	 datasets/rondrit051.tsp	 avg best:	786.5776	 stdev best:	35.2743
+Route:	 datasets/rondrit127.tsp	 avg best:	406.301	 stdev best:	11.1984
+Route:	 datasets/bcl380.tsp	 avg best:	19307.9739	 stdev best:	309.0297
+	 ELITIST = 0.500000
+Route:	 datasets/rondrit051.tsp	 avg best:	835.5822	 stdev best:	36.0965
+Route:	 datasets/rondrit127.tsp	 avg best:	422.1823	 stdev best:	9.7773
+Route:	 datasets/bcl380.tsp	 avg best:	19808.6307	 stdev best:	286.3145
+	 ELITIST = 0.600000
+Route:	 datasets/rondrit051.tsp	 avg best:	882.6254	 stdev best:	41.8055
+Route:	 datasets/rondrit127.tsp	 avg best:	433.1084	 stdev best:	12.9085
+Route:	 datasets/bcl380.tsp	 avg best:	20046.1589	 stdev best:	255.2094
+	 ELITIST = 0.700000
+Route:	 datasets/rondrit051.tsp	 avg best:	926.9946	 stdev best:	46.7724
+Route:	 datasets/rondrit127.tsp	 avg best:	449.1967	 stdev best:	12.9041
+Route:	 datasets/bcl380.tsp	 avg best:	20626.3797	 stdev best:	275.167
+	 ELITIST = 0.800000
+Route:	 datasets/rondrit051.tsp	 avg best:	996.0636	 stdev best:	47.3413
+Route:	 datasets/rondrit127.tsp	 avg best:	468.5521	 stdev best:	9.4818
+Route:	 datasets/bcl380.tsp	 avg best:	21060.5774	 stdev best:	273.0107
+	 ELITIST = 0.900000
+Route:	 datasets/rondrit051.tsp	 avg best:	1125.51	 stdev best:	47.3657
+Route:	 datasets/rondrit127.tsp	 avg best:	505.1439	 stdev best:	8.7454
+Route:	 datasets/bcl380.tsp	 avg best:	21987.2833	 stdev best:	306.2676
+	 ELITIST = 0.950000
+Route:	 datasets/rondrit051.tsp	 avg best:	1195.2274	 stdev best:	50.5809
+Route:	 datasets/rondrit127.tsp	 avg best:	524.8227	 stdev best:	13.9927
+Route:	 datasets/bcl380.tsp	 avg best:	22651.5413	 stdev best:	408.2374
