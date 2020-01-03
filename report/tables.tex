@@ -866,4 +866,76 @@
 	\label{fig:rescross4}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{gobble}
+\begin{figure}[H]
+	\centering
+%
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/min/xedge_heuristic.png}
+		\caption{\texttt{HERX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/min/xposition_based.png}
+		\caption{\texttt{POS} (different scale, worst results)}
+		\label{fig:z}
+    	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/min/xseq_constructive.png}
+		\caption{\texttt{SCX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/min/xunnamed.png}
+		\caption{\texttt{UHX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\caption{Shortest tour found by each mutation operator, one row per selected crossover operator. Colors refer to one of 4 tours (the same as in figures \ref{fig:rescross1} to \ref{fig:rescross4}, i.e. those with 70, 100, 127 and 131 cities). The y-axis represents the (percentage) deviation from the average best tour length that was found for each of those tours. 1000 generations, same stopping criterion, 4 different rates of mutation of which one is pictured (50\%).}
+	\label{fig:resmut1}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{gobble}
+\begin{figure}[H]
+	\centering
+%
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/mean/xedge_heuristic.png}
+		\caption{\texttt{HERX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/mean/xposition_based.png}
+		\caption{\texttt{POS} (different scale, worst results)}
+		\label{fig:z}
+    	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/mean/xseq_constructive.png}
+		\caption{\texttt{SCX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{mutation/mean/xunnamed.png}
+		\caption{\texttt{UHX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\caption{Same as picture \ref{fig:resmut1}, looking at average shortest tours rather than the shortest tour of all runs for a given configuration.}
+	\label{fig:resmut2}
+\end{figure}
+
 %\restoregeometry

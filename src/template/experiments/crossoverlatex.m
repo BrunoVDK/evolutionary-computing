@@ -5,7 +5,8 @@ function [] = crossoverlatex(res, calibration, name)
     for i = 1:length(calibration)
         test = calibration{i};
         for j = 1:length(test)
-            newbest = min(test{1}); % Take the best tours (can take mean also)
+            t = test{j};
+            newbest = min(t{1}); % Take the best tours (can take mean also)
             mi = min([mi ; newbest]);
             ma = max([ma ; newbest]);
         end
