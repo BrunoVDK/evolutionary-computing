@@ -133,7 +133,7 @@ function [best,average,worst,generations] = adapted_run_ga(...
         if STOP_CRITERION == 4 && same100(best, gen)
             disp('STOPPED 100 the same')
             break;
-        elseif STOP_CRITERION == 2 && check_stop_criterion(0.05, best, gen, 10, 2)
+        elseif STOP_CRITERION == 2 && check_stop_criterion(0.005, best, gen, 76, 2)
             disp('Stop criterion met')
             break;
         elseif STOP_CRITERION > 2 && best <= STOP_CRITERION % stop when fitness reached

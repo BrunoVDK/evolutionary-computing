@@ -48,7 +48,13 @@ datasets = ["datasets/bcl380.tsp",...
         "datasets/xqf131.tsp"];
 
 sample = datasets(:);
-streaks = zeros(1,REPETITIONS*size(sample,1));
+avg_default = zeros(1,16);
+std_default = zeros(1,16);
+avg_window = zeros(1,16);
+std_window = zeros(1,16);
+gen_default = zeros(1,16);
+gen_window = zeros(1,16);
+
 
 
 for i = 1:length(sample) 
@@ -58,6 +64,9 @@ for i = 1:length(sample)
     x = data(:,1); y = data(:,2);
     load_set(data, SCALING);
     NVAR=size(data,1);
+    
+    best_l = zeros(1,REPETITIONS);
+    gen_l = zeros(1,REPETITIONS);
 
     totaltime = 0;
     for r = 1:REPETITIONS
@@ -88,13 +97,75 @@ for i = 1:length(sample)
             STOP_CRITERION, ...
             ADAPTIVE);
 
-        streaks(1,r*i) = longest_streak2(bs,0.005);
+        best_l(r) = bs(MAXGEN);
+        gen_l(r) = gen;
     end
+    avg_default(i) = mean(best_l);
+    std_default(i) = std(best_l);
+    gen_default(i) = mean(gen_l);
 end
 
-fprintf('All streaks: ');
-disp(streaks);
-fprinf('(mean, stdev) = (%f,%f)', mean(streaks), std(streaks));
+for i = 1:length(sample) 
+
+    dataset = sample(i);
+    data = load(dataset);
+    x = data(:,1); y = data(:,2);
+    load_set(data, SCALING);
+    NVAR=size(data,1);
+    
+    best_l = zeros(1,REPETITIONS);
+    gen_l = zeros(1,REPETITIONS);
+
+    totaltime = 0;
+    for r = 1:REPETITIONS
+        time = tic;
+        [bs,avg,wst,gen] = adapted_run_ga(x, ...
+            y, ...
+            NIND, ...
+            MAXGEN, ...
+            NVAR, ...
+            ELITIST, ...
+            STOP_PERCENTAGE, ...
+            PR_CROSS, ...
+            PR_MUT, ...
+            CROSSOVER, ...
+            LOCALLOOP, ...
+            NaN, ...
+            NaN, ...
+            NaN, ...
+            REPRESENTATION, ...
+            MUTATION, ...
+            false, ... % no hybridisation
+            false, ... % no hybridisation
+            false, ... % no hybridisation
+            PARENT_SELECTION, ...
+            SURVIVOR_SELECTION, ...
+            false, ...
+            DIVERSIFICATION, ...
+            2, ...
+            ADAPTIVE);
+   
+        if bs(MAXGEN) == 0
+            k = MAXGEN - 1;
+            while k > 0
+                if bs(k) > 0
+                    bst = bs(k);
+                    break;
+                else
+                    k = k - 1;
+                end
+            end
+        else
+            bst = bs(MAXGEN);
+        end
+        best_l(r) = bst;
+        gen_l(r) = gen;
+    end
+    avg_window(i) = mean(best_l);
+    std_window(i) = std(best_l);
+    gen_window(i) = mean(gen_l);
+end
+fprintf("DONE");
 
 function load_set(data, scale)
     x = data(:,1);
