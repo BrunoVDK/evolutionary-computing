@@ -10,7 +10,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONFIGURATION
 NIND=50;		% Number of individuals
-MAXGEN=100;		% Maximum no. of generations
+MAXGEN=200;		% Maximum no. of generations
 ELITIST=0.05;    % percentage of the elite population
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.70;     % probability of crossover
@@ -25,7 +25,7 @@ PARENT_SELECTION = 'tournament';
 SURVIVOR_SELECTION = 'fitness_based';
 DIVERSIFICATION = 1; % set to two for island model
 STOP_CRITERION = 1; % set to two for our own stop criterion
-REPETITIONS = 10;
+REPETITIONS = 30;
 ADAPTIVE = 1; % 2 to set it on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -92,6 +92,8 @@ for i = 1:length(sample)
     end
 end
 
+fprintf('All streaks: ');
+disp(streaks);
 fprinf('(mean, stdev) = (%f,%f)', mean(streaks), std(streaks));
 
 function load_set(data, scale)
