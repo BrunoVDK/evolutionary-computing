@@ -38,11 +38,11 @@ function tolatex(results, calibration, filePath)
     for NIND = [150]
         for PR_MUT = [10, 25, 50, 75, 95]
             for PR_CROSS = [5, 25, 50, 75, 95]
-                for ELITIST = [1, 5, 10]
+                for ELITIST = [10, 20, 40]
                     result = results{idx};
                     bests = result{1};
                     mibests = min(bests);
-                    prop = max(1,50-floor(300 * (mibests - minima) ./ (maxima - minima))); % Use 2.^ instead of 300* for clearer difference
+                    prop = max(1,80-floor(300 * (mibests - minima) ./ (maxima - minima))); % Use 2.^ instead of 300* for clearer difference
                     tt = sum(result{4});
                     fprintf(fileID, "%i & %i & %i & \\cellcolor{gray!%i}%.2f & \\cellcolor{gray!%i}%.2f & \\cellcolor{gray!%i}%.2f & \\cellcolor{gray!%i}%.2f & %.2f\\\\\n", PR_CROSS, PR_MUT, ELITIST, prop(1), mibests(1), prop(2), mibests(2), prop(3), mibests(3), prop(4), mibests(4), tt);
                     idx = idx + 1;
