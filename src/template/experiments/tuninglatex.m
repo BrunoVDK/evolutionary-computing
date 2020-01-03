@@ -33,7 +33,7 @@ function [results] = tuninglatex(print)
     sample = datasets;
     
     
-    for c = ["xedge_recombination"]
+    for c = ["xposition_based"]
         
         for m = ["displacement", "insertion", "inversion", "reciprocal_exchange", "scramble", "unnamed"]
                     

@@ -26,14 +26,14 @@ function [] = crossoverlatex(res, calibration, name)
             Z(i) = best(dataset);
         end
         sortedZ = sort(Z);
-        Z = reshape(Z,3,3)
+        Z = reshape(Z,3,3);
 
         % Bar chart
-        fig = figure('visible','off','Position', [0 0 250 250]);
+        fig = figure('visible','off','Position', [0 0 300 300]);
         chart = bar3(Z);
         set(chart,'facecolor',l(dataset,:)); % Change color here
-        ylabel('C%');
-        xlabel('M%');
+        %ylabel('Crossover Rate');
+        %xlabel('Mutation Rate');
         xticklabels({'0.25','0.50','0.70'});
         yticklabels({'0.25','0.50','0.70'});
         zlim(limits);

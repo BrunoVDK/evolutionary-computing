@@ -55,7 +55,7 @@ The following mutation operators were implemented :
 \item[-] \textit{Scramble} : selects a random subtour and shuffles the cities around. Clearly quite a disruptive operator.
 \item[-] \textit{Unnamed} : a hybridised operator, just like its accompanying crossover. A random city is selected and the subtour from this city to the one closest to it is reversed.
 \end{itemize}
-These operators were selected such that a general idea could be formed about them. Some are clearly less \textit{`respectful`} than others, yet it wasn't entirely clear what to expect aside from what was reported in a fairly limited amount of studies which used other benchmarks. After some manual experiments (within the GUI that was extended for this purpose) further experimentation was done with all crossovers. From the configurations that were trialed before, 9 were selected and each of the crossover operators were tested in conjunction with those parameter values (table \ref{tab:par2}). The results are displayed in figures \ref{fig:rescross} and \ref{fig:rescross2}.\\
+These operators were selected such that a general idea could be formed about them. Some are clearly less \textit{`respectful`} than others, yet it wasn't entirely clear what to expect aside from what was reported in a fairly limited amount of studies which used other benchmarks. After some manual experiments (within the GUI that was extended for this purpose) further experimentation was done with all crossovers. From the configurations that were trialed before, 9 were selected and each of the crossover operators were tested in conjunction with those parameter values (table \ref{tab:par2}). The results are displayed in figures \ref{fig:rescross1} to \ref{fig:rescross4} (heatmaps might have been a preferable visualisation and can be generated from the \texttt{crossoverlatex} script, but they were a tad less interpretable).\\
 
 \par\noindent As for the runtimes ; the edge recombination crossovers (both the classical and heuristic one) involve construction of an edge map which makes them the slowest in our list. The others are all about as fast. It's the classical operator (used in the ordinal representation), \texttt{SCX}, \texttt{HERX} or \texttt{UHX} operators who converge more rapidly. The last three are hybrid which makes this unsurprising.
 
@@ -65,7 +65,7 @@ These operators were selected such that a general idea could be formed about the
 \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} & \textit{Generations} \\\hline 
 [300] & [25,50,70] & [25,50,70] & [5] & [1000]
 \end{tabular}
-\caption{Parameter ranges for the experiments on crossover operators. Each configuration was run 10 times on 4 different datasets (with 70, 100, 127 and 131 cities). A stopping criterion was used to avoid useless iterations ; the algorithm stops if the best individual hasn't improved much in the past 100 generations. Results are visualised in figures \ref{tab:rescross} and \ref{tab:rescross2}.}
+\caption{Parameter ranges for the experiments on crossover operators. Each configuration was run 10 times on 4 different datasets (with 70, 100, 127 and 131 cities). A stopping criterion was used to avoid useless iterations ; the algorithm stops if the best individual hasn't improved much in the past 100 generations. Results are visualised in figures \ref{fig:rescross1} to \ref{fig:rescross4}.}
 \label{tab:par2}
 \end{table}
 

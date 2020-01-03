@@ -463,117 +463,407 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \pagenumbering{gobble}
-\begin{table}[H]
-\centering
-\footnotesize
-{\renewcommand{\arraystretch}{1}}
-\begin{tabular}{ccc|c|c|c|c|c}
-\textit{Crossover Rate} & \textit{Mutation Rate} & \textit{Elitism} & \texttt{rondrit025} & \texttt{rondrit070} & \texttt{rondrit0127} & \texttt{belgiumtour} & \textit{Total Time (s)} \\\hline
-\end{tabular}
-\caption{Bar charts visualising results of a variety of crossovers, for selection of better crossovers under the naive assumption that mutation - and crossover operators don't interact.}
-\label{tab:res5}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\pagenumbering{gobble}
-\begin{figure}
+\begin{figure}[H]
 	\centering
 %
 	\begin{subfigure}[b]{0.7\textwidth}
 		\centering
-		\includegraphics[width=0.5\textwidth]{crossover/cross_unnamed_1.png}
+		\includegraphics[width=0.5\textwidth]{crossover/min/cross_alt_edges_1.png}
 		\caption{Alternating Edges Crossover (adjacency representation)}
 		\label{fig:z}
     	\end{subfigure}\\
 %
 	\begin{subfigure}[b]{0.25\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{MPX}}
-		\label{fig:x}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{POS}}
-		\label{fig:y}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{OX1}}
-		\label{fig:z}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{OX2}}
-		\label{fig:x}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{ERX}}
-		\label{fig:y}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{SPX}}
-		\label{fig:z}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{HEUR}}
-		\label{fig:x}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_cycle_1.png}
 		\caption{\texttt{CX}}
-		\label{fig:y}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{PMX}}
-		\label{fig:z}
-    	\end{subfigure}
-%
-	\begin{subfigure}[b]{0.25\textwidth}
-		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
-		\caption{\texttt{SCX}}
 		\label{fig:x}
     	\end{subfigure}
 %
 	\begin{subfigure}[b]{0.25\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_heuristic_1.png}
 		\caption{\texttt{HERX}}
 		\label{fig:y}
     	\end{subfigure}
 %
 	\begin{subfigure}[b]{0.25\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{crossover/cross_unnamed_1.png}
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_recombination_1.png}
+		\caption{\texttt{ERX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_heuristic_1.png}
+		\caption{\texttt{HEUR}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_max_preservative_1.png}
+		\caption{\texttt{MPX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_1.png}
+		\caption{\texttt{O1}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_based_1.png}
+		\caption{\texttt{O2}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_sp_1.png}
+		\caption{\texttt{XOVSP}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_partial_map_1.png}
+		\caption{\texttt{PMX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_position_based_1.png}
+		\caption{\texttt{POS}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_seq_constructive_1.png}
+		\caption{\texttt{SCX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_unnamed_1.png}
 		\caption{\texttt{UHX}}
 		\label{fig:z}
     	\end{subfigure}
 	\caption{Shortest tour found by each crossover operator (tour of 70 cities). Maximum of 1000 generations and basic stopping criterion (the algorithm stops when there has been no improvement in 100 generations which is quite strict, such that late and surprising improvements can be ruled out). The stop condition was met in most cases.}
-	\label{fig:rescross}
+	\label{fig:rescross1}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{gobble}
+\begin{figure}[H]
+	\centering
+%
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth]{crossover/min/cross_alt_edges_2.png}
+		\caption{Alternating Edges Crossover (adjacency representation)}
+		\label{fig:z}
+    	\end{subfigure}\\
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_cycle_2.png}
+		\caption{\texttt{CX}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_heuristic_2.png}
+		\caption{\texttt{HERX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_recombination_2.png}
+		\caption{\texttt{ERX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_heuristic_2.png}
+		\caption{\texttt{HEUR}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_max_preservative_2.png}
+		\caption{\texttt{MPX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_2.png}
+		\caption{\texttt{O1}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_based_2.png}
+		\caption{\texttt{O2}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_sp_2.png}
+		\caption{\texttt{XOVSP}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_partial_map_2.png}
+		\caption{\texttt{PMX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_position_based_2.png}
+		\caption{\texttt{POS}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_seq_constructive_2.png}
+		\caption{\texttt{SCX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_unnamed_2.png}
+		\caption{\texttt{UHX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\caption{Shortest tour found by each crossover operator (tour of 100 cities). Maximum of 1000 generations and basic stopping criterion (the algorithm stops when there has been no improvement in 100 generations which is quite strict, such that late and surprising improvements can be ruled out). The stop condition was met in most cases.}
+	\label{fig:rescross2}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{gobble}
+\begin{figure}[H]
+	\centering
+%
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth]{crossover/min/cross_alt_edges_3.png}
+		\caption{Alternating Edges Crossover (adjacency representation)}
+		\label{fig:z}
+    	\end{subfigure}\\
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_cycle_3.png}
+		\caption{\texttt{CX}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_heuristic_3.png}
+		\caption{\texttt{HERX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_recombination_3.png}
+		\caption{\texttt{ERX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_heuristic_3.png}
+		\caption{\texttt{HEUR}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_max_preservative_3.png}
+		\caption{\texttt{MPX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_3.png}
+		\caption{\texttt{O1}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_based_3.png}
+		\caption{\texttt{O2}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_sp_3.png}
+		\caption{\texttt{XOVSP}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_partial_map_3.png}
+		\caption{\texttt{PMX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_position_based_3.png}
+		\caption{\texttt{POS}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_seq_constructive_3.png}
+		\caption{\texttt{SCX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_unnamed_3.png}
+		\caption{\texttt{UHX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\caption{Shortest tour found by each crossover operator (tour of 127 cities). Maximum of 1000 generations and basic stopping criterion (the algorithm stops when there has been no improvement in 100 generations which is quite strict, such that late and surprising improvements can be ruled out). The stop condition was met in most cases.}
+	\label{fig:rescross3}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{gobble}
+\begin{figure}[H]
+	\centering
+%
+	\begin{subfigure}[b]{0.7\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth]{crossover/min/cross_alt_edges_4.png}
+		\caption{Alternating Edges Crossover (adjacency representation)}
+		\label{fig:z}
+    	\end{subfigure}\\
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_cycle_4.png}
+		\caption{\texttt{CX}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_heuristic_4.png}
+		\caption{\texttt{HERX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_edge_recombination_4.png}
+		\caption{\texttt{ERX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_heuristic_4.png}
+		\caption{\texttt{HEUR}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_max_preservative_4.png}
+		\caption{\texttt{MPX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_4.png}
+		\caption{\texttt{O1}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_order_based_4.png}
+		\caption{\texttt{O2}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_sp_4.png}
+		\caption{\texttt{XOVSP}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_partial_map_4.png}
+		\caption{\texttt{PMX}}
+		\label{fig:z}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_position_based_4.png}
+		\caption{\texttt{POS}}
+		\label{fig:x}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_seq_constructive_4.png}
+		\caption{\texttt{SCX}}
+		\label{fig:y}
+    	\end{subfigure}
+%
+	\begin{subfigure}[b]{0.25\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{crossover/min/cross_unnamed_4.png}
+		\caption{\texttt{UHX}}
+		\label{fig:z}
+    	\end{subfigure}
+	\caption{Shortest tour found by each crossover operator (tour of 131 cities). Maximum of 1000 generations and basic stopping criterion (the algorithm stops when there has been no improvement in 100 generations which is quite strict, such that late and surprising improvements can be ruled out). The stop condition was met in most cases.}
+	\label{fig:rescross4}
 \end{figure}
 
 %\restoregeometry
