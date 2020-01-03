@@ -9,7 +9,7 @@ function mutationlatex
             results = l.results;
             for rate = 1:4 %[20, 40, 50, 70] (mutation rate)
                 r = results{rate};
-                newbest = mean(r{1}); % Take the best tours (can take mean also)
+                newbest = min(r{1}); % Take the best tours (can take mean also)
                 mi = min([mi ; newbest]);
                 ma = max([ma ; newbest]);
             end            
@@ -23,8 +23,10 @@ function mutationlatex
             clear results;
             l = load(c + '_' + m);
             results = l.results;
-            for rate = 4:4 %[20, 40, 50, 70] (mutation rate) % Do all rates here for full report
+            for rate = 3:3 %[20, 40, 50, 70] (mutation rate) % Do all rates here for full report
                 r = results{rate};
+                mean(r{1})
+                min(r{1})
                 mat(idx,:) = mean(r{1}) ./ mi; % Take the best tours (can take mean also)
                 idx = idx + 1;
             end            
