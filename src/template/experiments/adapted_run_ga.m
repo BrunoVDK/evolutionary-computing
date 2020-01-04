@@ -1,4 +1,4 @@
-function [best,average,worst,generations] = adapted_run_ga(...
+function [best,average,worst,generations,stop_generation,stop_best] = adapted_run_ga(...
     x, ...
     y, ...
     NIND, ...
@@ -43,6 +43,9 @@ function [best,average,worst,generations] = adapted_run_ga(...
 
     % fprintf("Starting run with representation '%s', crossover '%s' and mutation '%s' (%i generations).\n", REPRESENTATION, CROSSOVER, MUTATION, MAXGEN);
 
+    stop_generation = -1;
+    stop_best = -1;
+    
     GGAP = 1 - ELITIST; % generation gap (see book, proportion of pop replaced)
 
     mean_fits = zeros(1,MAXGEN+1); % mean fitness
@@ -133,9 +136,12 @@ function [best,average,worst,generations] = adapted_run_ga(...
         if STOP_CRITERION == 4 && same100(best, gen)
             disp('STOPPED 100 the same')
             break;
-        elseif STOP_CRITERION == 2 && check_stop_criterion(0.005, best, gen, 76, 2)
-            disp('Stop criterion met')
-            break;
+        elseif STOP_CRITERION == 2 && check_stop_criterion(0.005, best, gen, 30, 2)
+            if(stop_generation == -1)
+                disp('Stop criterion met')
+                stop_generation = gen;
+                stop_best = best(gen+1);
+            end
         elseif STOP_CRITERION > 2 && best <= STOP_CRITERION % stop when fitness reached
             disp('Stop criterion met')
             break;
@@ -207,6 +213,11 @@ function [best,average,worst,generations] = adapted_run_ga(...
 
     end
     
+    
+    if stop_generation == -1
+        stop_generation = gen;
+        stop_best = best(MAXGEN);
+    end
     
     worst = worst(gen);
     average = mean_fits(gen);
