@@ -29,13 +29,83 @@ To get an initial feel for what may or may not be worth it, 375 configurations (
 
 \fakesection{Stopping Criterion}{\hfill\small\texttt{/stop\_criteria/*.m}}
 
-Implement a stopping criterion that avoids that rather useless iterations (generations) are computed.
-\begin{enumerate}
-\item	 Stopping criterion \& explain why you selected this criterion
-\item Test results (incl.\ performance criteria and parameter settings)
-\item Discussion of test results
+%Implement a stopping criterion that avoids that rather useless iterations (generations) are computed.
+%\begin{enumerate}
+%\item	 Stopping criterion \& explain why you selected this criterion
+%\item Test results (incl.\ performance criteria and parameter settings)
+%\item Discussion of test results
+%\end{enumerate}
 
-\end{enumerate}
+The following efficiency function $E$ is used to calculate the algorithm's efficiency after each generation:
+\begin{equation}
+    E(T) = \frac{1}{T} \sum_{t=0}^T F_i
+\end{equation}
+where $T$ is the index of the current generation and $F_i$ the best fitness value of generation $i$. This efficiency function basically calculates the average best fitness over all generations. Since the total distance is used as the fitness of an individual and the goal is to minimize this distance, $E(t)$ is a monotonically decreasing function (assuming elitism is used).\\
+\newline
+The stopping criterion keeps track of the efficiency of the algorithm. When the relative standard deviation of the last $W$ efficiency values (window) drops below a certain percentage $\Delta$, the algorithm stops. $\Delta$ was chosen to be 0.5\%.\\
+This stop criterion seems suitable, since the goal is to avoid useless generations where little to no improvement of the solution happens.\\
+\newline
+The window size $W$, being the only parameter not yet fixed, influences the quality of the solution and the convergence speed (in generations) of the algorithm. A small $W$ will make the algorithm terminate sooner, possibly missing out on better solutions and decreasing the solution quality. A large $W$ will make the algorithm terminate later, possibly increasing the solution quality but also allowing more useless generations.\\
+\newline
+An optimal value for $W$ was determined. The algorithm was run 20 times on each small benchmark (\texttt{rondrit<...>, belgiumtour, xqf131}) with 500 generations (induvuduals = 50, elitism = 0.05, P\_cross = 0.7, P\_mut = 0.55, crossover = xalt edges, representation = adjacency, mutation = simple inversion, parent selection = linear rank, survivor selection = fitness based). \\
+For each run, the evolution of the efficiency was observed to see what the longest streak without change greater than $\Delta$ was (excluding the last streak until termination of the run). The average streak was 30 with a standard deviation of 35.\\
+\newline
+Two window sizes were considered, namely 30 (the average) and 66 (the sum of the average and standard deviation plus one). The same setup as above was run, but with the stop criterion activated. Each time the stop criterion was met, the generation and fitness value were saved, but the run completed the full 500 generations, so the difference in quality could be observed. The results are shown in the table \ref{tab:window30} and table \ref{tab:window66} below.\\
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{ | l || l | l | l || l | l | l || l | }
+    \hline
+     & \multicolumn{3}{|c|}{No stop criterion} & \multicolumn{3}{|c|}{Stop criterion (W = 30)} & \\
+    \hline
+	Route & \# gen & avg best & std best & \# gen & avg best & std best & quality decrease(\%) \\ \hline
+	rondrit016 & 500 & 1484.877 & 12.547 & 142.35 & 1514.335 & 33.365 & 1.945 \\ \hline
+	rondrit018 & 500 & 1202.425 & 39.508 & 199.7 & 1233.302 & 69.093 & 2.504 \\ \hline
+	rondrit023 & 500 & 832.020 & 26.397 & 280.650 & 870.636 & 45.998 & 4.435 \\ \hline
+	rondrit025 & 500 & 41.407 & 1.272 & 311.75 & 43.251 & 2.112 & 4.262 \\ \hline
+	rondrit048 & 500 & 4677.841 & 262.778 & 423.45 & 4938.954 & 472.199 & 5.287 \\ \hline
+	rondrit050 & 500 & 8.754 & 0.521 & 414.55 & 9.249 & 0.965 & 5.3539 \\ \hline
+	rondrit051 & 500 & 625.062 & 21.971 & 373.75 & 672.535 & 57.825 & 7.059 \\ \hline
+	rondrit067 & 500 & 4241.510 & 290.263 & 396.95 & 4649.488 & 626.395 & 8.775 \\ \hline
+	rondrit070 & 500 & 1334.162 & 58.237 & 422.1 & 1420.047 & 121.276 & 6.048 \\ \hline
+	rondrit100 & 500 & 21.866 & 0.796 & 356.85 & 24.537 & 1.531 & 10.887 \\ \hline
+	rondrit127 & 500 & 317.718 & 10.040 & 251.45 & 371.896 & 29.412 & 14.568 \\ \hline
+	belgiumtour & 500 & 877.212 & 45.774 & 391.25 & 926.090 & 82.716 & 5.278 \\ \hline
+	xqf131 & 500 & 1943.598 & 76.138 & 339.4 & 2192.587 & 156.261 & 11.356 \\ \hline
+    \end{tabular}
+    \caption{Each benchmark solved 20 times with a a max generation of 500. This table shows the amount of generations, average best fitness and standard deviation at the moment the stop criterion (W = 30) fired and the moment the algorithm finished the max generation. The quality is compared.}
+    \label{tab:window30}
+\end{table}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{ | l || l | l | l || l | l | l || l | }
+    \hline
+     & \multicolumn{3}{|c|}{No stop criterion} & \multicolumn{3}{|c|}{Stop criterion (W = 66)} & \\
+    \hline
+	Route & \# gen & avg best & std best & \# gen & avg best & std best & quality decrease(\%) \\ \hline
+	rondrit016 & 500 & 1497.412 & 20.705 & 237.55 & 1514.721 & 29.710 & 1.143 \  \\ \hline
+	rondrit018 & 500 & 1184.392 & 23.386 & 339.75 & 1188.051 & 32.231 & 0.308 \  \\ \hline
+	rondrit023 & 500 & 841.468 & 27.097 & 477.3 & 842.007 & 26.667 & 6.398E-2 \  \\ \hline
+	rondrit025 & 500 & 40.990 & 0.719 & 492.8 & 41.273 & 1.328 & 0.687 \  \\ \hline
+	rondrit048 & 500 & 4746.863 & 265.478 & 500 & 4746.863 & 265.478 & 0 \  \\ \hline
+	rondrit050 & 500 & 8.806 & 0.420 & 500 & 8.806 & 0.420 & 0 \  \\ \hline
+	rondrit051 & 500 & 608.155 & 29.390 & 500 & 608.155 & 29.390 & 0 \  \\ \hline
+	rondrit067 & 500 & 4271.311 & 268.417 & 500 & 4271.311 & 268.417 & 0 \  \\ \hline
+	rondrit070 & 500 & 1321.352 & 81.164 & 500 & 1321.352 & 81.164 & 0 \  \\ \hline
+	rondrit100 & 500 & 21.797 & 0.651 & 500 & 21.797 & 0.651 & 0 \  \\ \hline
+	rondrit127 & 500 & 315.640 & 11.969 & 500 & 315.640 & 11.969 & 0 \  \\ \hline
+	belgiumtour & 500 & 886.170 & 57.198 & 500 & 886.170 & 57.198 & 0 \  \\ \hline
+	xqf131 & 500 & 1944.138 & 84.712 & 500 & 1944.138 & 84.713 & 0 \  \\ \hline
+    \end{tabular}
+    \caption{Each benchmark solved 20 times with a a max generation of 500. This table shows the amount of generations, average best fitness and standard deviation at the moment the stop criterion (W = 66) fired and the moment the algorithm finished the max generation. The quality is compared.}
+    \label{tab:window66}
+\end{table}
+
+As expected, the smaller window size ($W = 30$) results in faster termination and worse quality, the bigger window size in better solution quality and slower termination. \\
+Another interesting observation is the quality decrease in function of the route size (number of cities). These larger routes are more complex and thus the algorithm converges slower. A small window size ($W = 30$) will let the algorithm terminate while the solution is still improving slowly but steadily. A larger window size ($W = 66$) will observe the slow progress and let the algorithm run longer. Taking the window size too large, might result in many generations with too little improvement, though.\\
+\newline
+These results show that the window size and this type of stop criterion in general, are problem specific. As a result, this criterion is only suitable for applications where only one problem or problems of similar complexity are to be solved.
 
 \fakesection{Other Representation and Appropriate Operators}{\hfill\small\texttt{/crossovers/*.m}, \texttt{/mutations/*.m}}
 
