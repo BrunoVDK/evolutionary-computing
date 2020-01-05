@@ -163,17 +163,6 @@ In addition to the loop detection heuristic which was already part of the toolbo
 
 Tests on benchmarks were run without any local heuristic (results where they \textit{are} activated are visualised at the end of this report). Parameters used are listed in table \ref{tab:bench1}. The results are displayed below.
 
-\begin{table}[h]
-\centering
-\footnotesize
-\begin{tabular}{c|c|c|c|c|c|c}
-\textit{Crossover} & \textit{Mutation} & \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} & \textit{Generations} \\\hline 
-Unnamed & Simple Inversion & 300 & 50\% & 40\% & 5\% & 1000
-\end{tabular}
-\caption{Parameters used for the tests on the benchmarks. No stopping criterion was used.}
-\label{tab:bench1}
-\end{table}
-
 \begin{figure}[H]
 	\centering
 %
@@ -203,6 +192,17 @@ Unnamed & Simple Inversion & 300 & 50\% & 40\% & 5\% & 1000
 \caption*{Results on benchmarks. Error rates of 1.72\%, 4.33\%, 4.7\% and 2.55\% respectively.}
 \label{fig:bench1}
 \end{figure}
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{c|c|c|c|c|c|c}
+\textit{Crossover} & \textit{Mutation} & \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} & \textit{Generations} \\\hline 
+Unnamed & Simple Inversion & 300 & 50\% & 40\% & 5\% & 1000
+\end{tabular}
+\caption{Parameters used for the tests on the benchmarks. No stopping criterion was used.}
+\label{tab:bench1}
+\end{table}
 
 \fakesection{Other Tasks}{}
 
@@ -234,7 +234,7 @@ The most interesting parent selection strategy that was implemented is probably 
 \\
 1045.12/2654.36 & 723.89/867.44 & 773.79/1358.97 & 793.34/867.53 & 811.02/878.55 & 767.45/1531.66
 \end{tabular}
-\caption{Results of experiments with several parent selection strategies. \textit{TNM} = Tournament selection. \textit{TNMWR} = Tournament selection without replacement Average of best and average fitness across 30 runs is displayed. First row represents experiments on a tour of 25 cities, second row are experiments on the belgian tour (41 cities). The results are equivalent in for both tours.}
+\caption{Results of experiments with several parent selection strategies. \textit{TNM} = Tournament selection. \textit{TNMWR} = Tournament selection without replacement Average of best and average fitness across 30 runs is displayed. First row represents experiments on a tour of 25 cities, second row are experiments on the belgian tour (41 cities). The results are equivalent for both tours.}
 \label{tab:parentres}
 \end{table}
 
@@ -248,9 +248,9 @@ Out of the three survivor selection strategies that were implemented - $\mu+\lam
 
 \fakesubsection{Diversity Preservation}{}
 
-An island model was implemented where the population is divided into islands if it is large enough. Every island hosts at least 25 individuals and the best ones are transferred from one to the other every so often (leading to periodic drops in average and worst fitness values throughout the generations). It obviously helped with diversity but not in the way tournament selection does ; if there was premature convergence in some algorithm, using the island model tends to transfer that problem to most of the islands themselves. \textit{After} migration the degree of convergence drops (this is based on visual analysis of the graphs in the GUI). \\
+An island model was implemented where the population is divided into islands if it is large enough. Every island hosts at least 25 individuals and the best ones are transferred from one to the other every so often (leading to periodic drops in average and worst fitness values throughout the generations). It obviously helped with diversity but not in the way tournament selection does ; if there was premature convergence in some algorithm, using the island model tends to transfer that problem to most of the islands themselves (as in, most islands experience a similar degree of convergence). \textit{After} migration the degree of convergence drops (this is based on visual analysis of the graphs in the GUI). \\
 
-\par\noindent One way to measure diversity is by counting the number of unique fitness values in the population (admittedly not a perfect measure since different genotypes may have the same fitness value). The median number of uniques across generations is typically higher when using the island model. Even the mean was nearly higher despite the fact that during migration the worst individuals in islands are replaced by the best individuals in other islands, which leads to a stark but short-lived drop in the number of unique fitness values, followed by an increase (until it reaches a value that's typically higher than what it was before migration). For example, the average of the median of the number of unique fitness values across 250 generations (for 30 runs on the belgian tour) was calculated to be 75 and 63 (with and without island model).
+\par\noindent One way to measure diversity is by counting the number of unique fitness values in the population (admittedly not a perfect measure since different genotypes may have the same fitness value). The median number of uniques across generations typically turned out to be higher when using the island model. Even the mean was nearly higher despite the fact that during migration the worst individuals in islands are replaced by the best individuals in other islands, which leads to a stark but short-lived drop in the number of unique fitness values, followed by an increase (until it reaches a value that's typically higher than what it was before migration). For example, the average of the median of the number of unique fitness values across 250 generations (for 30 runs on the belgian tour) was calculated to be 75 and 63 (with and without island model).
 
 %\begin{figure}[H]
 %\centering
