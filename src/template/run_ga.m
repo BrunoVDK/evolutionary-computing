@@ -45,6 +45,9 @@ function [best,average,worst,generations] = run_ga(...
 
     GGAP = 1 - ELITIST; % generation gap (see book, proportion of pop replaced)
 
+    MEASURE_DIVERSITY = true; % if true, will count number of unique solutions
+    
+    uniques = zeros(1,MAXGEN+1); % nr. of unique fitness values
     mean_fits = zeros(1,MAXGEN+1); % mean fitness
     worst = zeros(1,MAXGEN+1); % worst fitness
     Dist = zeros(NVAR,NVAR); % distances
@@ -99,11 +102,12 @@ function [best,average,worst,generations] = run_ga(...
     % representation)
     ObjV = tspfun(Chrom, Dist, REPRESENTATION);
     best = zeros(1,MAXGEN);
-
+    
     % Generational loop
     while gen < MAXGEN
 
         sObjV = sort(ObjV); % Sorted fitness values
+        if MEASURE_DIVERSITY ; uniques(gen+1) = length(unique(sObjV)); end
         best(gen+1) = sObjV(1); % Highest fitness (smallest dist)
         minimum = best(gen+1); % Shorthand
         mean_fits(gen+1) = mean(ObjV); % Mean fitness
@@ -120,7 +124,11 @@ function [best,average,worst,generations] = run_ga(...
                 case 'adjacency'
                     visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
                 case 'path'
-                    visualizeTSP(x, y, Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+                    if MEASURE_DIVERSITY
+                        visualizeTSP(x, y, Chrom(t,:), minimum, ah1, gen, best, uniques, worst, ah2, ObjV, NIND, ah3);
+                    else
+                        visualizeTSP(x, y, Chrom(t,:), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+                    end
                 case 'ordinal'
                     visualizeTSP(x, y, ord2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
             end
@@ -130,9 +138,9 @@ function [best,average,worst,generations] = run_ga(...
         %if (sObjV(stopN) - sObjV(1) <= 1e-15) % implies that stopN percent of pop has same fitness
         %   break;
         %end
-        if gen > 101 & best(gen+1) == best(gen-100)
+        if gen > 101 && best(gen+1) == best(gen-100)
             disp('Stop criterion met')
-            break;
+            % break;
         end
 
         % Process each island (for some methods in the toolbox this is a parameter,
@@ -206,5 +214,9 @@ function [best,average,worst,generations] = run_ga(...
     average = mean_fits(gen);
     generations = gen;
     % fprintf("Results : best = %.2f, avg = %.2f, worst = %.2f\n", best, average, worst);
+    
+    if MEASURE_DIVERSITY
+        fprintf("Average #uniques : %.2f\n", median(uniques));
+    end
     
 end

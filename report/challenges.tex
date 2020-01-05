@@ -102,7 +102,7 @@ Two window sizes were considered, namely 30 (the average) and 66 (the sum of the
     \label{tab:window66}
 \end{table}
 
-As expected, the smaller window size ($W = 30$) results in faster termination and worse quality, the bigger window size in better solution quality and slower termination. \\
+\noindent As expected, the smaller window size ($W = 30$) results in faster termination and worse quality, the bigger window size in better solution quality and slower termination. \\
 Another interesting observation is the quality decrease in function of the route size (number of cities). These larger routes are more complex and thus the algorithm converges slower. A small window size ($W = 30$) will let the algorithm terminate while the solution is still improving slowly but steadily. A larger window size ($W = 66$) will observe the slow progress and let the algorithm run longer. Taking the window size too large, might result in many generations with too little improvement, though.\\
 \newline
 These results show that the window size and this type of stop criterion in general, are problem specific. As a result, this criterion is only suitable for applications where only one problem or problems of similar complexity are to be solved.
@@ -139,7 +139,7 @@ These operators were selected such that a general idea could be formed about the
 \label{tab:par2}
 \end{table}
 
-\par\noindent After selection of the 4 more promising crossovers they were tested in combination with all of the 6 remaining mutation operators (all but simple inversion). The results are visualised in figures \ref{tab:resmut}. To some extent an assumption is made that the performance of mutation operators can be gauged separately from the crossover operator in the sense that it wasn't tested if the other 9 crossover operators perform better than others when combined with a particular mutation operator. Again, given the multitude of possible combinations some simplification is in order. Ideally a meta-algorithm would be used to automate the parameter tuning.
+\par\noindent After selection of the 4 more promising crossovers they were tested in combination with all of the 6 remaining mutation operators (all but simple inversion). The results are visualised in figures \ref{tab:resmut1} and \ref{tab:resmut2}. To some extent an assumption is made that the performance of mutation operators can be gauged separately from the crossover operator in the sense that it wasn't tested if the other 9 crossover operators perform better than others when combined with a particular mutation operator. Again, given the multitude of possible combinations some simplification is in order. Ideally a meta-algorithm would be used to automate the parameter tuning.
 
 \begin{table}[h]
 \centering
@@ -151,21 +151,62 @@ These operators were selected such that a general idea could be formed about the
 \label{tab:par3}
 \end{table}
 
-\noindent The insertion, inversion, simple inversion and reciprocal exchange mutations appeared to be a safe bet in this limited number of experiments. They're not particularly disruptive in comparison with, say, the scramble and displacement mutation operators. Performance of algorithms didn't differ much between runs ; the results for mean shortest tour length (rather than minimum shortest tour across runs) is about equivalent. Of the four mutation rates that were tested the middle 2 (40\% and 50\%) appeared to be appropriate. The scramble mutation turned out to be the most unpredictable. Mutations can get one out of a local optimum or just improve the value of the best solution found so far, but getting towards the optimal is clearly still not guaranteed.
+\noindent The insertion, simple inversion and reciprocal exchange mutations appeared to be a safe bet in this limited number of experiments. They're not particularly disruptive in comparison with, say, the scramble and displacement mutation operators. Performance of algorithms didn't differ much between runs ; the results for mean shortest tour length (rather than minimum shortest tour across runs) is about equivalent. Of the four mutation rates that were tested the middle 2 (40\% and 50\%) appeared to be appropriate. The scramble mutation turned out to be the most unpredictable. Mutations can get one out of a local optimum or just improve the value of the best solution found so far, but getting towards the optimum is clearly still not guaranteed.
 
 \fakesection{Local Optimisation}{\hfill\small\texttt{/hybridisation/twoopt.m}, \texttt{/hybridisation/oropt.m}}
 
-In addition to the loop detection heuristic which was already part of the toolbox, two of the more simple heuristics were applied on some of the benchmarks. \textit{Two-opt} and \textit{Or-opt} in particular\footnote{There's some overlap between the \textit{two-opt} operator and the local loop detection so it's somewhat useless to combine both.}. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they're simple to implement and provide good results. The time complexity of improving a tour with those is $\mathcal{O}(N^2)$. The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. Though a bit preliminary, we tested out one of the better crossovers in combination with these heuristics on \texttt{XQF131}. A near-optimal tour was found with just one erroneous sequence in the bottom left corner. The value of the heuristics is visualised more clearly in the experiments at the end of this report.\\
+In addition to the loop detection heuristic which was already part of the toolbox, two of the more simple heuristics were applied on some of the benchmarks. \textit{Two-opt} and \textit{Or-opt} in particular\footnote{There's some overlap between the \textit{two-opt} operator and the local loop detection so it's somewhat useless to combine both.}. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they're easy to implement and provide good results. Their time complexity is $\mathcal{O}(N^2)$ (per tour). The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. Though a bit preliminary, we tested out one of the better crossovers in combination with these heuristics on \texttt{XQF131}. A near-optimal tour was found with just one erroneous sequence in the bottom left corner. The value of the heuristics is visualised more clearly in the experiments at the end of this report.\\
 
 \par\noindent \textit{Or-opt} is a restricted version of \textit{3-opt} in which subtours of length 1, 2 or 3 are displaced. If the resulting tour is shorter it is picked for further processing. While \textit{2-opt} makes the simple inversion mutation redundant, \textit{Or-opt} obviously overlaps with some mutation operators as well.
 
 \fakesection{Benchmark Problems}{}
 
-Tests on benchmarks were run without any local heuristic (results where they \textit{are} activated are visualised at the end of this report). The results are displayed in table \ref{tab:bench} and speak for themselves.
+Tests on benchmarks were run without any local heuristic (results where they \textit{are} activated are visualised at the end of this report). Parameters used are listed in table \ref{tab:bench1}. The results are displayed below.
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{c|c|c|c|c|c|c}
+\textit{Crossover} & \textit{Mutation} & \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} & \textit{Generations} \\\hline 
+Unnamed & Simple Inversion & 300 & 50\% & 40\% & 5\% & 1000
+\end{tabular}
+\caption{Parameters used for the tests on the benchmarks. No stopping criterion was used.}
+\label{tab:bench1}
+\end{table}
+
+\begin{figure}[H]
+	\centering
+%
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/xqf131.png}
+		\caption{\texttt{xqf131}}
+    	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/bcl380.png}
+		\caption{\texttt{bcl380}}
+    	\end{subfigure}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/xql662.png}
+		\caption{\texttt{xql662}}
+    	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/rbx711.png}
+		\caption{\texttt{rbx711}}
+    	\end{subfigure}
+\caption*{Results on benchmarks. Error rates of 1.72\%, 4.33\%, 4.7\% and 2.55\% respectively.}
+\label{fig:bench1}
+\end{figure}
 
 \fakesection{Other Tasks}{}
 
-Until now, most of the analysis was done with the purpose of finding a good solution for every benchmark. One facet that was neglected to some extent is diversity. Diversity is crucial to prevent premature convergence and increase the probability of finding the better - or even the optimal - solution(s). Therefor, some attention was given to strategies like tournament selection. All experiments were done with just two crossover operators (with the probability of mutation and crossover fixed to 50\%) ; the unnamed crossover and the sequential constructive crossover. They find good solutions but rarely find an optimal one.
+Until now, most of the analysis was done with the purpose of finding a good solution for every benchmark. One facet that was neglected to some extent is diversity. Diversity is crucial to prevent premature convergence and increase the probability of finding the better - or even the optimal - solution(s). Therefor, some attention was given to strategies like tournament selection. All experiments were done with the sequential-constructive crossover (with the probability of mutation and crossover fixed to 40\% and 50\%).
 
 \fakesubsection{Parent Selection}{\hfill\small\texttt{/selection/*.m}}
 
@@ -173,19 +214,27 @@ The most interesting parent selection strategy that was implemented is probably 
 
 \fakesubsection{Survivor Selection}{\hfill\small\texttt{/reinsertion/*.m}}
 
-Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable but definitely not particularly useful. Any of the parent selection methods can be used for survivor selection.
+Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable and definitely not particularly useful. Any of the parent selection methods can be used for survivor selection.
 
 \fakesubsection{Diversity Preservation}{}
 
-An island model was implemented where the population is divided into islands if it is large enough. Every island hosts at least 25 individuals and the best ones are transferred from one to the other every so often (leading to periodic drops in average and worst fitness values throughout the generations). It obviously helped with diversity but not in the way tournament selection does ; if there was premature convergence in some algorithm, the island model tends to the population in islands with most islands experiencing some degree of premature convergence. The degree of convergence tends to drop a bit as individuals are transferred from one island to an other.
+An island model was implemented where the population is divided into islands if it is large enough. Every island hosts at least 25 individuals and the best ones are transferred from one to the other every so often (leading to periodic drops in average and worst fitness values throughout the generations). It obviously helped with diversity but not in the way tournament selection does ; if there was premature convergence in some algorithm, using the island model tends to transfer that problem to most of the islands themselves. \textit{After} migration the degree of convergence drops (this is based on visual analysis of the graphs in the GUI). \\
+
+\par\noindent One way to measure diversity is by counting the number of unique fitness values in the population (admittedly far from a perfect measure since different genotypes may have the same fitness value). The median number of uniques across generations is typically higher when using the island model. Even the mean was nearly higher despite the fact that during migration the worst individuals in islands are replaced by the best individuals in other islands, which leads to a stark but short-lived drop in the number of unique fitness values, followed by an increase (until it reaches a value that's typically higher than before migration). The average of the median of the number of unique fitness values across 250 generations (for 30 runs of the belgian tour) was calculated to be 75 and 63 (with and without island model).
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.8\textwidth]{island/a.png}
+%\includegraphics[width=0.8\textwidth]{island/b.png}
+%\end{figure}
 
 \fakesubsection{Adaptive Parameter Tuning}{}
 
-It would seem that, as several good solutions have been found after quite a few generations, increased frequency of mutation and reduced frequency of local optimisation (if hybridisation is activated) would prove useful by allowing for a more liberal exploration of the search space. Therefor, an adaptive parameter strategy was implemented which does just that. Instead of seeing interesting new solutions emerge, divergence occurred.
+It would seem that, as several good solutions have been found after quite a few generations, increased frequency of mutation and reduced frequency of local optimisation (if hybridisation is activated) would prove useful by allowing for a more liberal exploration of the search space. Therefor, an adaptive parameter strategy was implemented which does just that. Instead of seeing interesting new solutions emerge, the average fitness just kept on diverging. Probably because the search became equivalent to a rather random search.
 
 \fakesubsection{Further Hybridisation}{\hfill\small\texttt{/hybridisation/nearest\_neighbor.m}}
 
-Seeding is a frequently used technique to give a head start. There's many possible approximate solutions for the TSP that can be used for this purpose. One of them is a nearest neighbour solution where a random city is picked and a tour is formed by repeatedly selecting the city nearest to the current one until all of them have been selected. This works well until at the end the remaining edges have to be added, often at high cost. It provides a decent initial solution which is retained through elitism and may provide inspiration for subsequent tours (or lead the algorithm towards a local optimum). While this initial tour generally is within 15\% of the optimal one for all given benchmarks, the genetic algorithm tends to cause further improvements until (in a typical run) the resulting tour is within about 6\% of the optimum. A nice illustration of the value of hybridisation. \\
+Seeding is a frequently used technique to give a head start. There's several possible approximate solutions for the TSP that can be used for this purpose. One of them is a nearest neighbour solution where a random city is picked and a tour is formed by repeatedly selecting the city nearest to the current one until all of them have been selected. This works well until at the end the remaining edges have to be added, often at high cost. It provides a decent initial solution which is retained through elitism and may provide inspiration for subsequent tours (or lead the algorithm towards a local optimum). While this initial tour generally is within 15\% of the optimal one for all given benchmarks, the genetic algorithm tends to cause further improvements until (in a typical run) the resulting tour is within about 6\% of the optimum. \\
 
 You should select \emph{at least one} task from the list below:
 {\small
@@ -206,12 +255,49 @@ For each task:
 \item Discussion of test results
 \end{enumerate}
 
-\fakesection{Final Results}{}
+\fakesection{Benchmarks with Heuristics}{}
 
-Combining all of the above, the benchmarks were tested yet again.\\
+A final test on the benchmarks was done, this time with \textit{2-opt} enabled. It is not applied in each generation, only every so often because it is still a fairly costly operation (as the number of generations increases it is applied less and less to increase the chances of getting out of a local minimum). Tournament selection and the island model was enabled.
 
-\par\noindent We returned to our the default algorithm provided in the toolbox for comparison. \\
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{c|c|c|c|c|c|c}
+\textit{Crossover} & \textit{Mutation} & \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} & \textit{Generations} \\\hline 
+Unnamed & Reciprocal Exchange & 300 & 50\% & 40\% & 5\% & 1000
+\end{tabular}
+\caption{Parameters used for the final tests on the benchmarks. No stopping criterion was used.}
+\label{tab:par2}
+\end{table}
 
+\begin{figure}[H]
+	\centering
+%
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/final/xqf131.png}
+		\caption{\texttt{xqf131}}
+    	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/final/bcl380.png}
+		\caption{\texttt{bcl380}}
+    	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/final/xql662.png}
+		\caption{\texttt{xql662}}
+    	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{benchmarks/final/rbx711.png}
+		\caption{\texttt{rbx711}}
+    	\end{subfigure}
+\caption{Results on benchmarks. Error rates of 0.43\%, 2.37\%, 2.33\% and 1.9\% respectively.}
+\label{fig:bench1}
+\end{figure}
+
+\newpage
 \advance\voffset by -0.6cm
 \input{tables}
 \advance\voffset by 0.6cm
