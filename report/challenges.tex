@@ -25,7 +25,7 @@ To get an initial feel for what may or may not be worth it, 375 configurations (
 
 \par\noindent One slightly more surprising result is that higher mutation - and crossover rates appeared to worsen results. High rates of mutation are too disruptive and the default crossover operator (alternating edges) preserves few edges from the parent. In subsequent experiments, only rates of 5\% and 95\% were abandoned.\\
 
-\par\noindent It can be noted that just 10 runs and 250 generations is hardly enough (from a statistical point of view). However, only soft conclusions were drawn and limited computing power and time was available. Subsequent experiments were run 30 times per configuration and tend to make use of a stopping criterion (in combination with a high maximum number of generations) to avoid prematurely stopping a run. Additionally, while the number of values that were tried per parameter isn't very high, testing out more values would make for a combinatorial explosion. So only a small part of the utility landscape was explored. For a better analysis iterative methods could be used rather than this basic GENERATE-and-TEST approach.
+\par\noindent It can be noted that just 10 runs and 250 generations is hardly enough (from a statistical point of view). However, only soft conclusions were drawn and limited computing power and time was available. Subsequent experiments were usually run 30 times per configuration and tend to make use of a stopping criterion (in combination with a high maximum number of generations) to avoid prematurely stopping a run. While it would be preferable no non-parametric tests were applied. Additionally, while the number of values that were tried per parameter isn't very high, testing out more values would make for a combinatorial explosion. So only a small part of the utility landscape was explored. For a better analysis iterative methods could be used rather than this basic GENERATE-and-TEST approach.
 
 \fakesection{Stopping Criterion}{\hfill\small\texttt{/stop\_criteria/*.m}}
 
@@ -155,9 +155,9 @@ These operators were selected such that a general idea could be formed about the
 
 \fakesection{Local Optimisation}{\hfill\small\texttt{/hybridisation/twoopt.m}, \texttt{/hybridisation/oropt.m}}
 
-In addition to the loop detection heuristic which was already part of the toolbox, two of the more simple heuristics were applied on some of the benchmarks. \textit{Two-opt} and \textit{Or-opt} in particular\footnote{There's some overlap between the \textit{two-opt} operator and the local loop detection so it's somewhat useless to combine both.}. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they're easy to implement and provide good results. Their time complexity is $\mathcal{O}(N^2)$ (per tour). The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. Though a bit preliminary, we tested out one of the better crossovers in combination with these heuristics on \texttt{XQF131}. A near-optimal tour was found with just one erroneous sequence in the bottom left corner. The value of the heuristics is visualised more clearly in the experiments at the end of this report.\\
+In addition to the loop detection heuristic which was already part of the toolbox, two of the more simple heuristics were applied on some of the benchmarks. \textit{Two-opt} and \textit{Or-opt} in particular\footnote{There's some overlap between the \textit{two-opt} operator and the local loop detection so it's somewhat useless to combine both.}. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they're easy to implement and provide good results. Their time complexity is $\mathcal{O}(N^2)$ (per tour). The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. One of the better crossovers was tested in combination with these heuristics on \texttt{XQF131}. A near-optimal tour was found with just one erroneous sequence in the bottom left corner. The value of the heuristics is visualised more clearly in the experiments at the end of this report.\\
 
-\par\noindent \textit{Or-opt} is a restricted version of \textit{3-opt} in which subtours of length 1, 2 or 3 are displaced. If the resulting tour is shorter it is picked for further processing. While \textit{2-opt} makes the simple inversion mutation redundant, \textit{Or-opt} obviously overlaps with some mutation operators as well.
+\par\noindent \textit{Or-opt} is a restricted version of \textit{3-opt} in which subtours of length 1, 2 or 3 are displaced. If the resulting tour is shorter it is picked for further processing. While \textit{2-opt} makes the simple inversion mutation redundant, \textit{Or-opt} obviously overlaps with some mutation operators as well. Results were typically inferior with this heuristic compared to \textit{2-opt}.
 
 \fakesection{Benchmark Problems}{}
 
@@ -206,21 +206,51 @@ Unnamed & Simple Inversion & 300 & 50\% & 40\% & 5\% & 1000
 
 \fakesection{Other Tasks}{}
 
-Until now, most of the analysis was done with the purpose of finding a good solution for every benchmark. One facet that was neglected to some extent is diversity. Diversity is crucial to prevent premature convergence and increase the probability of finding the better - or even the optimal - solution(s). Therefor, some attention was given to strategies like tournament selection. All experiments were done with the sequential-constructive crossover (with the probability of mutation and crossover fixed to 40\% and 50\%).
+Until now, most of the analysis was done with the purpose of finding a good solution for every benchmark. Other facets that were neglected to some extent are selective pressure and diversity. Those can be crucial to prevent premature convergence and increase the probability of finding the better - or even the optimal - solution(s). Therefor, some attention was given to strategies like tournament selection.
 
 \fakesubsection{Parent Selection}{\hfill\small\texttt{/selection/*.m}}
 
-The most interesting parent selection strategy that was implemented is probably tournament selection. Its parameter $k$ denotes the number of participants in each tournament and allows one to control selective pressure. Diversity was clearly increased by this operator and results were superior. In contrast the other strategies - fitness proportionate selection with or without $\sigma$ scaling, exponential ranking and built-in non-linear ranking - did not see similar improvements.
+The most interesting parent selection strategy that was implemented is probably tournament selection. Both tournament selection with - and without replacement were implemented. Results of some basic experiments are displayed in tabel \ref{tab:parentres}.\\
+
+\par\noindent While the rank-based method may appear preferable, in all runs where it was used the algorithm stopped early on because the stopping criterion was met (no improvement was seen for 100 generations in a row). Whereas when tournament selection with replacement ($k=2$) was used this was not the case.
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{c|c|c|c|c|c|c}
+\textit{Crossover} & \textit{Mutation} & \textit{Population Size} & \textit{Crossover Rate} & \textit{Mutation Rate} & \textit{Elitism} & \textit{Generations} \\\hline 
+\texttt{OX1} & Reciprocal Exchange & 300 & 50\% & 40\% & 5\% & 1000
+\end{tabular}
+\caption{Parameters used for tests on various types of parent selection. A stopping criterion was used.}
+\label{tab:parent}
+\end{table}
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{c|c|c|c|c|c}
+\textit{FPS} & \textit{Linear Rank} & \textit{TNM ($k=2$)} & \textit{TNM ($k=10$)} & \textit{TNM ($k=20$)} & \textit{TNMWR $k=2$ (no replacement)}  \\\hline 
+49.23/126.00 & 41.35/51.58 & 41.31/75.47 & 42.15/47.58 & 42.66/47.85 & 42.86/87.21
+\\
+1045.12/2654.36 & 723.89/867.44 & 773.79/1358.97 & 793.34/867.53 & 811.02/878.55 & 767.45/1531.66
+\end{tabular}
+\caption{Results of experiments with several parent selection strategies. \textit{TNM} = Tournament selection. \textit{TNMWR} = Tournament selection without replacement Average of best and average fitness across 30 runs is displayed. First row represents experiments on a tour of 25 cities, second row are experiments on the belgian tour (41 cities). The results are equivalent in for both tours.}
+\label{tab:parentres}
+\end{table}
+
+\noindent To elaborate on this : what's not shown is the number of generations it took for the stopping criterion to be met. In the case of the (linear) rank-based selection it was met in all runs, often fairly early on (within 400 generations). In the case of fitness-proportionate selection it was frequently met (especially in the shorter tour of 25 cities). And in the case of tournament selection it depended on the value of $k$ and whether or not replacement was used. For $k=10$ it was met within 300 generations in most cases, for $k=20$ within 200 generations. Clearly, the value of $k$ influences selective pressure and setting it too high may lead to premature convergence. When tournament selection without replacement was used, the number of generations before the stopping criterion was met increased sharply (sometimes it wasn't even met within 1000 generations). This is not surprising since lesser individuals get a higher chance of surviving (as noted in Eiben's book).\\
+
+\par\noindent Non-linear ranking turned out to be fairly useful as well, but tournament selection looked most likeable as a strategy as it can be run in parallel and its arguments allow one to control selective pressure quite easily (higher $k$ values clearly increased the average fitness value which is an - admittedly somewhat poor - metric for diversity).
 
 \fakesubsection{Survivor Selection}{\hfill\small\texttt{/reinsertion/*.m}}
 
-Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable and definitely not particularly useful. Any of the parent selection methods can be used for survivor selection.
+Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable and definitely not particularly useful. $\mu+\lambda$ considers the merged offspring + parent population which explains it. Any of the parent selection methods can be used for survivor selection as well.
 
 \fakesubsection{Diversity Preservation}{}
 
 An island model was implemented where the population is divided into islands if it is large enough. Every island hosts at least 25 individuals and the best ones are transferred from one to the other every so often (leading to periodic drops in average and worst fitness values throughout the generations). It obviously helped with diversity but not in the way tournament selection does ; if there was premature convergence in some algorithm, using the island model tends to transfer that problem to most of the islands themselves. \textit{After} migration the degree of convergence drops (this is based on visual analysis of the graphs in the GUI). \\
 
-\par\noindent One way to measure diversity is by counting the number of unique fitness values in the population (admittedly far from a perfect measure since different genotypes may have the same fitness value). The median number of uniques across generations is typically higher when using the island model. Even the mean was nearly higher despite the fact that during migration the worst individuals in islands are replaced by the best individuals in other islands, which leads to a stark but short-lived drop in the number of unique fitness values, followed by an increase (until it reaches a value that's typically higher than before migration). The average of the median of the number of unique fitness values across 250 generations (for 30 runs of the belgian tour) was calculated to be 75 and 63 (with and without island model).
+\par\noindent One way to measure diversity is by counting the number of unique fitness values in the population (admittedly not a perfect measure since different genotypes may have the same fitness value). The median number of uniques across generations is typically higher when using the island model. Even the mean was nearly higher despite the fact that during migration the worst individuals in islands are replaced by the best individuals in other islands, which leads to a stark but short-lived drop in the number of unique fitness values, followed by an increase (until it reaches a value that's typically higher than what it was before migration). For example, the average of the median of the number of unique fitness values across 250 generations (for 30 runs on the belgian tour) was calculated to be 75 and 63 (with and without island model).
 
 %\begin{figure}[H]
 %\centering
@@ -234,26 +264,7 @@ It would seem that, as several good solutions have been found after quite a few 
 
 \fakesubsection{Further Hybridisation}{\hfill\small\texttt{/hybridisation/nearest\_neighbor.m}}
 
-Seeding is a frequently used technique to give a head start. There's several possible approximate solutions for the TSP that can be used for this purpose. One of them is a nearest neighbour solution where a random city is picked and a tour is formed by repeatedly selecting the city nearest to the current one until all of them have been selected. This works well until at the end the remaining edges have to be added, often at high cost. It provides a decent initial solution which is retained through elitism and may provide inspiration for subsequent tours (or lead the algorithm towards a local optimum). While this initial tour generally is within 15\% of the optimal one for all given benchmarks, the genetic algorithm tends to cause further improvements until (in a typical run) the resulting tour is within about 6\% of the optimum. \\
-
-You should select \emph{at least one} task from the list below:
-{\small
-\begin{enumerate}
-\item Implement and use two other parent selection methods, i.e.\  fitness proportional selection and tournament selection. Compare the results with those obtained using the default rank-based selection. 
-\item Implement one survivor selection strategy (besides the already implemented elitism). Perform experiments and evaluate the results. 
-\item Implement and use one of the techniques aimed at preserving population diversity (e.g.\ subpopulations/islands, crowding, \ldots). Perform experiments and evaluate the results.
-\item Incorporate an adaptive or self-adaptive parameter control strategy (e.g.\  parameters that depend on the state of the population, parameters that co-evolve with the population, \ldots). Perform experiments and evaluate the results. 
-\end{enumerate}
-}
-
-\noindent
-For each task:
-\begin{enumerate}
-\item	 Description of implementation
-\item	 Description of the experiments
-\item Test results
-\item Discussion of test results
-\end{enumerate}
+Seeding is a frequently used technique to give a head start. There's several possible approximate solutions for the TSP that can be used for this purpose. One of them is a nearest neighbour solution where a random city is picked and a tour is formed by repeatedly selecting the city nearest to the current one until all of them have been selected. This works well until at the end the remaining edges have to be added, often at high cost. It provides a decent initial solution which is retained through elitism and may provide inspiration for subsequent tours (or lead the algorithm towards a local optimum). While this initial tour generally is within 15\% of the optimal one for all given benchmarks, the genetic algorithm tends to cause further improvements until (in a typical run) the resulting tour is within about 6\% of the optimum. No \textit{kd}-tree was used as a seed is only constructed once for every run which (in comparison to a whole run) takes little time.
 
 \fakesection{Benchmarks with Heuristics}{}
 
@@ -293,7 +304,7 @@ Unnamed & Reciprocal Exchange & 300 & 50\% & 40\% & 5\% & 1000
 		\includegraphics[width=\textwidth]{benchmarks/final/rbx711.png}
 		\caption{\texttt{rbx711}}
     	\end{subfigure}
-\caption{Results on benchmarks. Error rates of 0.43\%, 2.37\%, 2.33\% and 1.9\% respectively.}
+\caption{Results on benchmarks, this time \textit{with} heuristics like \textit{2-opt}. Error rates of 0.43\%, 2.37\%, 2.33\% and 1.9\% respectively.}
 \label{fig:bench1}
 \end{figure}
 

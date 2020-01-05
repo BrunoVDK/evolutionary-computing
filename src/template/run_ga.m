@@ -45,7 +45,7 @@ function [best,average,worst,generations] = run_ga(...
 
     GGAP = 1 - ELITIST; % generation gap (see book, proportion of pop replaced)
 
-    MEASURE_DIVERSITY = true; % if true, will count number of unique solutions
+    MEASURE_DIVERSITY = false; % if true, will count number of unique solutions
     
     uniques = zeros(1,MAXGEN+1); % nr. of unique fitness values
     mean_fits = zeros(1,MAXGEN+1); % mean fitness
@@ -139,8 +139,8 @@ function [best,average,worst,generations] = run_ga(...
         %   break;
         %end
         if gen > 101 && best(gen+1) == best(gen-100)
-            disp('Stop criterion met')
-            % break;
+            fprintf('Stop criterion met at gen %i\n', gen)
+            break;
         end
 
         % Process each island (for some methods in the toolbox this is a parameter,

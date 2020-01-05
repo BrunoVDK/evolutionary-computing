@@ -1,0 +1,46 @@
+RESULTS FOR PARENT SELECTION
+RANK-BASED -> FPS -> Tournament for k = 2, then 10
+NOTE NUMBER OF GENERATIONS BEFORE STOP CRITERION IS MET
+
+
+>> tspgui(20)
+Stop criterion met at gen 801Stop criterion met at gen 617Stop criterion met at gen 341Stop criterion met at gen 503Stop criterion met at gen 278Stop criterion met at gen 610Stop criterion met at gen 408Stop criterion met at gen 324Stop criterion met at gen 565Stop criterion met at gen 477Stop criterion met at gen 321Stop criterion met at gen 554Stop criterion met at gen 287Stop criterion met at gen 613Stop criterion met at gen 348Stop criterion met at gen 647Stop criterion met at gen 434Stop criterion met at gen 273Stop criterion met at gen 390Stop criterion met at gen 375Total CPU time : 129.78s
+Results averaged over all runs : best = 723.89, avg = 867.44, worst = 1461.55
+Stds of results over all runs : best = 32.55, avg = 35.49, worst = 74.30
+Overall best: 664.32
+Stop criterion met at gen 710Stop criterion met at gen 968Stop criterion met at gen 938Stop criterion met at gen 910Stop criterion met at gen 845Stop criterion met at gen 538Stop criterion met at gen 531Stop criterion met at gen 651Stop criterion met at gen 973Stop criterion met at gen 899Stop criterion met at gen 935Total CPU time : 261.70s
+Results averaged over all runs : best = 1045.12, avg = 2654.36, worst = 3259.79
+Stds of results over all runs : best = 69.21, avg = 18.44, worst = 55.99
+Overall best: 930.72
+Stop criterion met at gen 782Stop criterion met at gen 697Stop criterion met at gen 915Stop criterion met at gen 917Stop criterion met at gen 613Stop criterion met at gen 601Stop criterion met at gen 696Stop criterion met at gen 744Stop criterion met at gen 424Stop criterion met at gen 392Stop criterion met at gen 658Stop criterion met at gen 567Stop criterion met at gen 965Stop criterion met at gen 615Stop criterion met at gen 617Stop criterion met at gen 847Stop criterion met at gen 638Stop criterion met at gen 558Total CPU time : 220.31s
+Results averaged over all runs : best = 773.79, avg = 1358.97, worst = 2319.38
+Stds of results over all runs : best = 35.86, avg = 46.70, worst = 124.36
+Overall best: 728.25
+>> close all
+>> tspgui(20)
+>> tspgui(20)
+Stop criterion met at gen 245
+Stop criterion met at gen 564
+Stop criterion met at gen 234
+Stop criterion met at gen 252
+Stop criterion met at gen 220
+Stop criterion met at gen 244
+Stop criterion met at gen 271
+Stop criterion met at gen 389
+Stop criterion met at gen 286
+Stop criterion met at gen 250
+Stop criterion met at gen 253
+Stop criterion met at gen 173
+Stop criterion met at gen 196
+Stop criterion met at gen 255
+Stop criterion met at gen 231
+Stop criterion met at gen 206
+Stop criterion met at gen 205
+Stop criterion met at gen 215
+Stop criterion met at gen 215
+Stop criterion met at gen 208
+Total CPU time : 63.49s
+Results averaged over all runs : best = 793.34, avg = 867.53, worst = 1367.18
+Stds of results over all runs : best = 70.78, avg = 70.36, worst = 72.35
+Overall best: 674.14
+>> 
