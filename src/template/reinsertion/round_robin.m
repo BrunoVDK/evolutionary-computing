@@ -4,7 +4,7 @@ function [chromosomes,cost_values] = round_robin(chromosomes, selected, ...
     merge = [chromosomes ; selected];
     merged_values = [cost_values ; selected_cost_values];
     n = size(merge, 1);
-    if q > n - 1; error 'Invalid q value for round robin selection.'; end
+    if q < 1 || q > n - 1; error 'Invalid q value for round robin selection.'; end
     l = n - 1; % Number of opponents to pick from
     possible_picks = 2:n+1;
     wins = zeros(n,1);
@@ -13,9 +13,9 @@ function [chromosomes,cost_values] = round_robin(chromosomes, selected, ...
         wins(i) = sum(merged_values(opponents) > merged_values(i));
         possible_picks(i+1) = i;
     end
-    % best = sus(wins, size(chromosomes,1));
+    best = sus(wins, size(chromosomes,1));
     % best = randperm(n, size(chromosomes,1));
-    [~,best] = maxk(wins, size(chromosomes,1));
+    % [~,best] = maxk(wins, size(chromosomes,1));
     chromosomes = merge(best,:);
     cost_values = merged_values(best);
 end

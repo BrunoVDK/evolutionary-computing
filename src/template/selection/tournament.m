@@ -1,7 +1,7 @@
 function [selected] = tournament(chromosomes, cost_values, generational_gap, k, replace, p)
 
     if nargin < 6; p = 0.5; end % Selection probability (larger ==> increases selective pressure)
-    if nargin < 4; k = 20; end % >> selection pressure as k increases
+    if nargin < 4; k = 2; end % >> selection pressure as k increases
     if nargin < 5; replace = false; end
 
     % Precalculated probabilities

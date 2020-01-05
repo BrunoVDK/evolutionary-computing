@@ -243,7 +243,7 @@ The most interesting parent selection strategy that was implemented is probably 
 
 \fakesubsection{Survivor Selection}{\hfill\small\texttt{/reinsertion/*.m}}
 
-Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable and definitely not particularly useful. $\mu+\lambda$ considers the merged offspring - and parent population which explains it. Any of the parent selection methods can be used for survivor selection as well.
+Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable and definitely not particularly useful. Any of the parent selection methods can be used for survivor selection as well. Round-robin and $\mu+\lambda$ consider the merged offspring - and parent population. If diversity is not preserved in some way they select parents more and more often (because as the algorithm converges these tend to have higher fitness values). When the crossover - and mutation rate are high it it less of a problem.
 
 \fakesubsection{Diversity Preservation}{}
 
