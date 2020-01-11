@@ -47,15 +47,15 @@ The stopping criterion keeps track of the efficiency of the algorithm. When the 
 The window size $W$, being the only parameter not yet fixed, influences the quality of the solution and the convergence speed (in generations) of the algorithm. A small $W$ will make the algorithm terminate sooner, possibly missing out on better solutions and decreasing the solution quality. A large $W$ will make the algorithm terminate later, possibly increasing the solution quality but also allowing more useless generations.\\
 \newline
 An optimal value for $W$ was determined. The algorithm was run 20 times on each small benchmark (\texttt{rondrit<...>, belgiumtour, xqf131}) with 500 generations (induvuduals = 50, elitism = 0.05, P\_cross = 0.7, P\_mut = 0.55, crossover = xalt edges, representation = adjacency, mutation = simple inversion, parent selection = linear rank, survivor selection = fitness based). \\
-For each run, the evolution of the efficiency was observed to see what the longest streak without change greater than $\Delta$ was (excluding the last streak until termination of the run). The average streak was 30 with a standard deviation of 35.\\
+
+\par\noindent For each run, the evolution of the efficiency was observed to see what the longest streak without change greater than $\Delta$ was (excluding the last streak until termination of the run). The average streak was 30 with a standard deviation of 35.\\
 \newline
 Two window sizes were considered, namely 30 (the average) and 66 (the sum of the average and standard deviation plus one). The same setup as above was run, but with the stop criterion activated. Each time the stop criterion was met, the generation and fitness value were saved, but the run completed the full 500 generations, so the difference in quality could be observed. The results are shown in the table \ref{tab:window30} and table \ref{tab:window66} below.\\
 
 \begin{table}[ht!]
     \centering
-    \begin{tabular}{ | l || l | l | l || l | l | l || l | }
-    \hline
-     & \multicolumn{3}{|c|}{No stop criterion} & \multicolumn{3}{|c|}{Stop criterion (W = 30)} & \\
+    \begin{tabular}{ l | l | l | l | l | l | l | l }
+     & \multicolumn{3}{c|}{\textit{No stop criterion}} & \multicolumn{3}{c|}{\textit{Stop criterion ($W = 30$)}} & \\
     \hline
 	Route & \# gen & avg best & std best & \# gen & avg best & std best & quality decrease(\%) \\ \hline
 	rondrit016 & 500 & 1484.877 & 12.547 & 142.35 & 1514.335 & 33.365 & 1.945 \\ \hline
@@ -70,7 +70,7 @@ Two window sizes were considered, namely 30 (the average) and 66 (the sum of the
 	rondrit100 & 500 & 21.866 & 0.796 & 356.85 & 24.537 & 1.531 & 10.887 \\ \hline
 	rondrit127 & 500 & 317.718 & 10.040 & 251.45 & 371.896 & 29.412 & 14.568 \\ \hline
 	belgiumtour & 500 & 877.212 & 45.774 & 391.25 & 926.090 & 82.716 & 5.278 \\ \hline
-	xqf131 & 500 & 1943.598 & 76.138 & 339.4 & 2192.587 & 156.261 & 11.356 \\ \hline
+	xqf131 & 500 & 1943.598 & 76.138 & 339.4 & 2192.587 & 156.261 & 11.356
     \end{tabular}
     \caption{Each benchmark solved 20 times with a a max generation of 500. This table shows the amount of generations, average best fitness and standard deviation at the moment the stop criterion (W = 30) fired and the moment the algorithm finished the max generation. The quality is compared.}
     \label{tab:window30}
@@ -78,9 +78,8 @@ Two window sizes were considered, namely 30 (the average) and 66 (the sum of the
 
 \begin{table}[ht!]
     \centering
-    \begin{tabular}{ | l || l | l | l || l | l | l || l | }
-    \hline
-     & \multicolumn{3}{|c|}{No stop criterion} & \multicolumn{3}{|c|}{Stop criterion (W = 66)} & \\
+    \begin{tabular}{l | l | l | l | l | l | l | l }
+     & \multicolumn{3}{c|}{\textit{No stop criterion}} & \multicolumn{3}{c|}{\textit{Stop criterion ($W = 66$)}} & \\
     \hline
 	Route & \# gen & avg best & std best & \# gen & avg best & std best & quality decrease(\%) \\ \hline
 	rondrit016 & 500 & 1497.412 & 20.705 & 237.55 & 1514.721 & 29.710 & 1.143 \  \\ \hline
@@ -95,7 +94,7 @@ Two window sizes were considered, namely 30 (the average) and 66 (the sum of the
 	rondrit100 & 500 & 21.797 & 0.651 & 500 & 21.797 & 0.651 & 0 \  \\ \hline
 	rondrit127 & 500 & 315.640 & 11.969 & 500 & 315.640 & 11.969 & 0 \  \\ \hline
 	belgiumtour & 500 & 886.170 & 57.198 & 500 & 886.170 & 57.198 & 0 \  \\ \hline
-	xqf131 & 500 & 1944.138 & 84.712 & 500 & 1944.138 & 84.713 & 0 \  \\ \hline
+	xqf131 & 500 & 1944.138 & 84.712 & 500 & 1944.138 & 84.713 & 0 \  
     \end{tabular}
     \caption{Each benchmark solved 20 times with a a max generation of 500. This table shows the amount of generations, average best fitness and standard deviation at the moment the stop criterion (W = 66) fired and the moment the algorithm finished the max generation. The quality is compared.}
     \label{tab:window66}
@@ -239,11 +238,11 @@ The most interesting parent selection strategy that was implemented is probably 
 
 \noindent To elaborate on this : what's not shown is the number of generations it took for the stopping criterion to be met. In the case of the (linear) rank-based selection it was met in all runs, often fairly early on (within 400 generations). In the case of fitness-proportionate selection it was frequently met (especially in the shorter tour of 25 cities). And in the case of tournament selection it depended on the value of $k$ and whether or not replacement was used. For $k=10$ it was met within 300 generations in most cases, for $k=20$ within 200 generations. Clearly, the value of $k$ influences selective pressure and setting it too high may lead to premature convergence. When tournament selection without replacement was used, the number of generations before the stopping criterion was met increased sharply (sometimes it wasn't even met within 1000 generations). This is not surprising since lesser individuals get a higher chance of surviving (as noted in Eiben's book).\\
 
-\par\noindent Non-linear ranking turned out to be fairly useful as well, but tournament selection looked most likeable as a strategy as it can be run in parallel and its arguments allow one to control selective pressure quite easily (higher $k$ values clearly increased the average fitness value which is an - admittedly somewhat poor - metric for diversity).
+\par\noindent Non-linear ranking turned out to be fairly useful as well, but tournament selection looked most likeable as a strategy as it can be run in parallel and its arguments allow one to control selective pressure quite easily (higher $k$ values clearly increased the average versus best fitness value which is an - admittedly somewhat poor - metric for diversity).
 
 \fakesubsection{Survivor Selection}{\hfill\small\texttt{/reinsertion/*.m}}
 
-Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable and definitely not particularly useful. Any of the parent selection methods can be used for survivor selection as well. Round-robin and $\mu+\lambda$ consider the merged offspring - and parent population. If diversity is not preserved in some way they select parents more and more often (because as the algorithm converges these tend to have higher fitness values). When the crossover - and mutation rate are high it it less of a problem.
+Out of the three survivor selection strategies that were implemented - $\mu+\lambda$, round robin and uniform selection - the first two led to premature convergence and the latter was highly unpredictable when not used with aggressive parent selection. Any of the parent selection methods can be used for survivor selection as well. Round-robin and $\mu+\lambda$ consider the merged offspring - and parent population. If diversity is not preserved in some way they select parents more and more often (because as the algorithm converges these tend to have higher fitness values). When the crossover - and mutation rate are high it is less of a problem.
 
 \fakesubsection{Diversity Preservation}{}
 
@@ -259,7 +258,7 @@ An island model was implemented in which the population is divided into islands 
 
 \fakesubsection{Adaptive Parameter Tuning}{}
 
-It would seem that, as several good solutions have been found after quite a few generations, increased frequency of mutation and reduced frequency of local optimisation (if hybridisation is activated) would prove useful by allowing for a more liberal exploration of the search space. Therefor, an adaptive parameter strategy was implemented which does just that. Instead of seeing interesting new solutions emerge, the average fitness just kept on diverging. Probably because the search became equivalent to a rather random search.
+It would seem that, as several good solutions have been found after quite a few generations, increased frequency of mutation and reduced frequency of local optimisation (if hybridisation is activated) would prove useful by allowing for a more liberal exploration of the search space. Therefor, an adaptive parameter strategy was implemented which does just that. Instead of seeing interesting new solutions emerge, the average fitness just kept on diverging. Probably because the search became equivalent to a rather random search. A more interesting approach would be to increase the mutation rate if diversity sinks too low.
 
 \fakesubsection{Further Hybridisation}{\hfill\small\texttt{/hybridisation/nearest\_neighbor.m}}
 
@@ -267,7 +266,7 @@ Seeding is a frequently used technique to give a head start. There's several pos
 
 \fakesection{Benchmarks with Heuristics}{}
 
-A final test on the benchmarks was done, this time with \textit{2-opt} enabled. It was not applied in each generation, only every so often because it is still a fairly costly operation (as the number of generations increases it is applied less and less to increase the chances of getting out of a local minimum). Tournament selection and the island model was enabled.
+A final test on the benchmarks was done, this time with \textit{2-opt} enabled. It was not applied in each generation, only every so often because it is still a fairly costly operation (as the number of generations increases it was applied less and less to increase the chances of getting out of a local minimum).
 
 \begin{table}[h]
 \centering
@@ -276,8 +275,8 @@ A final test on the benchmarks was done, this time with \textit{2-opt} enabled. 
 \textit{Crossover} & \textit{Mutation} & \textit{Population Size} & \textit{Crossover Rate (\%)} & \textit{Mutation Rate (\%)} & \textit{Elitism (\%)} & \textit{Generations} \\\hline 
 Unnamed & Reciprocal Exchange & 300 & 50\% & 40\% & 5\% & 1000
 \end{tabular}
-\caption{Parameters used for the final tests on the benchmarks. No stopping criterion was used.}
-\label{tab:par2}
+\caption{Parameters used for the final tests on the benchmarks. No stopping criterion was used. Tournament selection and the island model were enabled.}
+\label{tab:parb}
 \end{table}
 
 \begin{figure}[H]
