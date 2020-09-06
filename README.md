@@ -53,6 +53,39 @@ Another interesting observation is the quality decrease in function of the route
 
 These results show that the window size and this type of stop criterion in general, are problem specific. As a result, this criterion is only suitable for applications where only one problem or problems of similar complexity are to be solved.
 
+**Other Representation and Appropriate Operators**
+
+Aside from the adjacency representation, (at least) four alternative representations can be used. Two of those are binary which were avoided due to previous experiences in constraint programming where the use of binary representations for problems with integer domains is discouraged. They are the binary and matrix representations. The other two alternatives were both implemented. The ordinal representation because it allows for the use of the ‘classic’ single-point crossover. The path representation because it is probably the most ‘natural’ representation. For the latter a few crossover operators were implemented (inspired by [2] & [1]). Some of these were mentioned either in Eiben’s book or in the course notes ; the heuristic - , partially matched -, order -, cycle -, edge recombination - and sequential constructive crossovers in particular. Operators that weren’t mentioned include :
+
+- Heuristic Edge Recombination (HERX) : equivalent to the edge recombination crossover, but with some hybridisation in that the shortest edge is picked from the edge list of the current city, rather than the edge corresponding to the city with the shortest edge list.
+- Max Preservative (MPX) : similar to the partially matched crossover. A subtour of the first parent is selected and remaining cities are appended to this sequence in the order that they appear in the other parent. The subtour’s length needs to be within a specified interval.
+- Order Based (OX2) : a few random cities are selected in a parent. These cities are removed from the other parent and replaced by the same cities, at the same locations, but in the order that they appear in the first parent.
+- Position Based (POS) : this one also selects a few random cities but imposes their positions as well, such that the offspring is the same as the first parent with respect to the cities that were selected, after which the remaining cities are added to it in the order that they appear in the other parent.
+- Unnamed Heuristic (UHX) : a city is selected randomly. Four edges connected to city are compared, the smallest is picked (if there are edges of equal length, one is picked at random). The city at the other side of this edge becomes the current city and the whole routine is repeated until all cities have been added to the offspring.
+
+The following mutation operators were implemented :
+- Insertion : a city is selected, removed and inserted at some other (random) point in the tour.
+- Displacement : a subtour is selected, removed and inserted at some other point in the tour.
+- Inversion : the ‘simple’ inversion was already implemented. It involves picking out two cities and inverting the subtour between them (which is what 2-opt does). Inversion adds to this by subsequently placing it somewhere else (like the displacement operator does).
+- Scramble : selects a random subtour and shuffles the cities around. Clearly quite a disruptive operator.
+- Unnamed : a hybridised operator, just like its accompanying crossover. A random city is selected and the subtour from this city to the one closest to it is reversed.
+
+These operators were selected such that a general idea could be formed about them. Some are clearly less ‘respectful‘ than others, yet it wasn’t entirely clear what to expect aside from what was reported in a fairly limited amount of studies which used other benchmarks. After some manual experiments (within the GUI that was extended for this purpose) further experimentation was done with all crossovers. From the configurations that were trialed before, 9 were selected and each of the crossover operators were tested in conjunction with those parameter values (table 4). The results are displayed in figures 4 to 7 (heatmaps might have been a preferable visualisation and can be generated from the crossoverlatex script, but they were a tad less interpretable). The average best tour length was visualised as well but not included in the report, as there was no indication that the shortest tours were a matter of luck.
+
+As for the runtimes ; the edge recombination crossovers (both the classical and heuristic one) involve construction of an edge map which makes them the slowest in our list. The sequential crossover is a tad slower too, as is the classic single-point crossover (probably because the associated ordinal representation requires conversion to a path representation upon mutation). It’s the latter, SCX, HERX and UHX operators who converge more rapidly. The last three are hybrid which makes this unsurprising.
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme5.png?raw=true">
+</p>
+
+After selection of the 4 more promising crossovers they were tested in combination with all of the 6 remaining mutation operators (all but simple inversion). The results are visualised in figures 8 and 9. To some extent an assumption is made that the performance of mutation operators can be gauged separately from the crossover operator in the sense that it wasn’t tested if the other 9 crossover operators perform better than others when combined with a particular mutation operator. Again, given the multitude of possible combinations some simplification is in order. Ideally a meta-algorithm would be used to automate the parameter tuning.
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme6.png?raw=true">
+</p>
+
+The insertion, simple inversion and reciprocal exchange mutations appeared to be a safe bet in this limited number of experiments. They’re not particularly disruptive in comparison with, say, the scramble and displacement mutation operators. Performance of algorithms didn’t differ much between runs ; the results for mean shortest tour length (rather than minimum shortest tour across runs) is about equivalent. Of the four mutation rates that were tested the middle 2 (40% and 50%) appeared to be appropriate for future use. The scramble mutation turned out to be the most unpredictable. Mutations can get one out of a local optimum or just improve the value of the best solution found so far, but getting towards the optimum is clearly still not guaranteed.
+
 ***
 
 **Books**
