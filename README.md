@@ -149,6 +149,18 @@ It would seem that, as several good solutions have been found after quite a few 
 
 Seeding is a frequently used technique to give a head start. There’s several possible approximate solutions for the TSP that can be used for this purpose. One of them is a nearest neighbour solution where a random city is picked and a tour is formed by repeatedly selecting the city nearest to the current one until all of them have been selected. This works well until at the end the remaining edges have to be added, often at high cost. It provides a decent initial solution which is retained through elitism and may provide inspiration for subsequent tours (or lead the algorithm towards a local optimum). In most experiments the resulting initial tour turned out to have a length that’s within 15% of the optimal one, and the genetic algorithm caused further improvements until (in a typical run) the resulting tour ended up within about 6% of the optimum. No kd-tree was used as a seed is only constructed once for every run which (in comparison to a whole run) takes little time. Unsurprisingly, however, it barely helped with finding a truly good tour. Instead it improved the average best tour found across runs.
 
+**Benchmarks with Heuristics**
+
+A final test on the benchmarks was done, this time with 2-opt enabled. It was not applied in each generation, only every so often because it is still a fairly costly operation (as the number of generations increases it was applied less and less to increase the chances of getting out of a local minimum).
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme11.png?raw=true">
+</p>
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme12.png?raw=true">
+</p>
+
 ***
 
 **Books**
