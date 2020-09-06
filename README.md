@@ -108,6 +108,47 @@ Tests on benchmarks were run without any local heuristic (results where they are
 <img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme9.png?raw=true">
 </p>
 
+**Other Tasks**
+
+Until now, most of the analysis was done with the purpose of finding a good solution for every benchmark. Other facets that were neglected to some extent are selective pressure and diversity. Those can be crucial to prevent premature convergence and increase the probability of finding the better - or even the optimal - solution(s). Therefor, some attention was given to strategies like tournament selection.
+
+*Parent Selection*
+
+The most interesting parent selection strategy that was implemented is probably tournament selection. Both tournament selection with - and without replacement were implemented. Results of some basic experiments are displayed in tabel 8.
+
+While the rank-based method may appear preferable, in all runs where it was used the algorithm stopped early on because the stopping criterion was met (no improvement was seen for 100 generations in a row). Whereas when tournament selection with replacement (k = 2) was used this was not the case.
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme10.png?raw=true">
+</p>
+
+To elaborate on this : what’s not shown is the number of generations it took for the stopping criterion to be met. In the case of the (linear) rank-based selection it was met in all runs, often fairly early on (within 400 generations). In the case of fitness-proportionate selection it was frequently met (especially in the shorter tour of 25 cities). And in the case of tournament selection it depended on the value of k and whether or not replacement was used. For k = 10 it was met within 300 generations in most cases, for k = 20 within 200 generations. Clearly, the value of k influences selective pressure and setting it too high may lead to premature convergence. When tournament selection without replacement was used, the number of generations before the stopping criterion was met increased sharply (sometimes it wasn’t even met within 1000 generations). This is not surprising since lesser individuals get a higher chance of surviving (as noted in Eiben’s book).
+
+Non-linear ranking turned out to be fairly useful as well, but tournament selection looked most likeable as a strategy as it can be run in parallel and its arguments allow one to control selective pressure quite easily (higher k values clearly increased the average versus best fitness value which is an - admittedly somewhat poor - metric for diversity).
+
+*Survivor Selection*
+
+Out of the three survivor selection strategies that were implemented - μ + λ, round robin and uniform selection -
+the first two led to premature convergence and the latter was highly unpredictable. Any of the parent selection
+methods can be used for survivor selection as well. μ + λ considers the merged offspring - and parent population
+and has a large selective pressure. Round robin considers the merged populations as well, selecting parents
+more and more often (because as the algorithm converges these tend to have higher fitness values). Eventually
+there's a large amount of highly-fit local optima and exploration is decreased starkly. Using stochastic universal selection (based on the number of wins) instead of basing selection directly on the number of wins themselves is only of limited benefit.
+
+*Diversity Preservation*
+
+An island model was implemented in which the population is divided into islands if it is large enough. Every island hosts at least 25 individuals and the best ones are transferred from one to the other every so often (leading to periodic drops in average and worst fitness values throughout the generations). It obviously helped with diversity but not in the way tournament selection does ; if there was premature convergence in some algorithm, using the island model tends to transfer that problem to most of the islands themselves (as in, most islands experience a similar degree of convergence). After migration the degree of convergence drops (this is based on visual analysis of the graphs in the GUI).
+
+One way to measure diversity is by counting the number of unique fitness values in the population (admittedly not a perfect measure since different genotypes may have the same fitness value). The median number of uniques across generations typically turned out to be higher when using the island model. Even the mean was nearly higher despite the fact that during migration the worst individuals in islands are replaced by the best individuals in other islands, which leads to a stark but short-lived drop in the number of unique fitness values, followed by an increase (until it reaches a value that’s typically higher than what it was before migration). For example, the average of the median of the number of unique fitness values across 250 generations (for 30 runs on the belgian tour) was calculated to be 75 and 63 (with and without island model).
+
+*Adaptive Parameter Tuning*
+
+It would seem that, as several good solutions have been found after quite a few generations, increased frequency of mutation and reduced frequency of local optimisation (if hybridisation is activated) would prove useful by allowing for a more liberal exploration of the search space. Therefor, an adaptive parameter strategy was implemented which does just that. Instead of seeing interesting new solutions emerge, the average fitness just kept on diverging. Probably because the search became equivalent to a rather random search. A more interesting approach would be to increase the mutation rate if diversity sinks too low.
+
+*Further Hybridisation*
+
+Seeding is a frequently used technique to give a head start. There’s several possible approximate solutions for the TSP that can be used for this purpose. One of them is a nearest neighbour solution where a random city is picked and a tour is formed by repeatedly selecting the city nearest to the current one until all of them have been selected. This works well until at the end the remaining edges have to be added, often at high cost. It provides a decent initial solution which is retained through elitism and may provide inspiration for subsequent tours (or lead the algorithm towards a local optimum). In most experiments the resulting initial tour turned out to have a length that’s within 15% of the optimal one, and the genetic algorithm caused further improvements until (in a typical run) the resulting tour ended up within about 6% of the optimum. No kd-tree was used as a seed is only constructed once for every run which (in comparison to a whole run) takes little time. Unsurprisingly, however, it barely helped with finding a truly good tour. Instead it improved the average best tour found across runs.
+
 ***
 
 **Books**
