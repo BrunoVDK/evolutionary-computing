@@ -161,6 +161,11 @@ A final test on the benchmarks was done, this time with 2-opt enabled. It was no
 <img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme12.png?raw=true">
 </p>
 
+**References**
+
+[1] Hassan Ismkhan and Kamran Zamanifar. Study of some recent crossovers effects on speed and accuracy of genetic algorithm, using symmetric travelling salesman problem. CoRR, abs/1504.02590, 2015.
+[2] P. Larrañaga, C.M.H. Kuijpers, R.H. Murga, I. Inza, and S. Dizdarevic. Artificial Intelligence Review, 13(2):129–170, 1999.
+
 ***
 
 **Books**
