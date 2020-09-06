@@ -92,6 +92,22 @@ In addition to the loop detection heuristic which was already part of the toolbo
 
 Or-opt is a restricted version of 3-opt in which subtours of length 1, 2 or 3 are displaced. If the resulting tour is shorter it is picked for further processing. While 2-opt makes the simple inversion mutation redundant, Or-opt obviously overlaps with some mutation operators as well. Results obtained with this heuristic were typically inferior to those obtained with 2-opt.
 
+**Benchmark Problems**
+
+Tests on benchmarks were run without any local heuristic (results where they are activated are visualised at the end of this report). Parameters used are listed in table 6. The results are displayed below.
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme7.png?raw=true">
+</p>
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme8.png?raw=true">
+</p>
+
+<p align="center">
+<img src="https://github.com/BrunoVDK/evolutionary-computing/blob/master/report/res/readme9.png?raw=true">
+</p>
+
 ***
 
 **Books**
