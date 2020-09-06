@@ -86,6 +86,12 @@ After selection of the 4 more promising crossovers they were tested in combinati
 
 The insertion, simple inversion and reciprocal exchange mutations appeared to be a safe bet in this limited number of experiments. They’re not particularly disruptive in comparison with, say, the scramble and displacement mutation operators. Performance of algorithms didn’t differ much between runs ; the results for mean shortest tour length (rather than minimum shortest tour across runs) is about equivalent. Of the four mutation rates that were tested the middle 2 (40% and 50%) appeared to be appropriate for future use. The scramble mutation turned out to be the most unpredictable. Mutations can get one out of a local optimum or just improve the value of the best solution found so far, but getting towards the optimum is clearly still not guaranteed.
 
+**Local Optimisation**
+
+In addition to the loop detection heuristic which was already part of the toolbox, two of the more simple heuristics were applied to the benchmarks. Two-opt and Or-opt in particular. While not as powerful as the Lin-Kernighan heuristic (which even has some efficient implementations), they’re easy to implement and provide good results. Their time complexity is O(N2) (per tour). The experiments turned out to be fairly uninteresting in that apparently optimal results were found for each of the smaller tours. One of the better crossovers was tested in combination with these heuristics on XQF131. A near-optimal tour was found with just one erroneous sequence in the bottom left corner. The value of the heuristics is visualised more clearly in the experiments at the end of this report.
+
+Or-opt is a restricted version of 3-opt in which subtours of length 1, 2 or 3 are displaced. If the resulting tour is shorter it is picked for further processing. While 2-opt makes the simple inversion mutation redundant, Or-opt obviously overlaps with some mutation operators as well. Results obtained with this heuristic were typically inferior to those obtained with 2-opt.
+
 ***
 
 **Books**
